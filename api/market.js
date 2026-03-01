@@ -1,31 +1,20 @@
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate=240');
+  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
+
+  const fetchJ = (url) => fetch(url, {
+    headers: {'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json'},
+    signal: AbortSignal.timeout(8000)
+  }).then(r => r.json());
+
   try {
-    const [fxR, cgR, cgTopR, mtR, fearR, newsR] = await Promise.all([
-      fetch('https://api.exchangerate-api.com/v4/latest/USD'),
-      fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'),
-      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h'),
-      fetch('https://api.metals.live/v1/spot/gold,silver,platinum,copper'),
-      fetch('https://api.alternative.me/fng/?limit=30&format=json'),
-      fetch('https://api.coindesk.com/v1/news/'),
-    ]);
-
     const [fx, cg, cgTop, mt, fear] = await Promise.all([
-      fxR.json(), cgR.json(), cgTopR.json(), mtR.json(), fearR.json()
+      fetchJ('https://api.exchangerate-api.com/v4/latest/USD'),
+      fetchJ('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'),
+      fetchJ('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h'),
+      fetchJ('https://api.metals.live/v1/spot/gold,silver,platinum,copper'),
+      fetchJ('https://api.alternative.me/fng/?limit=30&format=json'),
     ]);
-
-    let newsData = [];
-    try {
-      const nd = await newsR.json();
-      const articles = nd.Data || nd.articles || nd.data || nd || [];
-      newsData = articles.slice(0, 25).map(n => ({
-        title: n.title || n.Title,
-        url: n.url || n.URL || n.link,
-        source: n.source_info?.name || n.source || n.Source || 'CoinDesk',
-        ts: n.published_on || n.publishedAt || Math.floor(Date.now()/1000),
-      })).filter(n => n.title && n.url);
-    } catch(e) {}
 
     const r = fx.rates, u = r.TRY;
     const forex = {
@@ -57,7 +46,11 @@ export default async function handler(req, res) {
       value:parseInt(fngData[0]?.value||50),
       label:fngData[0]?.value_classification||'Nötr',
       timestamp:fngData[0]?.timestamp,
-      history:fngData.slice(0,30).map(d=>({value:parseInt(d.value),label:d.value_classification,timestamp:d.timestamp})),
+      history:fngData.slice(0,30).map(d=>({
+        value:parseInt(d.value),
+        label:d.value_classification,
+        timestamp:d.timestamp
+      })),
     };
 
     const cryptoRank=cgTop.map((coin,i)=>({
@@ -70,8 +63,14 @@ export default async function handler(req, res) {
       chg24:coin.price_change_percentage_24h,
     }));
 
-    return res.status(200).json({ok:true,ts:new Date().toISOString(),forex,crypto,metals,fearIndex,cryptoRank,news:newsData});
+    return res.status(200).json({
+      ok:true,
+      ts:new Date().toISOString(),
+      forex,crypto,metals,fearIndex,cryptoRank,
+      news:[]
+    });
+
   } catch(e) {
-    return res.status(500).json({ok:false,error:e.message});
+    return res.status(500).json({ok:false, error:e.message, stack:e.stack?.slice(0,200)});
   }
 }
