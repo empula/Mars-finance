@@ -2,16 +2,19 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
   try {
-    const [fxR, cgR, cgTopR, mtR, fearR] = await Promise.all([
+    const [fxR, cgR, cgTopR, mtR, fearR, newsR] = await Promise.all([
       fetch('https://api.exchangerate-api.com/v4/latest/USD'),
       fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'),
       fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h'),
       fetch('https://api.metals.live/v1/spot/gold,silver,platinum,copper'),
       fetch('https://api.alternative.me/fng/?limit=30&format=json'),
+      fetch('https://api.coingecko.com/api/v3/news?per_page=20'),
     ]);
     const [fx, cg, cgTop, mt, fear] = await Promise.all([
       fxR.json(), cgR.json(), cgTopR.json(), mtR.json(), fearR.json()
     ]);
+    let newsData = [];
+    try { const nd = await newsR.json(); newsData = nd.data || nd.news || nd || []; } catch(e) {}
     const r = fx.rates, u = r.TRY;
     const forex = {
       usd:{price:u}, eur:{price:u/r.EUR}, gbp:{price:u/r.GBP},
@@ -26,7 +29,7 @@ export default async function handler(req, res) {
       avax:{price:cg['avalanche-2']?.usd, chg:cg['avalanche-2']?.usd_24h_change, mcap:cg['avalanche-2']?.usd_market_cap},
       link:{price:cg.chainlink?.usd, chg:cg.chainlink?.usd_24h_change, mcap:cg.chainlink?.usd_market_cap},
     };
-    let gold=null,silver=null,platinum=null,copper=null;
+    let gold=null, silver=null, platinum=null, copper=null;
     for(const i of mt){
       if(i.gold) gold=i.gold;
       if(i.silver) silver=i.silver;
@@ -43,11 +46,20 @@ export default async function handler(req, res) {
     };
     const cryptoRank=cgTop.map((coin,i)=>({
       rank:coin.market_cap_rank||i+1,
-      id:coin.id, symbol:coin.symbol?.toUpperCase(),
-      name:coin.name, price:coin.current_price,
-      mcap:coin.market_cap, chg24:coin.price_change_percentage_24h,
+      id:coin.id,
+      symbol:coin.symbol?.toUpperCase(),
+      name:coin.name,
+      price:coin.current_price,
+      mcap:coin.market_cap,
+      chg24:coin.price_change_percentage_24h,
     }));
-    return res.status(200).json({ok:true,ts:new Date().toISOString(),forex,crypto,metals,fearIndex,cryptoRank});
+    const news=newsData.slice(0,30).map(n=>({
+      title:n.title,
+      url:n.url||n.link,
+      source:n.author||n.source?.name||'CoinGecko',
+      ts:n.updated_at||n.published_at||Date.now()/1000,
+    }));
+    return res.status(200).json({ok:true,ts:new Date().toISOString(),forex,crypto,metals,fearIndex,cryptoRank,news});
   } catch(e) {
     return res.status(500).json({ok:false,error:e.message});
   }
