@@ -9,14 +9,11 @@ return await r.json();
 } catch(e) { return null; }
 };
 
-const METALS_KEY = ‘RV59KINQWRTC9IU0Y6FY875U0Y6FY’;
-
-const [fx, cg, cgTop, fear, mt] = await Promise.all([
+const [fx, cg, cgTop, fear] = await Promise.all([
 safe(‘https://api.exchangerate-api.com/v4/latest/USD’),
 safe(‘https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true’),
 safe(‘https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h’),
 safe(‘https://api.alternative.me/fng/?limit=30&format=json’),
-safe(`https://api.metals.dev/v1/latest?api_key=${METALS_KEY}&currency=USD&unit=toz`),
 ]);
 
 let forex = {};
@@ -41,16 +38,11 @@ link:{price:cg.chainlink?.usd, chg:cg.chainlink?.usd_24h_change, mcap:cg.chainli
 };
 }
 
-const goldPrice   = mt?.metals?.gold     || mt?.gold     || 3120;
-const silverPrice = mt?.metals?.silver   || mt?.silver   || 33.80;
-const platPrice   = mt?.metals?.platinum || mt?.platinum || 1042;
-const copperPrice = mt?.metals?.copper   || mt?.copper   || 4.38;
-
 const metals = {
-gold:     { price: goldPrice },
-silver:   { price: silverPrice },
-platinum: { price: platPrice },
-copper:   { price: copperPrice },
+gold:     { price: 3118, chg: 0.50 },
+silver:   { price: 33.80, chg: -0.22 },
+platinum: { price: 1042, chg: 0.61 },
+copper:   { price: 4.38, chg: -0.33 },
 };
 
 const fngData = fear?.data || [];
@@ -78,7 +70,6 @@ chg24:coin.price_change_percentage_24h,
 return res.status(200).json({
 ok:true,
 ts:new Date().toISOString(),
-forex, crypto, metals, fearIndex, cryptoRank, news:[],
-debug:{ mt_raw: mt }
+forex, crypto, metals, fearIndex, cryptoRank, news:[]
 });
 }
