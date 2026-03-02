@@ -118,7 +118,7 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .rank-num.top1{color:var(–gold);}
 .rank-num.top2{color:#c0c0c0;}
 .rank-num.top3{color:#b87333;}
-.rank-ico{font-size:20px;width:32px;text-align:center;flex-shrink:0;}
+.rank-ico{font-size:20px;width:32px;text-align:center;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
 .rank-body{flex:1;min-width:0;}
 .rank-name{font-size:13.5px;font-weight:700;color:var(–text);margin-bottom:2px;}
 .rank-sub{font-size:11px;color:var(–text3);}
@@ -855,23 +855,24 @@ showRank('all',document.querySelector('.rtab.on'));
 
 // ── NEWS
 var NEWS=[
-  {cat:'crypto',ico:'₿',title:'Bitcoin 66.000 dolar seviyesinde; piyasada aşırı korku hakimiyeti sürüyor',source:'CoinDesk',url:'https://www.coindesk.com/',time:'12 dk'},
-  {cat:'crypto',ico:'📉',title:'Kripto piyasası genel olarak düşüşte; korku endeksi 10 ile tarihi dip seviyelerde',source:'CoinTelegraph',url:'https://cointelegraph.com/',time:'28 dk'},
-  {cat:'crypto',ico:'Ξ',title:'Ethereum 1.970 dolar seviyesinde; ETF girişleri yavaşladı',source:'The Block',url:'https://www.theblock.co/',time:'45 dk'},
-  {cat:'crypto',ico:'◎',title:'Solana 84 dolar seviyesine geriledi; ağ aktivitesi düşüyor',source:'Decrypt',url:'https://decrypt.co/',time:'1 sa'},
-  {cat:'markets',ico:'📉',title:'Wall Street düşüşte; S&P 500 kritik destek seviyelerini test ediyor',source:'Reuters',url:'https://www.reuters.com/markets/',time:'18 dk'},
-  {cat:'markets',ico:'🥇',title:'Altın 3.120 dolar ile rekor seyrediyor; güvenli liman talebi artıyor',source:'Kitco',url:'https://www.kitco.com/news/gold/',time:'34 dk'},
-  {cat:'markets',ico:'📊',title:'Nasdaq teknoloji hisseleri baskı altında; yapay zeka sektöründe satış dalgası',source:'CNBC',url:'https://www.cnbc.com/markets/',time:'52 dk'},
-  {cat:'eco',ico:'🏦',title:'Fed faiz kararı Mart toplantısında bekleniyor; piyasalar temkinli',source:'WSJ',url:'https://www.wsj.com/economy',time:'22 dk'},
-  {cat:'eco',ico:'📊',title:'Türkiye Merkez Bankası faiz kararı açıklandı; enflasyonla mücadele sürüyor',source:'Bloomberg HT',url:'https://www.bloomberght.com/',time:'1 sa'},
-  {cat:'eco',ico:'🇺🇸',title:'ABD tarife politikaları küresel ticareti etkiliyor; dolar güçleniyor',source:'Financial Times',url:'https://www.ft.com/economics',time:'2 sa'},
-  {cat:'eco',ico:'🇪🇺',title:'Avrupa ekonomisi resesyon riskiyle karşı karşıya; ECB faiz kararı bekleniyor',source:'Reuters',url:'https://www.reuters.com/business/economy/',time:'3 sa'},
-  {cat:'geo',ico:'🌍',title:'Küresel ticaret savaşı tırmanıyor; ABD tarifeleri piyasaları sarsıyor',source:'Al Jazeera',url:'https://www.aljazeera.com/economy/',time:'41 dk'},
-  {cat:'geo',ico:'🌐',title:'Trump gümrük tarifeleri Asya borsalarında sert düşüşe neden oldu',source:'The Guardian',url:'https://www.theguardian.com/world',time:'1 sa'},
-  {cat:'geo',ico:'🇨🇳',title:'Çin ABD tarifelerine karşılık veriyor; ticaret gerilimi artıyor',source:'SCMP',url:'https://www.scmp.com/economy',time:'2 sa'},
-  {cat:'energy',ico:'🛢️',title:'Brent petrol 70 dolar altına geriledi; küresel talep endişesi artıyor',source:'Bloomberg',url:'https://www.bloomberg.com/energy',time:'37 dk'},
-  {cat:'energy',ico:'⚡',title:'Doğalgaz fiyatları düşüşte; enerji sektöründe belirsizlik sürüyor',source:'Reuters',url:'https://www.reuters.com/business/energy/',time:'1 sa'},
-  {cat:'energy',ico:'☀️',title:'Yenilenebilir enerji yatırımları 2026\'da rekor kırdı',source:'IEA',url:'https://www.iea.org/news',time:'5 sa'},
+  {cat:'crypto',ico:'₿',title:'Bitcoin 66.000 dolar seviyesinde; piyasada aşırı korku hakimiyeti sürüyor',source:'CoinDesk',url:'https://coindesk.com',time:'12 dk'},
+  {cat:'crypto',ico:'📉',title:'Kripto piyasası düşüşte; korku endeksi 10 ile tarihi dip seviyelerde',source:'CoinTelegraph',url:'https://cointelegraph.com',time:'28 dk'},
+  {cat:'crypto',ico:'Ξ',title:'Ethereum 1.970 dolar seviyesinde; ETF girişleri yavaşladı',source:'The Block',url:'https://theblock.co',time:'45 dk'},
+  {cat:'crypto',ico:'◎',title:'Solana 84 dolar seviyesine geriledi; ağ aktivitesi düşüyor',source:'Decrypt',url:'https://decrypt.co',time:'1 sa'},
+  {cat:'crypto',ico:'✕',title:'XRP 1.37 dolar seviyesinde; Ripple davası gelişmeleri takip ediliyor',source:'CoinDesk',url:'https://coindesk.com',time:'2 sa'},
+  {cat:'markets',ico:'📉',title:'Wall Street düşüşte; S&P 500 kritik destek seviyelerini test ediyor',source:'Reuters',url:'https://reuters.com/markets',time:'18 dk'},
+  {cat:'markets',ico:'🥇',title:'Altın 3.120 dolar ile rekor seyrediyor; güvenli liman talebi artıyor',source:'Kitco',url:'https://kitco.com',time:'34 dk'},
+  {cat:'markets',ico:'📊',title:'Nasdaq teknoloji hisseleri baskı altında; yapay zeka sektöründe satış',source:'CNBC',url:'https://cnbc.com/markets',time:'52 dk'},
+  {cat:'eco',ico:'🏦',title:'Fed faiz kararı Mart toplantısında bekleniyor; piyasalar temkinli',source:'WSJ',url:'https://wsj.com',time:'22 dk'},
+  {cat:'eco',ico:'📊',title:'Türkiye Merkez Bankası faiz kararı; enflasyonla mücadele sürüyor',source:'Bloomberg HT',url:'https://bloomberght.com',time:'1 sa'},
+  {cat:'eco',ico:'🇺🇸',title:'ABD tarife politikaları küresel ticareti etkiliyor; dolar güçleniyor',source:'Financial Times',url:'https://ft.com',time:'2 sa'},
+  {cat:'eco',ico:'🇪🇺',title:'Avrupa ekonomisi resesyon riskiyle karşı karşıya; ECB bekleniyor',source:'Reuters',url:'https://reuters.com',time:'3 sa'},
+  {cat:'geo',ico:'🌍',title:'Küresel ticaret savaşı tırmanıyor; ABD tarifeleri piyasaları sarsıyor',source:'Al Jazeera',url:'https://aljazeera.com',time:'41 dk'},
+  {cat:'geo',ico:'🌐',title:'Trump gümrük tarifeleri Asya borsalarında sert düşüşe neden oldu',source:'The Guardian',url:'https://theguardian.com',time:'1 sa'},
+  {cat:'geo',ico:'🇨🇳',title:'Çin ABD tarifelerine karşılık veriyor; ticaret gerilimi artıyor',source:'SCMP',url:'https://scmp.com',time:'2 sa'},
+  {cat:'energy',ico:'🛢️',title:'Brent petrol 70 dolar altına geriledi; küresel talep endişesi artıyor',source:'Bloomberg',url:'https://bloomberg.com',time:'37 dk'},
+  {cat:'energy',ico:'⚡',title:'Doğalgaz fiyatları düşüşte; enerji sektöründe belirsizlik sürüyor',source:'Reuters',url:'https://reuters.com',time:'1 sa'},
+  {cat:'energy',ico:'☀️',title:'Yenilenebilir enerji yatırımları 2026\'da rekor kırdı',source:'IEA',url:'https://iea.org',time:'5 sa'},
 ];
 // ── GERÇEK HABERLER (API'den)
 function loadRealNews(newsArr){
