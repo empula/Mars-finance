@@ -134,4 +134,3 @@ ok:true,
 ts:new Date().toISOString(),
 forex, crypto, metals, fearIndex, cryptoRank, news
 });
-}
