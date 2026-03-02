@@ -2,20 +2,20 @@ export default async function handler(req, res) {
 res.setHeader(‘Access-Control-Allow-Origin’, ‘*’);
 res.setHeader(‘Cache-Control’, ‘s-maxage=120, stale-while-revalidate=240’);
 
-const safe = async (url) => {
+const safeJson = async (url) => {
 try {
-const r = await fetch(url, {
-headers: {‘User-Agent’: ‘Mozilla/5.0’, ‘Accept’: ‘application/rss+xml, application/xml, text/xml’},
-signal: AbortSignal.timeout(6000)
-});
-return await r.text();
+const r = await fetch(url, {signal: AbortSignal.timeout(7000)});
+return await r.json();
 } catch(e) { return null; }
 };
 
-const safeJson = async (url) => {
+const safeRSS = async (url) => {
 try {
-const r = await fetch(url, {signal: AbortSignal.timeout(6000)});
-return await r.json();
+const r = await fetch(url, {
+headers: {‘User-Agent’: ‘Mozilla/5.0’},
+signal: AbortSignal.timeout(5000)
+});
+return await r.text();
 } catch(e) { return null; }
 };
 
@@ -24,7 +24,7 @@ if(!xml) return [];
 const items = [];
 const itemRe = /<item[^>]*>([\s\S]*?)</item>/gi;
 let m;
-while((m = itemRe.exec(xml)) !== null && items.length < 5) {
+while((m = itemRe.exec(xml)) !== null && items.length < 4) {
 const block = m[1];
 const title = (block.match(/<title[^>]*><![CDATA[(.*?)]]></title>/) || block.match(/<title[^>]*>(.*?)</title>/) || [])[1];
 const link = (block.match(/<link>(.*?)</link>/) || block.match(/<guid[^>]*>(https?[^<]+)</guid>/) || [])[1];
@@ -32,39 +32,29 @@ const pubDate = (block.match(/<pubDate>(.*?)</pubDate>/) || [])[1];
 if(title && link) {
 const ts = pubDate ? Math.floor(new Date(pubDate).getTime()/1000) : Math.floor(Date.now()/1000);
 items.push({
-title: title.replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/'/g,”’”).replace(/<[^>]+>/g,’’).trim(),
+title: title.replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/<[^>]+>/g,’’).trim(),
 url: link.trim(),
-source,
-cat,
-ts
+source, cat, ts
 });
 }
 }
 return items;
 };
 
-const [fx, cg, cgTop, fear,
-rss_coindesk, rss_ct, rss_reuters, rss_theblock, rss_decrypt,
-rss_bbc, rss_aljazeera, rss_cnbc, rss_bht, rss_investing
-] = await Promise.all([
+// Önce kritik verileri çek
+const [fx, cg, cgTop, fear] = await Promise.all([
 safeJson(‘https://api.exchangerate-api.com/v4/latest/USD’),
 safeJson(‘https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true’),
 safeJson(‘https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h’),
 safeJson(‘https://api.alternative.me/fng/?limit=30’),
-// Kripto
-safe(‘https://www.coindesk.com/arc/outboundfeeds/rss/’),
-safe(‘https://cointelegraph.com/rss’),
-safe(‘https://feeds.reuters.com/reuters/businessNews’),
-safe(‘https://theblock.co/rss.xml’),
-safe(‘https://decrypt.co/feed’),
-// Jeopolitik
-safe(‘https://feeds.bbci.co.uk/news/world/rss.xml’),
-safe(‘https://www.aljazeera.com/xml/rss/all.xml’),
-// Piyasalar
-safe(‘https://www.cnbc.com/id/100003114/device/rss/rss.html’),
-// Türkiye
-safe(‘https://www.bloomberght.com/rss’),
-safe(‘https://www.investing.com/rss/news.rss’),
+]);
+
+// Sonra haberleri çek (bunlar başarısız olsa bile fiyatlar çalışır)
+const [rss1, rss2, rss3, rss4] = await Promise.all([
+safeRSS(‘https://www.coindesk.com/arc/outboundfeeds/rss/’),
+safeRSS(‘https://cointelegraph.com/rss’),
+safeRSS(‘https://feeds.bbci.co.uk/news/world/rss.xml’),
+safeRSS(‘https://feeds.reuters.com/reuters/businessNews’),
 ]);
 
 let forex = {};
@@ -117,20 +107,15 @@ chg24:coin.price_change_percentage_24h,
 }));
 
 const news = [
-…parseRSS(rss_coindesk, ‘CoinDesk’, ‘crypto’),
-…parseRSS(rss_ct, ‘CoinTelegraph’, ‘crypto’),
-…parseRSS(rss_theblock, ‘The Block’, ‘crypto’),
-…parseRSS(rss_decrypt, ‘Decrypt’, ‘crypto’),
-…parseRSS(rss_reuters, ‘Reuters’, ‘markets’),
-…parseRSS(rss_cnbc, ‘CNBC’, ‘markets’),
-…parseRSS(rss_investing, ‘Investing.com’, ‘markets’),
-…parseRSS(rss_bht, ‘Bloomberg HT’, ‘eco’),
-…parseRSS(rss_bbc, ‘BBC News’, ‘geo’),
-…parseRSS(rss_aljazeera, ‘Al Jazeera’, ‘geo’),
-].sort((a,b) => b.ts - a.ts).slice(0, 30);
+…parseRSS(rss1, ‘CoinDesk’, ‘crypto’),
+…parseRSS(rss2, ‘CoinTelegraph’, ‘crypto’),
+…parseRSS(rss3, ‘BBC News’, ‘geo’),
+…parseRSS(rss4, ‘Reuters’, ‘markets’),
+].sort((a,b) => b.ts - a.ts).slice(0, 20);
 
 return res.status(200).json({
 ok:true,
 ts:new Date().toISOString(),
 forex, crypto, metals, fearIndex, cryptoRank, news
 });
+}
