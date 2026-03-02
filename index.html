@@ -855,23 +855,23 @@ showRank('all',document.querySelector('.rtab.on'));
 
 // ── NEWS
 var NEWS=[
-  {cat:'markets',ico:'📉',title:'Küresel piyasalarda volatilite artıyor; Wall Street endeksleri karışık seyretti',source:'Reuters',url:'https://www.reuters.com/markets/',time:'3 dk'},
-  {cat:'markets',ico:'📈',title:'Borsa İstanbul BIST-100 yeni rekor kırdı; yabancı yatırımcı ilgisi arttı',source:'Bloomberg HT',url:'https://www.bloomberght.com/',time:'11 dk'},
-  {cat:'markets',ico:'🥇',title:'Altın ons fiyatı 3.100 dolar direncini aştı; güvenli liman talebi sürüyor',source:'Kitco',url:'https://www.kitco.com/news/gold/',time:'19 dk'},
-  {cat:'markets',ico:'📊',title:'Nasdaq teknoloji hisseleri yapay zeka rallisiyle yeni zirveye koştu',source:'CNBC',url:'https://www.cnbc.com/markets/',time:'2 sa'},
-  {cat:'crypto',ico:'₿',title:'Bitcoin 90.000 dolar direncini test ediyor; kurumsal alımlar rekor seviyede',source:'CoinDesk',url:'https://www.coindesk.com/',time:'7 dk'},
-  {cat:'crypto',ico:'Ξ',title:'Ethereum ETF para girişi rekor kırdı; analistler 3.000 dolar hedef gösteriyor',source:'CoinTelegraph',url:'https://cointelegraph.com/',time:'34 dk'},
-  {cat:'crypto',ico:'◎',title:'Solana ağ hacmi tüm zamanların en yüksek seviyesine ulaştı',source:'The Block',url:'https://www.theblock.co/',time:'58 dk'},
-  {cat:'eco',ico:'🏦',title:'Fed faiz kararını Mart toplantısında açıklayacak; piyasalar temkinli',source:'WSJ',url:'https://www.wsj.com/economy',time:'15 dk'},
-  {cat:'eco',ico:'📊',title:'Türkiye enflasyonu beklentilerin altında geldi; MB faiz kararı bekleniyor',source:'Bloomberg',url:'https://www.bloomberg.com/turkey',time:'42 dk'},
-  {cat:'eco',ico:'🇺🇸',title:'ABD işsizlik rakamları beklentileri aştı; dolar endeksi yükseldi',source:'Financial Times',url:'https://www.ft.com/economics',time:'1 sa'},
-  {cat:'eco',ico:'🏦',title:'ECB Başkanı: Faiz indirimi için doğru zamanı bekliyoruz',source:'ECB',url:'https://www.ecb.europa.eu/press/',time:'3 sa'},
-  {cat:'geo',ico:'🌍',title:'Ortadoğu gerginliği emtia fiyatlarını yukarı itiyor; petrol 82 dolara yaklaştı',source:'Al Jazeera',url:'https://www.aljazeera.com/economy/',time:'22 dk'},
-  {cat:'geo',ico:'🌐',title:'G7 zirvesinde yapay zeka düzenlemesi ve kripto vergilendirme masada',source:'The Guardian',url:'https://www.theguardian.com/world',time:'1 sa'},
-  {cat:'geo',ico:'🇨🇳',title:'Çin merkez bankası yuan için yeni müdahale adımları attı',source:'SCMP',url:'https://www.scmp.com/economy',time:'2 sa'},
-  {cat:'energy',ico:'🛢️',title:'Brent petrol 81 dolara geriledi; OPEC+ üretim politikası tartışılıyor',source:'Bloomberg',url:'https://www.bloomberg.com/energy',time:'9 dk'},
-  {cat:'energy',ico:'⚡',title:'Doğalgaz fiyatları Avrupa\'da yüzde 4 yükseldi; kış stoğu endişesi sürüyor',source:'Reuters',url:'https://www.reuters.com/business/energy/',time:'38 dk'},
-  {cat:'energy',ico:'☀️',title:'Güneş enerjisi yatırımları 2026\'da rekor kırdı; fosil yakıt payı düşüyor',source:'IEA',url:'https://www.iea.org/news',time:'6 sa'},
+  {cat:'crypto',ico:'₿',title:'Bitcoin 66.000 dolar seviyesinde; piyasada aşırı korku hakimiyeti sürüyor',source:'CoinDesk',url:'https://www.coindesk.com/',time:'12 dk'},
+  {cat:'crypto',ico:'📉',title:'Kripto piyasası genel olarak düşüşte; korku endeksi 10 ile tarihi dip seviyelerde',source:'CoinTelegraph',url:'https://cointelegraph.com/',time:'28 dk'},
+  {cat:'crypto',ico:'Ξ',title:'Ethereum 1.970 dolar seviyesinde; ETF girişleri yavaşladı',source:'The Block',url:'https://www.theblock.co/',time:'45 dk'},
+  {cat:'crypto',ico:'◎',title:'Solana 84 dolar seviyesine geriledi; ağ aktivitesi düşüyor',source:'Decrypt',url:'https://decrypt.co/',time:'1 sa'},
+  {cat:'markets',ico:'📉',title:'Wall Street düşüşte; S&P 500 kritik destek seviyelerini test ediyor',source:'Reuters',url:'https://www.reuters.com/markets/',time:'18 dk'},
+  {cat:'markets',ico:'🥇',title:'Altın 3.120 dolar ile rekor seyrediyor; güvenli liman talebi artıyor',source:'Kitco',url:'https://www.kitco.com/news/gold/',time:'34 dk'},
+  {cat:'markets',ico:'📊',title:'Nasdaq teknoloji hisseleri baskı altında; yapay zeka sektöründe satış dalgası',source:'CNBC',url:'https://www.cnbc.com/markets/',time:'52 dk'},
+  {cat:'eco',ico:'🏦',title:'Fed faiz kararı Mart toplantısında bekleniyor; piyasalar temkinli',source:'WSJ',url:'https://www.wsj.com/economy',time:'22 dk'},
+  {cat:'eco',ico:'📊',title:'Türkiye Merkez Bankası faiz kararı açıklandı; enflasyonla mücadele sürüyor',source:'Bloomberg HT',url:'https://www.bloomberght.com/',time:'1 sa'},
+  {cat:'eco',ico:'🇺🇸',title:'ABD tarife politikaları küresel ticareti etkiliyor; dolar güçleniyor',source:'Financial Times',url:'https://www.ft.com/economics',time:'2 sa'},
+  {cat:'eco',ico:'🇪🇺',title:'Avrupa ekonomisi resesyon riskiyle karşı karşıya; ECB faiz kararı bekleniyor',source:'Reuters',url:'https://www.reuters.com/business/economy/',time:'3 sa'},
+  {cat:'geo',ico:'🌍',title:'Küresel ticaret savaşı tırmanıyor; ABD tarifeleri piyasaları sarsıyor',source:'Al Jazeera',url:'https://www.aljazeera.com/economy/',time:'41 dk'},
+  {cat:'geo',ico:'🌐',title:'Trump gümrük tarifeleri Asya borsalarında sert düşüşe neden oldu',source:'The Guardian',url:'https://www.theguardian.com/world',time:'1 sa'},
+  {cat:'geo',ico:'🇨🇳',title:'Çin ABD tarifelerine karşılık veriyor; ticaret gerilimi artıyor',source:'SCMP',url:'https://www.scmp.com/economy',time:'2 sa'},
+  {cat:'energy',ico:'🛢️',title:'Brent petrol 70 dolar altına geriledi; küresel talep endişesi artıyor',source:'Bloomberg',url:'https://www.bloomberg.com/energy',time:'37 dk'},
+  {cat:'energy',ico:'⚡',title:'Doğalgaz fiyatları düşüşte; enerji sektöründe belirsizlik sürüyor',source:'Reuters',url:'https://www.reuters.com/business/energy/',time:'1 sa'},
+  {cat:'energy',ico:'☀️',title:'Yenilenebilir enerji yatırımları 2026\'da rekor kırdı',source:'IEA',url:'https://www.iea.org/news',time:'5 sa'},
 ];
 // ── GERÇEK HABERLER (API'den)
 function loadRealNews(newsArr){
@@ -906,8 +906,6 @@ var CLBL={markets:'Piyasalar',crypto:'Kripto',eco:'Ekonomi',geo:'Jeopolitik',ene
 var curF='all';
 function setF(f,btn){curF=f;document.querySelectorAll('.nfb').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');loadNews(f);}
 function loadNews(f){
-  // Gerçek API haberleri varsa onu kullan
-  if(_realNewsLoaded&&f==='all')return;
   var list=document.getElementById('newsList');
   list.innerHTML='<div class="news-load"><span class="news-spin">⏳</span>Yükleniyor…</div>';
   setTimeout(function(){
