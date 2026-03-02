@@ -9,12 +9,11 @@ export default async function handler(req, res) {
     } catch(e) { return null; }
   };
 
-  const [fx, cg, cgTop, fear, goldR] = await Promise.all([
+  const [fx, cg, cgTop, fear] = await Promise.all([
     safe('https://api.exchangerate-api.com/v4/latest/USD'),
     safe('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'),
     safe('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h'),
     safe('https://api.alternative.me/fng/?limit=30&format=json'),
-    safe('https://forex-data-feed.swissquote.com/public-quotes/bboquotes/instrument/XAU/USD'),
   ]);
 
   let forex = {};
@@ -39,6 +38,13 @@ export default async function handler(req, res) {
     };
   }
 
+  const metals = {
+    gold:     { price: fx?.rates?.XAU ? (1/fx.rates.XAU) : null },
+    silver:   { price: fx?.rates?.XAG ? (1/fx.rates.XAG) : null },
+    platinum: { price: fx?.rates?.XPT ? (1/fx.rates.XPT) : null },
+    copper:   { price: null },
+  };
+
   const fngData = fear?.data || [];
   const fearIndex = {
     value: parseInt(fngData[0]?.value||50),
@@ -60,14 +66,6 @@ export default async function handler(req, res) {
     mcap:coin.market_cap,
     chg24:coin.price_change_percentage_24h,
   }));
-
-  const metals = {
-    gold:{price: goldR?.metals?.gold || null},
-    silver:{price: goldR?.metals?.silver || null},
-    platinum:{price: goldR?.metals?.platinum || null},
-    copper:{price: goldR?.metals?.copper || null},
-  };
-
 
   return res.status(200).json({
     ok:true,
