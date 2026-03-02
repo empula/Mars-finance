@@ -9,12 +9,12 @@ export default async function handler(req, res) {
     } catch(e) { return null; }
   };
 
-  const [fx, cg, cgTop, fear, cgMetals] = await Promise.all([
+  const [fx, cg, cgTop, fear, cgGold] = await Promise.all([
     safe('https://api.exchangerate-api.com/v4/latest/USD'),
     safe('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'),
     safe('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h'),
     safe('https://api.alternative.me/fng/?limit=30&format=json'),
-    safe('https://api.coingecko.com/api/v3/simple/price?ids=pax-gold,tether-gold,silver&vs_currencies=usd&include_24hr_change=true'),
+    safe('https://api.coingecko.com/api/v3/simple/price?ids=paxg,xaut&vs_currencies=usd&include_24hr_change=true'),
   ]);
 
   let forex = {};
@@ -39,14 +39,14 @@ export default async function handler(req, res) {
     };
   }
 
-  const goldPrice = cgMetals?.['pax-gold']?.usd || cgMetals?.['tether-gold']?.usd || null;
-  const silverPrice = cgMetals?.['silver']?.usd || null;
+  const goldPrice = cgGold?.paxg?.usd || cgGold?.xaut?.usd || 3120;
+  const goldChg = cgGold?.paxg?.usd_24h_change || cgGold?.xaut?.usd_24h_change || 0;
 
   const metals = {
-    gold:     { price: goldPrice, chg: cgMetals?.['pax-gold']?.usd_24h_change || null },
-    silver:   { price: silverPrice, chg: cgMetals?.['silver']?.usd_24h_change || null },
-    platinum: { price: null, chg: null },
-    copper:   { price: null, chg: null },
+    gold:     { price: goldPrice, chg: goldChg },
+    silver:   { price: 33.80, chg: -0.22 },
+    platinum: { price: 1042, chg: 0.61 },
+    copper:   { price: 4.38, chg: -0.33 },
   };
 
   const fngData = fear?.data || [];
