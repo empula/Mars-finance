@@ -107,7 +107,7 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 /* ── ASSET RANKINGS ───────────────── */
 .rank-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–r);overflow:hidden;margin-bottom:14px;}
 .rank-tabs{display:flex;border-bottom:1px solid var(–border);background:var(–bg3);}
-.rtab{flex:1;padding:11px 8px;text-align:center;font-size:12px;font-weight:700;color:var(–text3);cursor:pointer;transition:all .15s;border:none;background:none;font-family:‘Bricolage Grotesque’,sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px;}
+.rtab{flex:1;padding:11px 4px;text-align:center;font-size:11px;font-weight:700;color:var(–text3);cursor:pointer;transition:all .15s;border:none;background:none;font-family:‘Bricolage Grotesque’,sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.2;}
 .rtab:hover{color:var(–text2);}
 .rtab.on{color:var(–blue);border-bottom-color:var(–blue);}
 .rank-list{padding:4px 0;}
@@ -531,7 +531,7 @@ var ASSETS={
     {key:'gold',ico:'🥇',name:'Altın',sym:'XAU/USD',tvSym:'TVC:GOLD',unit:'$',dec:2,accent:'#f0a020'},
     {key:'silver',ico:'🥈',name:'Gümüş',sym:'XAG/USD',tvSym:'TVC:SILVER',unit:'$',dec:2,accent:'#94a3b8'},
     {key:'platinum',ico:'⬜',name:'Platin',sym:'XPT/USD',tvSym:'TVC:PLATINUM',unit:'$',dec:2,accent:'#cbd5e1'},
-    {key:'copper',ico:'🟤',name:'Bakır',sym:'HG/lb',tvSym:'COMEX:HG1!',unit:'$',dec:3,accent:'#b45309'},
+    {key:'copper',ico:'🟤',name:'Bakır',sym:'HG/lb',tvSym:'TVC:COPPER',unit:'$',dec:3,accent:'#b45309'},
   ]
 };
 var ALL={};
@@ -859,20 +859,28 @@ var NEWS=[
   {cat:'crypto',ico:'📉',title:'Kripto piyasası düşüşte; korku endeksi 10 ile tarihi dip seviyelerde',source:'CoinTelegraph',url:'https://cointelegraph.com',time:'28 dk'},
   {cat:'crypto',ico:'Ξ',title:'Ethereum 1.970 dolar seviyesinde; ETF girişleri yavaşladı',source:'The Block',url:'https://theblock.co',time:'45 dk'},
   {cat:'crypto',ico:'◎',title:'Solana 84 dolar seviyesine geriledi; ağ aktivitesi düşüyor',source:'Decrypt',url:'https://decrypt.co',time:'1 sa'},
-  {cat:'crypto',ico:'✕',title:'XRP 1.37 dolar seviyesinde; Ripple davası gelişmeleri takip ediliyor',source:'CoinDesk',url:'https://coindesk.com',time:'2 sa'},
-  {cat:'markets',ico:'📉',title:'Wall Street düşüşte; S&P 500 kritik destek seviyelerini test ediyor',source:'Reuters',url:'https://reuters.com/markets',time:'18 dk'},
+  {cat:'crypto',ico:'✕',title:'XRP 1.37 dolar; Ripple kurumsal ortaklıklarını genişletiyor',source:'CoinDesk',url:'https://coindesk.com',time:'2 sa'},
+  {cat:'crypto',ico:'🔗',title:'Chainlink oracle ağı yeni entegrasyonlarla büyümeye devam ediyor',source:'Decrypt',url:'https://decrypt.co',time:'3 sa'},
+  {cat:'crypto',ico:'🏔️',title:'Avalanche ekosistemi kurumsal DeFi projeleriyle hız kazanıyor',source:'The Block',url:'https://theblock.co',time:'4 sa'},
+  {cat:'markets',ico:'📉',title:'Wall Street düşüşte; S&P 500 kritik destek seviyelerini test ediyor',source:'Reuters',url:'https://reuters.com',time:'18 dk'},
   {cat:'markets',ico:'🥇',title:'Altın 3.120 dolar ile rekor seyrediyor; güvenli liman talebi artıyor',source:'Kitco',url:'https://kitco.com',time:'34 dk'},
-  {cat:'markets',ico:'📊',title:'Nasdaq teknoloji hisseleri baskı altında; yapay zeka sektöründe satış',source:'CNBC',url:'https://cnbc.com/markets',time:'52 dk'},
+  {cat:'markets',ico:'📊',title:'Nasdaq teknoloji hisseleri baskı altında; yapay zeka sektöründe satış',source:'CNBC',url:'https://cnbc.com',time:'52 dk'},
+  {cat:'markets',ico:'🇹🇷',title:'Borsa İstanbul BIST-100 küresel satış dalgasından etkilendi',source:'Bloomberg HT',url:'https://bloomberght.com',time:'1 sa'},
+  {cat:'markets',ico:'🏦',title:'Asya borsaları ABD tarife endişesiyle sert düşüş yaşadı',source:'Nikkei',url:'https://asia.nikkei.com',time:'2 sa'},
+  {cat:'markets',ico:'🥈',title:'Gümüş 33 dolar seviyesinde; endüstriyel talep takip ediliyor',source:'Kitco',url:'https://kitco.com',time:'3 sa'},
   {cat:'eco',ico:'🏦',title:'Fed faiz kararı Mart toplantısında bekleniyor; piyasalar temkinli',source:'WSJ',url:'https://wsj.com',time:'22 dk'},
   {cat:'eco',ico:'📊',title:'Türkiye Merkez Bankası faiz kararı; enflasyonla mücadele sürüyor',source:'Bloomberg HT',url:'https://bloomberght.com',time:'1 sa'},
   {cat:'eco',ico:'🇺🇸',title:'ABD tarife politikaları küresel ticareti etkiliyor; dolar güçleniyor',source:'Financial Times',url:'https://ft.com',time:'2 sa'},
   {cat:'eco',ico:'🇪🇺',title:'Avrupa ekonomisi resesyon riskiyle karşı karşıya; ECB bekleniyor',source:'Reuters',url:'https://reuters.com',time:'3 sa'},
+  {cat:'eco',ico:'📈',title:'IMF küresel büyüme tahminlerini aşağı yönlü revize etti',source:'IMF',url:'https://imf.org/en/News',time:'5 sa'},
   {cat:'geo',ico:'🌍',title:'Küresel ticaret savaşı tırmanıyor; ABD tarifeleri piyasaları sarsıyor',source:'Al Jazeera',url:'https://aljazeera.com',time:'41 dk'},
   {cat:'geo',ico:'🌐',title:'Trump gümrük tarifeleri Asya borsalarında sert düşüşe neden oldu',source:'The Guardian',url:'https://theguardian.com',time:'1 sa'},
   {cat:'geo',ico:'🇨🇳',title:'Çin ABD tarifelerine karşılık veriyor; ticaret gerilimi artıyor',source:'SCMP',url:'https://scmp.com',time:'2 sa'},
+  {cat:'geo',ico:'🇷🇺',title:'Ukrayna-Rusya müzakereleri piyasalara yansıdı; enerji fiyatları geriledi',source:'BBC',url:'https://bbc.com/news/business',time:'3 sa'},
   {cat:'energy',ico:'🛢️',title:'Brent petrol 70 dolar altına geriledi; küresel talep endişesi artıyor',source:'Bloomberg',url:'https://bloomberg.com',time:'37 dk'},
   {cat:'energy',ico:'⚡',title:'Doğalgaz fiyatları düşüşte; enerji sektöründe belirsizlik sürüyor',source:'Reuters',url:'https://reuters.com',time:'1 sa'},
   {cat:'energy',ico:'☀️',title:'Yenilenebilir enerji yatırımları 2026\'da rekor kırdı',source:'IEA',url:'https://iea.org',time:'5 sa'},
+  {cat:'energy',ico:'⚛️',title:'Nükleer enerji yeniden gündemde; ABD yeni reaktör projeleri onayladı',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
 ];
 // ── GERÇEK HABERLER (API'den)
 function loadRealNews(newsArr){
