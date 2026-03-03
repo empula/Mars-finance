@@ -543,7 +543,7 @@ var ALL={};
 
 // ── PRICE DATA
 var D={};
-var INIT={usd:38.05,eur:41.32,gbp:49.19,jpy:25.11,chf:42.50,cad:27.80,aud:23.90,sar:10.14,btc:68500,eth:2013,sol:131,xrp:2.10,avax:19.5,link:13.1,gold:3118,silver:33.80,platinum:1042,copper:4.38};
+var INIT={usd:38.05,eur:41.32,gbp:49.19,jpy:25.11,chf:42.50,cad:27.80,aud:23.90,sar:10.14,btc:68500,eth:2013,sol:131,xrp:2.10,avax:19.5,link:13.1,gold:5265,silver:94,platinum:1042,copper:4.38};
 var CHGB={usd:0.18,eur:-0.12,gbp:0.31,jpy:-0.07,chf:0.09,cad:0.22,aud:-0.15,sar:0.01,btc:1.42,eth:-0.87,sol:3.21,xrp:2.14,avax:-1.38,link:0.75,gold:0.44,silver:-0.22,platinum:0.61,copper:-0.33};
 function genH(b){var a=[],v=b*.97;for(var i=0;i<24;i++){v+=b*(Math.random()-.48)*.004;a.push(v);}return a;}
 (function(){for(var k in INIT)D[k]={price:INIT[k]*(1+(Math.random()-.5)*.003),chg:CHGB[k]+(Math.random()-.5)*.2,hist:genH(INIT[k])};})();
