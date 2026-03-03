@@ -299,7 +299,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
 <div class="hero">
   <div class="hero-glow1"></div><div class="hero-glow2"></div>
   <div class="hero-badge">🌍 Canlı Piyasa · 2026</div>
-  <div class="hero-h">Tüm piyasalar<br><em>tek ekranda.</em></div>
+  <div class="hero-h" id="ana-baslik">Tüm piyasalar<br><em>tek ekranda.</em></div>
   <div class="hero-p">Döviz, kripto, emtia, korku endeksi, varlık sıralaması ve dünyanın en isabetli analistleri.</div>
   <div class="hero-row">
     <div class="hstat"><div class="hstat-n">24+</div><div class="hstat-l">Varlık</div></div>
@@ -1102,26 +1102,24 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()
 </script>
 
 </body>
-  <script>
-// DİL DEĞİŞTİRME MOTORU
+<script>
 function setLanguage(lang) {
     const btnTr = document.getElementById('btn-tr');
     const btnEn = document.getElementById('btn-en');
+    const anaBaslik = document.getElementById('ana-baslik');
 
     if(lang === 'tr') {
-        // Türkçe seçilince: TR mavi, EN gri olsun
         btnTr.style.color = '#007aff';
         btnEn.style.color = 'rgba(255,255,255,0.5)';
         
-        // Buraya ileride Türkçeleşecek metinleri ekleyeceğiz
-        console.log("Sistem dili: Türkçe");
+        // Türkçe Metin
+        anaBaslik.innerHTML = 'Tüm piyasalar<br><em>tek ekranda.</em>';
     } else {
-        // İngilizce seçilince: EN mavi, TR gri olsun
         btnEn.style.color = '#007aff';
         btnTr.style.color = 'rgba(255,255,255,0.5)';
         
-        // Buraya ileride İngilizceleşecek metinleri ekleyeceğiz
-        console.log("System language: English");
+        // İngilizce Metin
+        anaBaslik.innerHTML = 'All markets<br><em>on one screen.</em>';
     }
 }
 </script>
