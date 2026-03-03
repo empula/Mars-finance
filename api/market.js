@@ -39,7 +39,7 @@ export default async function handler(req, res) {
   }
 
   const metals = {
-    gold:{price:3118}, silver:{price:33.80},
+    gold:{price:5265}, silver:{price:94},
     platinum:{price:1042}, copper:{price:4.38},
   };
 
