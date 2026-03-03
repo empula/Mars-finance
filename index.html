@@ -416,7 +416,6 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
   </div>
   <div class="rank-list" id="rankList"></div>
 </div>
-
 <div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Yatırım Hesaplayıcı</div></div>
 <div class="fear-card" style="padding: 20px; margin-bottom: 20px; background: #000; border: 1px solid #222; border-radius: 15px;">
     <div style="display: flex; flex-direction: column; gap: 15px;">
@@ -426,7 +425,20 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
         <button onclick="calculateInvest()" style="width: 100%; padding: 12px; background: #007aff; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">Hesapla</button>
         <div id="calcResultBox" style="display:none; margin-top: 5px; padding: 15px; background: rgba(0, 122, 255, 0.1); border: 1px dashed #007aff; border-radius: 10px; text-align: center;">
             <div style="font-size: 11px; color: #007aff; margin-bottom: 5px;">1 Yıl Sonraki Tahmini Bakiye:</div>
-            <div id="calcResultValue" style="font-size: 22px; font-weight: 800; color: #fff;">$0.00</div>
+        <div id="liveStatus" style="display:none; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
+    <span style="width: 8px; height: 8px; background: #007aff; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #007aff; animation: pulse 1.5s infinite;"></span>
+    <span style="font-size: 10px; color: #007aff; font-weight: bold; letter-spacing: 1px;">CANLI VERİ SİMÜLASYONU</span>
+</div>
+
+<style>
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 122, 255, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); }
+}
+</style>
+
+         <div id="calcResultValue" style="font-size: 22px; font-weight: 800; color: #fff;">$0.00</div>
         </div>
               <div id="goalProgressContainer" style="display:none; margin-top: 15px; text-align: left;">
             <div style="display: flex; justify-content: space-between; font-size: 10px; color: #888; margin-bottom: 5px;">
@@ -1120,50 +1132,53 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()
 </script>
 
 <script>
+let liveInterval; 
+
 function calculateInvest() {
-    // Kutulardaki değerleri alıyoruz
     const miktar = document.getElementById('calcAmount').value;
     const oran = document.getElementById('calcRate').value;
     const hedef = document.getElementById('calcGoal').value;
-    
     const sonucKutusu = document.getElementById('calcResultBox');
     const sonucDegeri = document.getElementById('calcResultValue');
+    const liveStatus = document.getElementById('liveStatus');
     
-    // Çubuk elemanlarını alıyoruz
-    const progressContainer = document.getElementById('goalProgressContainer');
     const progressBar = document.getElementById('goalProgressBar');
     const progressText = document.getElementById('goalPercentText');
+    const progressContainer = document.getElementById('goalProgressContainer');
 
     if(miktar && oran) {
-        // Ana hesaplama
-        const toplam = parseFloat(miktar) + (parseFloat(miktar) * (parseFloat(oran) / 100));
-        
-        // Sonucu ekrana yazdır
-        sonucDegeri.innerText = "$" + toplam.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        sonucKutusu.style.display = 'block';
+        // Eğer önceden çalışan bir canlı akış varsa durdur
+        if(liveInterval) clearInterval(liveInterval); 
 
-        // HEDEF ÇUBUĞU MANTIĞI
+        let temelSonuc = parseFloat(miktar) + (parseFloat(miktar) * (parseFloat(oran) / 100));
+        
+        // İlk gösterim
+        sonucDegeri.innerText = "$" + temelSonuc.toLocaleString('en-US', {minimumFractionDigits: 2});
+        sonucKutusu.style.display = 'block';
+        liveStatus.style.display = 'flex';
+
+        // Hedef Çubuğu Güncelleme
         if(hedef && hedef > 0) {
-            // Yüzde kaç ilerleme var?
-            let yuzde = (toplam / parseFloat(hedef)) * 100;
-            
-            // Çubuğun kutudan taşmaması için 100'e sabitliyoruz
-            if(yuzde > 100) yuzde = 100; 
-            
-            // Çubuğu görünür yap ve doldur
+            let yuzde = Math.min((temelSonuc / parseFloat(hedef)) * 100, 100);
             progressContainer.style.display = 'block';
-            
-            // Animasyonun akıcı olması için minik bir gecikme
             setTimeout(() => {
                 progressBar.style.width = yuzde + "%";
                 progressText.innerText = Math.round(yuzde) + "%";
             }, 100);
         } else {
-            // Hedef girilmemişse çubuğu gizle
             progressContainer.style.display = 'none';
         }
+
+        // --- CANLI SİMÜLASYON ---
+        // Her 2 saniyede bir rakamı çok küçük (cent seviyesinde) oynatır
+        liveInterval = setInterval(() => {
+            let dalgalanma = (Math.random() - 0.5) * 0.04; // Minik bir yukarı/aşağı hareket
+            temelSonuc += dalgalanma;
+            sonucDegeri.innerText = "$" + temelSonuc.toLocaleString('en-US', {minimumFractionDigits: 2});
+        }, 2000);
+
     } else {
-        alert("Lütfen en azından tutar ve oran girin!");
+        alert("Lütfen gerekli alanları doldurun.");
     }
 }
 </script>
