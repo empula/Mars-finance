@@ -9,12 +9,11 @@ return await r.json();
 } catch(e) { return null; }
 };
 
-const [fx, cg, cgTop, fear, cpNews] = await Promise.all([
+const [fx, cg, cgTop, fear] = await Promise.all([
 safe(‘https://api.exchangerate-api.com/v4/latest/USD’),
 safe(‘https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true’),
 safe(‘https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h’),
 safe(‘https://api.alternative.me/fng/?limit=30’),
-safe(‘https://cryptopanic.com/api/free/v1/posts/?auth_token=free&public=true&kind=news&regions=en&num_pages=1’),
 ]);
 
 let forex = {};
@@ -66,29 +65,9 @@ mcap:coin.market_cap,
 chg24:coin.price_change_percentage_24h,
 }));
 
-const catMap = (title) => {
-const t = (title||’’).toLowerCase();
-if(/bitcoin|btc|crypto|ethereum|eth|solana|blockchain|defi|nft/.test(t)) return ‘crypto’;
-if(/war|conflict|geopolit|military|ukraine|russia|china|middle east/.test(t)) return ‘geo’;
-if(/oil|gas|energy|opec|solar|nuclear/.test(t)) return ‘energy’;
-if(/fed|inflation|gdp|economy|rate|central bank|ecb|recession/.test(t)) return ‘eco’;
-return ‘markets’;
-};
-
-const news = (cpNews?.results || [])
-.filter(n => n.title && n.url)
-.slice(0, 25)
-.map(n => ({
-title: n.title,
-url: n.url,
-source: n.source?.title || ‘CryptoPanic’,
-cat: catMap(n.title),
-ts: n.published_at ? Math.floor(new Date(n.published_at).getTime()/1000) : Math.floor(Date.now()/1000)
-}));
-
 return res.status(200).json({
 ok:true,
 ts:new Date().toISOString(),
-forex, crypto, metals, fearIndex, cryptoRank, news
+forex, crypto, metals, fearIndex, cryptoRank, news:[]
 });
 }
