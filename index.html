@@ -282,12 +282,6 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
     <div class="logo-t">Mars<b>.</b></div>
   </div>
   <div class="nav-r">
-        <div style="display:flex; gap:8px; background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:10px; margin-right:10px; border:1px solid rgba(255,255,255,0.1); align-items:center;">
-        <span onclick="setLanguage('tr')" style="cursor:pointer; font-size:11px; font-weight:bold; color:#007aff;" id="btn-tr">TR</span>
-        <span style="color:rgba(255,255,255,0.2); font-size:11px;">|</span>
-        <span onclick="setLanguage('en')" style="cursor:pointer; font-size:11px; font-weight:bold; color:rgba(255,255,255,0.5);" id="btn-en">EN</span>
-    </div>
-
     <div class="live-chip"><span class="dot"></span><span id="clock">--:--:--</span></div>
   </div>
 </nav>
@@ -299,7 +293,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
 <div class="hero">
   <div class="hero-glow1"></div><div class="hero-glow2"></div>
   <div class="hero-badge">🌍 Canlı Piyasa · 2026</div>
-  <div class="hero-h" id="ana-baslik">Tüm piyasalar<br><em>tek ekranda.</em></div>
+  <div class="hero-h">Tüm piyasalar<br><em>tek ekranda.</em></div>
   <div class="hero-p">Döviz, kripto, emtia, korku endeksi, varlık sıralaması ve dünyanın en isabetli analistleri.</div>
   <div class="hero-row">
     <div class="hstat"><div class="hstat-n">24+</div><div class="hstat-l">Varlık</div></div>
@@ -1102,26 +1096,4 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()
 </script>
 
 </body>
-<script>
-function setLanguage(lang) {
-    const btnTr = document.getElementById('btn-tr');
-    const btnEn = document.getElementById('btn-en');
-    const anaBaslik = document.getElementById('ana-baslik');
-
-    if(lang === 'tr') {
-        btnTr.style.color = '#007aff';
-        btnEn.style.color = 'rgba(255,255,255,0.5)';
-        
-        // Türkçe Metin
-        anaBaslik.innerHTML = 'Tüm piyasalar<br><em>tek ekranda.</em>';
-    } else {
-        btnEn.style.color = '#007aff';
-        btnTr.style.color = 'rgba(255,255,255,0.5)';
-        
-        // İngilizce Metin
-        anaBaslik.innerHTML = 'All markets<br><em>on one screen.</em>';
-    }
-}
-</script>
-
 </html>
