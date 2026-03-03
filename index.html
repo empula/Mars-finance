@@ -860,7 +860,6 @@ showRank('all',document.querySelector('.rtab.on'));
 
 // ── NEWS
 var NEWS=[
-// KRİPTO
 {cat:‘crypto’,ico:‘₿’,title:‘Bitcoin 65.000 dolar seviyesinde; İran savaşının ardından toparlanma sürüyor’,source:‘CoinDesk’,url:‘https://coindesk.com’,time:‘2 sa’},
 {cat:‘crypto’,ico:‘📉’,title:‘Altcoinlerin %38'i tarihi dip seviyelerinde — FTX çöküşünden derin düşüş’,source:‘CoinPedia’,url:‘https://coinpedia.org’,time:‘3 sa’},
 {cat:‘crypto’,ico:‘Ξ’,title:‘Ethereum staking rekoru: 37.1 milyon ETH kilitlendi, borsa arzı azalıyor’,source:‘CoinPedia’,url:‘https://coinpedia.org’,time:‘4 sa’},
@@ -869,8 +868,6 @@ var NEWS=[
 {cat:‘crypto’,ico:‘⚖️’,title:‘ABD Senatosu konut tasarısına CBDC yasağı ekledi — Fed dijital para çıkaramayacak’,source:‘CoinDesk’,url:‘https://coindesk.com’,time:‘8 sa’},
 {cat:‘crypto’,ico:‘🔗’,title:‘Vitalik Buterin, Ethereum blok üreticisi merkezileşmesine karşı plan açıkladı’,source:‘CoinDesk’,url:‘https://coindesk.com’,time:‘10 sa’},
 {cat:‘crypto’,ico:‘🏦’,title:‘Morgan Stanley ulusal kripto saklama ve staking hizmetleri için başvuru yaptı’,source:‘CryptoNews’,url:‘https://cryptonews.com’,time:‘12 sa’},
-
-// PİYASALAR
 {cat:‘markets’,ico:‘📉’,title:‘S&P 500 futures %1.6 düştü; İran'da yeni saldırılar borsaları sarstı’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘1 sa’},
 {cat:‘markets’,ico:‘🥇’,title:‘Altın 5.317 doları aştı; yatırımcılar güvenli limanlara akın ediyor’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘2 sa’},
 {cat:‘markets’,ico:‘📊’,title:‘Nasdaq %1.8 geriledi; Nvidia +2.9% ve Microsoft +1.5% ile dip alımı yapıldı’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘3 sa’},
@@ -878,24 +875,18 @@ var NEWS=[
 {cat:‘markets’,ico:‘✈️’,title:‘Havacılık hisseleri çöktü: United Airlines -6%, American -5%, Delta -5%’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘5 sa’},
 {cat:‘markets’,ico:‘🇩🇪’,title:‘Asya ve Avrupa borsaları son 2 günün en sert düşüşünü yaşıyor’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘6 sa’},
 {cat:‘markets’,ico:‘🏦’,title:‘VIX korku endeksi %18 fırladı; piyasalarda volatilite tırmanıyor’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘7 sa’},
-
-// EKONOMİ
 {cat:‘eco’,ico:‘🏦’,title:‘Fed Mart toplantısında faiz sabit kalacak — İran savaşı enflasyon riskini artırdı’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘2 sa’},
 {cat:‘eco’,ico:‘📊’,title:‘ABD ISM imalat fiyatları Haziran 2022'den bu yana en yüksek seviyede: 70.5’,source:‘Reuters’,url:‘https://reuters.com’,time:‘4 sa’},
 {cat:‘eco’,ico:‘🇪🇺’,title:‘Eurozone imalat PMI 44 ayın zirvesinde: 50.8 — Almanya 4 yıl sonra büyüme bölgesine girdi’,source:‘Reuters’,url:‘https://reuters.com’,time:‘5 sa’},
 {cat:‘eco’,ico:‘💱’,title:‘Dolar güçleniyor; Avrupa para birimleri jeopolitik şoktan en çok etkilenen kesim’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘6 sa’},
 {cat:‘eco’,ico:‘🇹🇷’,title:‘Türkiye enflasyonla mücadelede kararlı; Merkez Bankası sıkı para politikasını koruyor’,source:‘Bloomberg HT’,url:‘https://bloomberght.com’,time:‘8 sa’},
 {cat:‘eco’,ico:‘📈’,title:‘JP Morgan: Yıl sonu S&P 500 hedefi 7.500 — Wells Fargo da aynı görüşte’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘10 sa’},
-
-// JEOPOLİTİK
 {cat:‘geo’,ico:‘💥’,title:‘ABD-İsrail İran'a yeni saldırılar başlattı; Trump savaşın haftalarca süreceğini açıkladı’,source:‘Al Jazeera’,url:‘https://aljazeera.com’,time:‘30 dk’},
 {cat:‘geo’,ico:‘🌊’,title:‘İran Hürmüz Boğazı'nı kapattı: 150 tanker mahsur, küresel petrol ticareti durdu’,source:‘Al Jazeera’,url:‘https://aljazeera.com’,time:‘1 sa’},
 {cat:‘geo’,ico:‘🇮🇷’,title:‘İran'ın Dini Lideri Hamaney öldürüldü — Devrim Muhafızları bölgeye saldırı başlattı’,source:‘Reuters’,url:‘https://reuters.com’,time:‘2 sa’},
 {cat:‘geo’,ico:‘🇸🇦’,title:‘Riyad'daki ABD Büyükelçiliği insansız hava aracıyla vuruldu; Suudi Arabistan'da yangın’,source:‘OPB’,url:‘https://opb.org’,time:‘3 sa’},
 {cat:‘geo’,ico:‘🇶🇦’,title:‘Katar LNG tesisleri İran insansız hava araçlarıyla vuruldu; üretim durduruldu’,source:‘Al Jazeera’,url:‘https://aljazeera.com’,time:‘4 sa’},
 {cat:‘geo’,ico:‘✈️’,title:‘Dubai ve Körfez havalimanları kapandı; yüz binlerce yolcu mahsur kaldı’,source:‘Reuters’,url:‘https://reuters.com’,time:‘6 sa’},
-
-// ENERJİ
 {cat:‘energy’,ico:‘🛢️’,title:‘Brent petrol 85 doları aştı — Hürmüz Boğazı'nın kapanmasıyla fiyatlar tırmanıyor’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘1 sa’},
 {cat:‘energy’,ico:‘🔥’,title:‘Avrupa doğalgaz fiyatları %85 fırladı; Katar LNG ihracatı durdu’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘2 sa’},
 {cat:‘energy’,ico:‘⛽’,title:‘ABD benzin fiyatları yükseliyor — GasBuddy: 1-2 hafta içinde litre başına 10-30 sent artış’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘3 sa’},
