@@ -829,7 +829,7 @@ function showRank(cat,btn){
     // Hisseler - gerçek veri varsa kullan
     var stockSrc=_stockRankData||RANKS_STATIC.stock;
     var topStocks=stockSrc.slice(0,4).map(function(s){
-      return {ico:s.ico,name:s.name,sub:(s.symbol||s.sub)+' · S&P500',val:s.mcap?fMcap(s.mcap):'—',chg:s.chg||0,bar:s.mcap?(s.mcap/3.4e12*100):50};
+      var sym=s.symbol||s.sub||'';return {ico:s.ico,name:s.name,sub:sym+(sym?' · S&P500':'S&P500'),val:s.mcap?fMcap(s.mcap):(s.val||'—'),chg:s.chg||0,bar:s.mcap?(s.mcap/3.4e12*100):(s.bar||50)};
     });
     renderRankItems(topStocks,list,false);
     var cryptos=_cryptoRankData||RANKS_STATIC.cryptoFallback;
