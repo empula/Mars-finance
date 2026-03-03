@@ -1102,4 +1102,28 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()
 </script>
 
 </body>
+  <script>
+// DİL DEĞİŞTİRME MOTORU
+function setLanguage(lang) {
+    const btnTr = document.getElementById('btn-tr');
+    const btnEn = document.getElementById('btn-en');
+
+    if(lang === 'tr') {
+        // Türkçe seçilince: TR mavi, EN gri olsun
+        btnTr.style.color = '#007aff';
+        btnEn.style.color = 'rgba(255,255,255,0.5)';
+        
+        // Buraya ileride Türkçeleşecek metinleri ekleyeceğiz
+        console.log("Sistem dili: Türkçe");
+    } else {
+        // İngilizce seçilince: EN mavi, TR gri olsun
+        btnEn.style.color = '#007aff';
+        btnTr.style.color = 'rgba(255,255,255,0.5)';
+        
+        // Buraya ileride İngilizceleşecek metinleri ekleyeceğiz
+        console.log("System language: English");
+    }
+}
+</script>
+
 </html>
