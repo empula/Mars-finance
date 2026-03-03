@@ -2,6 +2,14 @@
 
 <html lang="tr">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GKRZWC8GFD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-GKRZWC8GFD");
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#07070e">
@@ -582,6 +590,10 @@ async function tryReal(){
     if(data.cryptoRank&&data.cryptoRank.length){
       updateCryptoRank(data.cryptoRank);
     }
+    // Hisse sıralama — Alpha Vantage
+    if(data.stockRank&&data.stockRank.length){
+      updateStockRank(data.stockRank);
+    }
     // Gerçek haberler (CoinGecko News API)
     if(data.news&&data.news.length){
       _newsAll=data.news;
@@ -660,6 +672,13 @@ function fMcap(v){
   if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';
   if(v>=1e6)return'$'+(v/1e6).toFixed(0)+'M';
   return'$'+v;
+}
+var _stockRankData=null;
+function updateStockRank(arr){
+  _stockRankData=arr;
+  if(_currentRankCat==='stock'||_currentRankCat==='all'){
+    showRank(_currentRankCat,document.querySelector('.rtab.on'));
+  }
 }
 function updateCryptoRank(arr){
   _cryptoRankData=arr;
@@ -812,14 +831,15 @@ function showRank(cat,btn){
   var list=document.getElementById('rankList');list.innerHTML='';
   if(cat==='all'){
     // Statik satırlar (altın + hisseler)
-    var topItems=[
-      {ico:'\ud83e\udd47',name:'Alt\u0131n',sub:'XAU \u00b7 Emtia',val:'$17.9T',chg:0.44,bar:100},
-      {ico:'\ud83c\udfe2',name:'Apple',sub:'AAPL \u00b7 S&P500',val:'$3.4T',chg:0.82,bar:19},
-      {ico:'\ud83e\udd16',name:'Microsoft',sub:'MSFT \u00b7 S&P500',val:'$3.1T',chg:1.14,bar:17.3},
-      {ico:'\ud83d\udd0d',name:'NVIDIA',sub:'NVDA \u00b7 S&P500',val:'$2.9T',chg:2.31,bar:16.2},
-      {ico:'\ud83d\uded2',name:'Amazon',sub:'AMZN \u00b7 S&P500',val:'$2.1T',chg:0.44,bar:11.7},
-    ];
-    renderRankItems(topItems,list,false);
+    // Altın her zaman ilk sırada (statik)
+    var goldItem=[{ico:'🥇',name:'Altın',sub:'XAU · Emtia',val:'$17.9T',chg:0.44,bar:100}];
+    renderRankItems(goldItem,list,false);
+    // Hisseler - gerçek veri varsa kullan
+    var stockSrc=_stockRankData||RANKS_STATIC.stock;
+    var topStocks=stockSrc.slice(0,4).map(function(s){
+      var sym=s.symbol||s.sub||'';return {ico:s.ico,name:s.name,sub:sym+(sym?' · S&P500':'S&P500'),val:s.mcap?fMcap(s.mcap):(s.val||'—'),chg:s.chg||0,bar:s.mcap?(s.mcap/3.4e12*100):(s.bar||50)};
+    });
+    renderRankItems(topStocks,list,false);
     var cryptos=_cryptoRankData||RANKS_STATIC.cryptoFallback;
     var maxMcap=cryptos[0]?cryptos[0].mcap:1;
     cryptos.slice(0,8).forEach(function(coin,i){
@@ -842,6 +862,14 @@ function showRank(cat,btn){
   if(cat==='crypto'){
     var cryptos=_cryptoRankData||RANKS_STATIC.cryptoFallback;
     renderRankItems(cryptos.slice(0,15),list,true);
+    return;
+  }
+  if(cat==='stock'){
+    var stocks=_stockRankData||RANKS_STATIC.stock;
+    var items=stocks.map(function(s){
+      return {ico:s.ico,name:s.name,sub:s.symbol+' · S&P500',val:s.mcap?fMcap(s.mcap):'—',chg:s.chg||0,bar:s.mcap?(s.mcap/3.4e12*100):50,_live:s.price!=null};
+    });
+    renderRankItems(items,list,false);
     return;
   }
   renderRankItems(RANKS_STATIC[cat]||[],list,false);
