@@ -87,7 +87,7 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 /* Gauge */
 .gauge-wrap{position:relative;width:100%;height:90px;margin-bottom:14px;}
 .gauge-svg{width:100%;height:90px;}
-.gauge-needle{transform-origin:150px 90px;transition:transform 1.2s cubic-bezier(.34,1.3,.64,1);}
+.gauge-needle{transform-origin:50% 100%;transition:transform 1.2s cubic-bezier(.34,1.3,.64,1);}
 .gauge-label-row{display:flex;justify-content:space-between;margin-top:-4px;}
 .gauge-lbl{font-size:10px;color:var(–text3);font-weight:600;}
 /* History */
@@ -351,7 +351,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
       </g>
       <!-- Needle -->
       <g class="gauge-needle" id="gaugeNeedle">
-        <line x1="150" y1="88" x2="150" y2="22" y2="20" stroke="#eeeef8" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="150" y1="90" x2="150" y2="20" stroke="#eeeef8" stroke-width="2.5" stroke-linecap="round"/>
         <circle cx="150" cy="90" r="5" fill="#eeeef8"/>
         <circle cx="150" cy="90" r="3" fill="#07070e"/>
       </g>
@@ -884,6 +884,10 @@ var NEWS=[
 ];
 // ── GERÇEK HABERLER (API'den)
 function loadRealNews(newsArr){
+  _newsAll=newsArr;
+  loadNews(curF);
+  return;
+  // legacy below kept for reference
   var list=document.getElementById('newsList');
   list.innerHTML='';
   document.getElementById('newsCount').textContent=newsArr.length+' haber';
@@ -914,175 +918,36 @@ function timeAgo(ts){
 var CLBL={markets:'Piyasalar',crypto:'Kripto',eco:'Ekonomi',geo:'Jeopolitik',energy:'Enerji'};
 var curF='all';
 function setF(f,btn){curF=f;document.querySelectorAll('.nfb').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');loadNews(f);}
+var _newsAll=[];var _newsShown=4;
+function renderNews(arr,shown){
+  var list=document.getElementById('newsList');
+  list.innerHTML='';
+  var visible=arr.slice(0,shown);
+  visible.forEach(function(n){
+    var ico=n.ico||'📰';
+    var timeStr=n.ts?timeAgo(n.ts):(n.time?n.time+' önce':'az önce');
+    var cat=n.cat||'markets';
+    var a=document.createElement('a');a.className='ni';a.href=n.url;a.target='_blank';a.rel='noopener noreferrer';
+    a.innerHTML='<div class="ni-ico">'+ico+'</div><div class="ni-body"><div class="ni-title">'+escH(n.title)+'</div><div class="ni-meta"><span class="ni-src">'+escH(n.source||'Haber')+'</span><span class="ni-time">'+timeStr+'</span><span class="ni-pill '+cat+'">'+(CLBL[cat]||cat)+'</span></div></div><span class="ni-arr">›</span>';
+    list.appendChild(a);
+  });
+  if(arr.length>shown){
+    var btn=document.createElement('button');
+    btn.className='news-more-btn';
+    btn.textContent='↓ Daha Fazla Haber ('+(arr.length-shown)+')';
+    btn.onclick=function(){_newsShown+=6;renderNews(_newsAll.filter(function(n){return curF==='all'||n.cat===curF;}),_newsShown);};
+    list.appendChild(btn);
+  }
+}
 function loadNews(f){
   var list=document.getElementById('newsList');
   list.innerHTML='<div class="news-load"><span class="news-spin">⏳</span>Yükleniyor…</div>';
   setTimeout(function(){
-    var arr=f&&f!=='all'?NEWS.filter(function(n){return n.cat===f;}):NEWS;
-    arr=arr.slice().sort(function(){return Math.random()-.5;});
-    document.getElementById('newsCount').textContent=arr.length+' haber';
-    if(!arr.length){list.innerHTML='<div class="news-load">Haber bulunamadı.</div>';return;}
-    list.innerHTML='';
-    arr.forEach(function(n){
-      var a=document.createElement('a');a.className='ni';a.href=n.url;a.target='_blank';a.rel='noopener noreferrer';
-      a.innerHTML='<div class="ni-ico">'+n.ico+'</div><div class="ni-body"><div class="ni-title">'+n.title+'</div><div class="ni-meta"><span class="ni-src">'+n.source+'</span><span class="ni-time">'+n.time+' önce</span><span class="ni-pill '+n.cat+'">'+CLBL[n.cat]+'</span></div></div><span class="ni-arr">›</span>';
-      list.appendChild(a);
-    });
-  },400);
+    var arr=_newsAll.length?_newsAll:NEWS;
+    var filtered=f&&f!=='all'?arr.filter(function(n){return n.cat===f;}):arr;
+    document.getElementById('newsCount').textContent=filtered.length+' haber';
+    if(!filtered.length){list.innerHTML='<div class="news-load">Haber bulunamadı.</div>';return;}
+    _newsShown=4;
+    renderNews(filtered,_newsShown);
+  },200);
 }
-loadNews('all');setInterval(function(){loadAll();},120000);
-
-// ── ANALYSTS (accuracy-sorted, high-accuracy focus)
-var ANALYSTS={
-  btc:[
-    {name:'PlanB',role:'Quant Analist & Yaratıcı',firm:'S2F Modeli',ava:'📐',sent:'bull',
-     acc:91,calls:['BTC 2020: $60K ✓','BTC 2021: $100K ~','BTC 2024: $150K ▲'],
-     quote:'"Stock-to-Flow modeli Bitcoin\'in kıtlık temelli değerini tutarlı şekilde öngörüyor. Halving döngüleri ve kurumsal talep göz önüne alındığında 150.000 dolar hedefi makul görünmektedir."',target:'$150,000',date:'2026 Q4'},
-    {name:'Willy Woo',role:'On-Chain Analist',firm:'Bağımsız',ava:'📊',sent:'bull',
-     acc:88,calls:['2020 boğa: ✓','2022 ayı: ✓','2024 ATH: ✓'],
-     quote:'"On-chain verileri kurumsal birikimin devam ettiğini ve zincir üstü aktivitenin güçlendiğini gösteriyor. HODL dalgaları uzun vadeli yatırımcı hakimiyetine işaret ediyor."',target:'$120,000',date:'2026 Q3'},
-    {name:'Michael Saylor',role:'Yönetim Kurulu Başkanı',firm:'MicroStrategy',ava:'👨‍💼',sent:'bull',
-     acc:78,calls:['2020 alım ✓','2022 kayıp ✗','2024 kâr ✓'],
-     quote:'"Bitcoin, insanlık tarihinin en üstün para biçimidir. Her düzeltme kurumsal yatırımcılar için alım fırsatıdır. MicroStrategy satın almaya devam edecek."',target:'$500,000',date:'2030'},
-    {name:'Peter Schiff',role:'Baş Ekonomist',firm:'Euro Pacific Capital',ava:'🧔',sent:'bear',
-     acc:22,calls:['2017 düşüş ✗','2020 düşüş ✗','2022 düşüş ✓'],
-     quote:'"Bitcoin\'in gerçek bir içsel değeri yoktur. Spekülatif bir balon olan bu varlığın değer kaybetmesi kaçınılmazdır. Altın her zaman daha güvenlidir."',target:'$10,000',date:'2026'},
-  ],
-  eth:[
-    {name:'Benjamin Cowen',role:'Kripto Analist',firm:'ITC Crypto',ava:'📉',sent:'bull',
-     acc:85,calls:['2021 ETH $4K: ✓','2022 düşüş: ✓','2024 yükseliş: ✓'],
-     quote:'"Ethereum\'un makro döngüsü ve tarihsel fiyat kalıpları 2026\'da 4.000-5.000 dolar bandını destekliyor. ETF onayları büyük bir katalizör olabilir."',target:'$5,000',date:'2026 Q3'},
-    {name:'Vitalik Buterin',role:'Kurucu',firm:'Ethereum Foundation',ava:'👨‍💻',sent:'bull',
-     acc:80,calls:['PoS geçişi ✓','Layer-2 büyüme ✓','Ölçekleme ✓'],
-     quote:'"Ethereum\'un Layer-2 ekosistemi ağın değerini katlanarak artırmaktadır. Rollup\'lar ve EIP iyileştirmeleriyle Ethereum küresel finans altyapısı haline geliyor."',target:'$5,000',date:'2026 Q3'},
-  ],
-  sol:[
-    {name:'Ansem',role:'Kripto Trader',firm:'Bağımsız',ava:'🐸',sent:'bull',
-     acc:87,calls:['SOL 2023 dip: ✓','SOL 2024 yükseliş: ✓','SOL ATH: ✓'],
-     quote:'"Solana ekosistemi kullanıcı sayısı ve işlem hacminde Ethereum\'u geride bırakmaya devam ediyor. Meme coin sezonu ve DeFi büyümesiyle SOL 300+ dolar görünür."',target:'$300',date:'2026 Q4'},
-    {name:'Anatoly Yakovenko',role:'Kurucu',firm:'Solana Labs',ava:'👨‍🔬',sent:'bull',
-     acc:75,calls:['Ağ büyümesi ✓','Kurumsal ortaklık ✓','Ücret güncellemesi ✓'],
-     quote:'"Solana\'nın ölçeklenebilirliği ve ekosistemi rakipsizdir. Firedancer güncellemesiyle ağ kapasitesi katlanacak ve kurumsal benimseme hızlanacak."',target:'$300',date:'2026 Q4'},
-  ],
-  gold:[
-    {name:'Jim Rogers',role:'Yatırımcı & Yazar',firm:'Rogers Holdings',ava:'🎩',sent:'bull',
-     acc:89,calls:['2008 altın: ✓','2020 altın: ✓','2022 gerileme: ✓'],
-     quote:'"Merkez bankaları rekor altın alımına devam ediyor ve dolar zayıflıyor. Jeopolitik belirsizlik ve enflasyon ortamında altın 4.000 dolara yürüyecek."',target:'$4,000',date:'2026'},
-    {name:'Ray Dalio',role:'Kurucu',firm:'Bridgewater Associates',ava:'🧠',sent:'bull',
-     acc:86,calls:['2008 kriz: ✓','2020 portföy: ✓','2022 enflasyon: ✓'],
-     quote:'"Borç krizi ve jeopolitik belirsizlik ortamında altın portföylerin vazgeçilmez bileşenidir. Her portföyde en az yüzde 10-15 altın olmalıdır."',target:'$3,500',date:'2026'},
-    {name:'Jeffrey Gundlach',role:'CEO',firm:'DoubleLine Capital',ava:'👔',sent:'bull',
-     acc:83,calls:['Faiz tahmini: ✓','Dolar zayıflama: ✓','Tahvil satışı: ✓'],
-     quote:'"Dolar\'ın uzun vadeli zayıflaması ve enflasyon beklentileri altını destekliyor. Portföylerin yüzde 15\'inin altın olmasını tavsiye ediyorum."',target:'$3,200',date:'2026 Q2'},
-  ],
-  usd:[
-    {name:'Ray Dalio',role:'Kurucu',firm:'Bridgewater',ava:'🧠',sent:'bear',
-     acc:86,calls:['2008 kriz: ✓','Dolar rezerv: ✓','Borç krizi: ✓'],
-     quote:'"ABD\'nin yüksek borç yükü uzun vadede doların rezerv para statüsüne tehdit oluşturmaktadır. Dolar dışı varlıklara yönelmenin zamanı gelmiş olabilir."',target:'Zayıflama',date:'2026-2027'},
-    {name:'Mohamed El-Erian',role:'Baş Ekonomist',firm:'Allianz',ava:'👨‍🏫',sent:'neutral',
-     acc:84,calls:['Fed politika: ✓','Enflasyon: ✓','Resesyon: ✓'],
-     quote:'"Fed\'in politika belirsizliği dolar üzerinde baskı oluştursa da küresel rezerv para statüsü kısa vadede korunmaktadır. 2026 kritik bir yıl olacak."',target:'Nötr',date:'2026'},
-  ],
-  xrp:[
-    {name:'Egrag Crypto',role:'Teknik Analist',firm:'Bağımsız',ava:'📈',sent:'bull',
-     acc:82,calls:['XRP 2023: ✓','XRP dava: ✓','XRP 2024: ✓'],
-     quote:'"XRP\'nin yasal süreç tamamlandıktan sonra kurumsal kullanımı hızla artacak. Ripple\'ın banka ortaklıkları ve ODL kullanımı piyasa değerini destekleyecek."',target:'$5',date:'2026'},
-    {name:'Brad Garlinghouse',role:'CEO',firm:'Ripple',ava:'👨‍💼',sent:'bull',
-     acc:70,calls:['Dava zaferi: ✓','Ortaklıklar: ✓','CBDC entegr.: ~'],
-     quote:'"XRP Ledger küresel ödemelerin omurgası olmaya hazır. Her geçen gün daha fazla kurum XRP\'yi sınır ötesi ödemeler için tercih ediyor."',target:'$5',date:'2026'},
-  ],
-  silver:[
-    {name:'Keith Neumeyer',role:'CEO',firm:'First Majestic Silver',ava:'🥈',sent:'bull',
-     acc:79,calls:['Gümüş 2020: ✓','Güneş talebi: ✓','Endüstriyel: ✓'],
-     quote:'"Gümüş hem endüstriyel hem yatırım talebiyle destekleniyor. Güneş paneli patlaması ve EV endüstrisi gümüş talebini katlayacak. 50 dolar hedefim var."',target:'$50',date:'2026'},
-  ],
-  avax:[
-    {name:'Emin Gün Sirer',role:'Kurucu',firm:'Ava Labs',ava:'👨‍🔬',sent:'bull',
-     acc:72,calls:['Subnet büyüme: ✓','DeFi TVL: ✓','Kurumsal: ~'],
-     quote:'"Avalanche\'ın subnet yapısı kurumsal blockchain uygulamalarında devrim yaratıyor. Geleneksel finans ile DeFi\'yi birleştiren köprü Avalanche olacak."',target:'$50',date:'2026'},
-  ],
-  link:[
-    {name:'Sergey Nazarov',role:'Kurucu',firm:'Chainlink',ava:'🔗',sent:'bull',
-     acc:81,calls:['CCIP büyüme: ✓','DeFi oracle: ✓','Kurum entegr.: ✓'],
-     quote:'"Chainlink, blockchain ekosisteminin gerçek dünya verilerine bağlanmasını sağlayan kritik altyapıdır. CCIP ile zincirler arası likidite devrim yaratacak."',target:'$25',date:'2026'},
-  ],
-};
-function getAN(k){return ANALYSTS[k]||[ANALYSTS.btc[0]];}
-
-// ── MODAL
-function openModal(key){
-  var a=ALL[key],d=D[key]||{};
-  document.getElementById('m-ico').textContent=a.ico;
-  document.getElementById('m-name').textContent=a.name;
-  document.getElementById('m-sym').textContent=a.sym;
-  document.getElementById('m-price').textContent=d.price!=null?pStr(key):'—';
-  var ce=document.getElementById('m-chg');
-  if(d.chg!=null){ce.className='m-bigchg '+(d.chg>=0?'up':'dn');ce.textContent=fPct(d.chg)+' (24s)';}
-  else{ce.className='m-bigchg';ce.textContent='Canlı';}
-
-  // TradingView
-  var box=document.getElementById('tvBox');box.innerHTML='';
-  var cid='tv'+Date.now();
-  var wrap=document.createElement('div');wrap.style.height='330px';
-  var inner=document.createElement('div');inner.id=cid;inner.style.height='330px';
-  wrap.appendChild(inner);box.appendChild(wrap);
-  function doTV(){
-    if(window.TradingView&&window.TradingView.widget){
-      new TradingView.widget({autosize:false,width:'100%',height:330,symbol:a.tvSym,interval:'60',timezone:'Europe/Istanbul',theme:'dark',style:'1',locale:'tr',toolbar_bg:'#16161f',enable_publishing:false,allow_symbol_change:true,container_id:cid,save_image:false,backgroundColor:'rgba(15,15,24,1)',gridColor:'rgba(37,37,53,0.8)',studies:['Volume@tv-basicstudies']});
-    }else{
-      box.innerHTML='';var fr=document.createElement('iframe');
-      fr.src='https://s.tradingview.com/widgetembed/?symbol='+encodeURIComponent(a.tvSym)+'&interval=60&theme=dark&style=1&locale=tr&toolbar_bg=%2316161f&timezone=Europe%2FIstanbul';
-      fr.width='100%';fr.height='330';fr.frameBorder='0';fr.allowFullscreen=true;box.style.overflow='hidden';box.appendChild(fr);
-    }
-  }
-  if(!window.TradingView){var sc=document.createElement('script');sc.src='https://s3.tradingview.com/tv.js';sc.onload=function(){setTimeout(doTV,100);};document.head.appendChild(sc);}
-  else{setTimeout(doTV,50);}
-
-  // Analysts
-  var al=document.getElementById('analystList');al.innerHTML='';
-  var analysts=getAN(key).sort(function(a,b){return b.acc-a.acc;});
-  analysts.forEach(function(an){
-    var sm={bull:'📈 Yükseliş',bear:'📉 Düşüş',neutral:'⚖️ Nötr'};
-    var c=document.createElement('div');c.className='an-card';
-    var callsHtml=an.calls.map(function(cl){
-      var hit=cl.indexOf('✓')>-1;return'<span class="an-call '+(hit?'hit':'miss')+'">'+cl+'</span>';
-    }).join('');
-    var accColor=an.acc>=85?'var(--up)':an.acc>=70?'var(--gold)':'var(--dn)';
-    c.innerHTML=
-      '<div class="an-top"><div class="an-ava">'+an.ava+'</div>'
-      +'<div class="an-info"><div class="an-name">'+an.name+'</div>'
-      +'<div class="an-role">'+an.role+'</div><div class="an-firm">'+an.firm+'</div>'
-      +'<div class="an-badges"><span class="an-sent '+an.sent+'">'+sm[an.sent]+'</span></div></div></div>'
-      +'<div class="an-acc"><span class="an-acc-lbl">İsabet Oranı</span>'
-      +'<div class="an-acc-bar"><div class="an-acc-fill" style="width:'+an.acc+'%;background:linear-gradient(to right,var(--blue),'+accColor+')"></div></div>'
-      +'<span class="an-acc-pct" style="color:'+accColor+'">%'+an.acc+'</span></div>'
-      +'<div class="an-record">'+callsHtml+'</div>'
-      +'<div class="an-quote">'+an.quote+'</div>'
-      +'<div class="an-target"><span class="an-tlbl">Hedef:</span><span class="an-tval">'+an.target+'</span><span class="an-tdate">· '+an.date+'</span></div>';
-    al.appendChild(c);
-  });
-
-  // Stats
-  document.getElementById('m-stats').innerHTML=[
-    ['Güncel Fiyat',d.price!=null?pStr(key):'—'],
-    ['24s Değişim',d.chg!=null?fPct(d.chg):'—'],
-    ['Tür',a.cat==='forex'?'Döviz':a.cat==='crypto'?'Kripto':'Emtia'],
-    ['Sembol',a.sym],
-  ].map(function(r){return'<div class="mstat"><div class="mstat-l">'+r[0]+'</div><div class="mstat-v">'+r[1]+'</div></div>';}).join('');
-
-  // Actions
-  var ae=document.getElementById('m-actions');ae.innerHTML='';
-  if(a.cmc){var lc=document.createElement('a');lc.className='act-btn';lc.target='_blank';lc.rel='noopener';lc.href='https://coinmarketcap.com/currencies/'+a.cmc+'/';lc.textContent='📊 CoinMarketCap';ae.appendChild(lc);}
-  var lt=document.createElement('a');lt.className='act-btn';lt.target='_blank';lt.rel='noopener';lt.href='https://www.tradingview.com/chart/?symbol='+encodeURIComponent(a.tvSym);lt.textContent='📈 TradingView';ae.appendChild(lt);
-
-  document.getElementById('overlay').classList.add('open');
-  document.body.style.overflow='hidden';
-  document.getElementById('modal').scrollTop=0;
-}
-function closeModal(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';setTimeout(function(){document.getElementById('tvBox').innerHTML='';},350);}
-function handleOv(e){if(e.target===document.getElementById('overlay'))closeModal();}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
-</script>
-
-</body>
-</html>
