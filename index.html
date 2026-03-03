@@ -1109,5 +1109,29 @@ function handleOv(e){if(e.target===document.getElementById('overlay'))closeModal
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 </script>
 
+<script>
+function calculateInvest() {
+    // Kutulardaki değerleri alıyoruz
+    const miktar = document.getElementById('calcAmount').value;
+    const oran = document.getElementById('calcRate').value;
+    const sonucKutusu = document.getElementById('calcResultBox');
+    const sonucDegeri = document.getElementById('calcResultValue');
+
+    // Eğer iki kutu da doluysa hesapla
+    if(miktar && oran) {
+        // Hesaplama: Ana Para + (Ana Para * Yüzde / 100)
+        const toplam = parseFloat(miktar) + (parseFloat(miktar) * (parseFloat(oran) / 100));
+        
+        // Sonucu formatlayarak yazdır ($1,250.00 gibi)
+        sonucDegeri.innerText = "$" + toplam.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        
+        // Gizli olan sonuç kutusunu görünür yap
+        sonucKutusu.style.display = 'block';
+    } else {
+        alert("Lütfen yatırım tutarını ve getiri oranını girin.");
+    }
+}
+</script>
+
 </body>
 </html>
