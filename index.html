@@ -87,7 +87,7 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 /* Gauge */
 .gauge-wrap{position:relative;width:100%;height:90px;margin-bottom:14px;}
 .gauge-svg{width:100%;height:90px;}
-.gauge-needle{transform-origin:50% 100%;transition:transform 1.2s cubic-bezier(.34,1.3,.64,1);}
+.gauge-needle{transform-origin:150px 90px;transition:transform 1.2s cubic-bezier(.34,1.3,.64,1);}
 .gauge-label-row{display:flex;justify-content:space-between;margin-top:-4px;}
 .gauge-lbl{font-size:10px;color:var(–text3);font-weight:600;}
 /* History */
@@ -150,7 +150,6 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .ni:last-child{border-bottom:none;}
 .ni:hover{background:var(–bg3);}
 .ni:hover .ni-arr{opacity:1;}
-.news-more-btn{width:100%;padding:14px;background:var(–bg3);border:none;border-top:1px solid var(–border);color:var(–blue);font-family:‘Bricolage Grotesque’,sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;}
 .ni-ico{flex-shrink:0;width:40px;height:40px;border-radius:11px;background:var(–bg3);border:1px solid var(–border);display:flex;align-items:center;justify-content:center;font-size:19px;}
 .ni-body{flex:1;min-width:0;}
 .ni-title{font-size:13.5px;font-weight:600;line-height:1.45;margin-bottom:6px;color:var(–text);}
@@ -352,7 +351,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
       </g>
       <!-- Needle -->
       <g class="gauge-needle" id="gaugeNeedle">
-        <line x1="150" y1="90" x2="150" y2="20" stroke="#eeeef8" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="150" y1="88" x2="150" y2="22" y2="20" stroke="#eeeef8" stroke-width="2.5" stroke-linecap="round"/>
         <circle cx="150" cy="90" r="5" fill="#eeeef8"/>
         <circle cx="150" cy="90" r="3" fill="#07070e"/>
       </g>
@@ -540,7 +539,7 @@ var ALL={};
 
 // ── PRICE DATA
 var D={};
-var INIT={usd:38.05,eur:41.32,gbp:49.19,jpy:25.11,chf:42.50,cad:27.80,aud:23.90,sar:10.14,btc:68500,eth:2013,sol:131,xrp:2.10,avax:19.5,link:13.1,gold:3118,silver:33.80,platinum:1042,copper:4.38};
+var INIT={usd:38.47,eur:41.32,gbp:49.91,jpy:25.61,chf:43.12,cad:28.15,aud:24.30,sar:10.26,btc:87240,eth:2138,sol:147.5,xrp:2.24,avax:21.4,link:13.8,gold:3124,silver:34.18,platinum:1048,copper:4.42};
 var CHGB={usd:0.18,eur:-0.12,gbp:0.31,jpy:-0.07,chf:0.09,cad:0.22,aud:-0.15,sar:0.01,btc:1.42,eth:-0.87,sol:3.21,xrp:2.14,avax:-1.38,link:0.75,gold:0.44,silver:-0.22,platinum:0.61,copper:-0.33};
 function genH(b){var a=[],v=b*.97;for(var i=0;i<24;i++){v+=b*(Math.random()-.48)*.004;a.push(v);}return a;}
 (function(){for(var k in INIT)D[k]={price:INIT[k]*(1+(Math.random()-.5)*.003),chg:CHGB[k]+(Math.random()-.5)*.2,hist:genH(INIT[k])};})();
@@ -584,8 +583,7 @@ async function tryReal(){
     }
     // Gerçek haberler (CoinGecko News API)
     if(data.news&&data.news.length){
-      _newsAll=data.news;
-      loadNews(curF);
+      loadRealNews(data.news);
     }
     return true;
   }catch(e){return false;}
@@ -886,10 +884,6 @@ var NEWS=[
 ];
 // ── GERÇEK HABERLER (API'den)
 function loadRealNews(newsArr){
-  _newsAll=newsArr;
-  loadNews(curF);
-  return;
-  // legacy below kept for reference
   var list=document.getElementById('newsList');
   list.innerHTML='';
   document.getElementById('newsCount').textContent=newsArr.length+' haber';
@@ -920,40 +914,22 @@ function timeAgo(ts){
 var CLBL={markets:'Piyasalar',crypto:'Kripto',eco:'Ekonomi',geo:'Jeopolitik',energy:'Enerji'};
 var curF='all';
 function setF(f,btn){curF=f;document.querySelectorAll('.nfb').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');loadNews(f);}
-var _newsAll=[];var _newsShown=4;
-function renderNews(arr,shown){
-  var list=document.getElementById('newsList');
-  list.innerHTML='';
-  var visible=arr.slice(0,shown);
-  visible.forEach(function(n){
-    var ico=n.ico||'📰';
-    var timeStr=n.ts?timeAgo(n.ts):(n.time?n.time+' önce':'az önce');
-    var cat=n.cat||'markets';
-    var a=document.createElement('a');a.className='ni';a.href=n.url;a.target='_blank';a.rel='noopener noreferrer';
-    a.innerHTML='<div class="ni-ico">'+ico+'</div><div class="ni-body"><div class="ni-title">'+escH(n.title)+'</div><div class="ni-meta"><span class="ni-src">'+escH(n.source||'Haber')+'</span><span class="ni-time">'+timeStr+'</span><span class="ni-pill '+cat+'">'+(CLBL[cat]||cat)+'</span></div></div><span class="ni-arr">›</span>';
-    list.appendChild(a);
-  });
-  if(arr.length>shown){
-    var btn=document.createElement('button');
-    btn.className='news-more-btn';
-    btn.textContent='↓ Daha Fazla Haber ('+(arr.length-shown)+')';
-    btn.onclick=function(){_newsShown+=6;renderNews(_newsAll.filter(function(n){return curF==='all'||n.cat===curF;}),_newsShown);};
-    list.appendChild(btn);
-  }
-}
 function loadNews(f){
   var list=document.getElementById('newsList');
   list.innerHTML='<div class="news-load"><span class="news-spin">⏳</span>Yükleniyor…</div>';
   setTimeout(function(){
-    var arr=_newsAll.length?_newsAll:NEWS;
-    var filtered=f&&f!=='all'?arr.filter(function(n){return n.cat===f;}):arr;
-    document.getElementById('newsCount').textContent=filtered.length+' haber';
-    if(!filtered.length){list.innerHTML='<div class="news-load">Haber bulunamadı.</div>';return;}
-    _newsShown=4;
-    renderNews(filtered,_newsShown);
-  },200);
+    var arr=f&&f!=='all'?NEWS.filter(function(n){return n.cat===f;}):NEWS;
+    arr=arr.slice().sort(function(){return Math.random()-.5;});
+    document.getElementById('newsCount').textContent=arr.length+' haber';
+    if(!arr.length){list.innerHTML='<div class="news-load">Haber bulunamadı.</div>';return;}
+    list.innerHTML='';
+    arr.forEach(function(n){
+      var a=document.createElement('a');a.className='ni';a.href=n.url;a.target='_blank';a.rel='noopener noreferrer';
+      a.innerHTML='<div class="ni-ico">'+n.ico+'</div><div class="ni-body"><div class="ni-title">'+n.title+'</div><div class="ni-meta"><span class="ni-src">'+n.source+'</span><span class="ni-time">'+n.time+' önce</span><span class="ni-pill '+n.cat+'">'+CLBL[n.cat]+'</span></div></div><span class="ni-arr">›</span>';
+      list.appendChild(a);
+    });
+  },400);
 }
-
 loadNews('all');setInterval(function(){loadAll();},120000);
 
 // ── ANALYSTS (accuracy-sorted, high-accuracy focus)
