@@ -150,6 +150,7 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .ni:last-child{border-bottom:none;}
 .ni:hover{background:var(–bg3);}
 .ni:hover .ni-arr{opacity:1;}
+.news-more-btn{width:100%;padding:14px;background:var(–bg3);border:none;border-top:1px solid var(–border);color:var(–blue);font-family:‘Bricolage Grotesque’,sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;}
 .ni-ico{flex-shrink:0;width:40px;height:40px;border-radius:11px;background:var(–bg3);border:1px solid var(–border);display:flex;align-items:center;justify-content:center;font-size:19px;}
 .ni-body{flex:1;min-width:0;}
 .ni-title{font-size:13.5px;font-weight:600;line-height:1.45;margin-bottom:6px;color:var(–text);}
@@ -539,7 +540,7 @@ var ALL={};
 
 // ── PRICE DATA
 var D={};
-var INIT={usd:38.47,eur:41.32,gbp:49.91,jpy:25.61,chf:43.12,cad:28.15,aud:24.30,sar:10.26,btc:87240,eth:2138,sol:147.5,xrp:2.24,avax:21.4,link:13.8,gold:3124,silver:34.18,platinum:1048,copper:4.42};
+var INIT={usd:38.05,eur:41.32,gbp:49.19,jpy:25.11,chf:42.50,cad:27.80,aud:23.90,sar:10.14,btc:68500,eth:2013,sol:131,xrp:2.10,avax:19.5,link:13.1,gold:3118,silver:33.80,platinum:1042,copper:4.38};
 var CHGB={usd:0.18,eur:-0.12,gbp:0.31,jpy:-0.07,chf:0.09,cad:0.22,aud:-0.15,sar:0.01,btc:1.42,eth:-0.87,sol:3.21,xrp:2.14,avax:-1.38,link:0.75,gold:0.44,silver:-0.22,platinum:0.61,copper:-0.33};
 function genH(b){var a=[],v=b*.97;for(var i=0;i<24;i++){v+=b*(Math.random()-.48)*.004;a.push(v);}return a;}
 (function(){for(var k in INIT)D[k]={price:INIT[k]*(1+(Math.random()-.5)*.003),chg:CHGB[k]+(Math.random()-.5)*.2,hist:genH(INIT[k])};})();
