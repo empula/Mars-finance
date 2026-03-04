@@ -11,6 +11,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'piyasa-sekmesi')">Piyasa</button>
+    <button class="tab-btn" onclick="openTab(event, 'analiz-sekmesi')">Analiz (Pro)</button>
+</div>
+
+<div id="piyasa-sekmesi" class="tab-content active">
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#07070e;--bg2:#0f0f18;--bg3:#16161f;--bg4:#1d1d28;--bg5:#242430;
@@ -1242,6 +1249,35 @@ function openTab(evt, tabName) {
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].classList.remove("active");
         tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+}
+</script>
+</div> ```
+
+### 3. Analiz Sayfası ve Çalıştırma Kodu (Görsel 14)
+Analiz sayfasının içeriğini ve butonların çalışmasını sağlayan JavaScript'i yine en sona, az önce eklediğin `</div>` işaretinin altına yapıştır:
+```html
+<div id="analiz-sekmesi" class="tab-content" style="display:none;">
+    <div style="text-align:center; padding:100px 20px;">
+        <h2 style="color:#888; font-size:18px;">Analiz Terminali</h2>
+        <p style="color:#444; font-size:13px; margin-top:10px;">Veriler hazırlanıyor...</p>
+    </div>
+</div>
+
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        tabcontent[i].classList.remove("active");
     }
     tablinks = document.getElementsByClassName("tab-btn");
     for (i = 0; i < tablinks.length; i++) {
