@@ -42,6 +42,15 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 @keyframes dpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.75)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+
+<div class="tab-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'piyasa-sekmesi')">Piyasa</button>
+    <button class="tab-btn" onclick="openTab(event, 'analiz-sekmesi')">Analiz (Pro)</button>
+</div>
+
+<div id="piyasa-sekmesi" class="tab-content active">
+
 
 /* PAGE */
 .page{max-width:480px;margin:0 auto;padding:18px 13px 110px;}
@@ -1198,6 +1207,19 @@ function calculateInvest() {
         alert("Lütfen gerekli alanları doldurun.");
     }
 }
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.classList.add("active");
+}
 </script>
 <div style="margin-top: 50px; padding: 20px; text-align: center; border-top: 1px solid #111;">
     <h2 style="color: #333; font-size: 13px; letter-spacing: 1px; font-weight: normal;">MARS FINANCE TERMINAL</h2>
@@ -1205,6 +1227,13 @@ function calculateInvest() {
         Mars Finance; canlı kripto para verileri, küresel varlık analizleri ve kullanıcı dostu yatırım hesaplama araçları sunan dijital bir finans platformudur. Bitcoin ve piyasa trendlerini buradan takip edebilirsiniz.
     </p>
 </div>
+  </div> <div id="analiz-sekmesi" class="tab-content" style="display:none;">
+    <div style="text-align:center; padding:100px 20px;">
+        <h2 style="color:#888; font-size:18px;">Analiz Terminali</h2>
+        <p style="color:#444; font-size:13px; margin-top:10px;">Bitcoin Isı Haritası ve Likidasyon verileri yükleniyor...</p>
+        <div style="margin-top:20px; font-size:30px; opacity:0.2;">📊</div>
+    </div>
+  </div>
 
 </body>
 </html>
