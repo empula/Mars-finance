@@ -29,6 +29,20 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 ::selection{background:var(--blue);color:#fff;}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+/* --- SEKME TASARIMI --- */
+.tab-nav { display: flex; justify-content: center; gap: 8px; margin: 15px 0; }
+.tab-btn { 
+  background: var(--bg2); color: var(--text2); border: 1px solid var(--border); 
+  padding: 8px 16px; border-radius: 10px; cursor: pointer; 
+  font-size: 12px; font-weight: 700; transition: 0.3s; min-width: 100px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+.tab-btn.active { 
+  background: var(--blue); color: #fff; border-color: var(--blue);
+  box-shadow: 0 4px 15px rgba(79, 142, 247, 0.2);
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeUp .4s ease both; }
 
 /* NAV */
 .nav{position:sticky;top:0;z-index:300;height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(7,7,14,.92);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(–border);width:100%;box-sizing:border-box;}
@@ -42,6 +56,12 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 @keyframes dpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.75)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style> <div class="tab-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'piyasa-sekmesi')">Piyasa</button>
+    <button class="tab-btn" onclick="openTab(event, 'analiz-sekmesi')">Analiz (Pro)</button>
+</div>
+
+<div id="piyasa-sekmesi" class="tab-content active">
 
 /* PAGE */
 .page{max-width:480px;margin:0 auto;padding:18px 13px 110px;}
@@ -1205,6 +1225,32 @@ function calculateInvest() {
         Mars Finance; canlı kripto para verileri, küresel varlık analizleri ve kullanıcı dostu yatırım hesaplama araçları sunan dijital bir finans platformudur. Bitcoin ve piyasa trendlerini buradan takip edebilirsiniz.
     </p>
 </div>
+
+</div> <div id="analiz-sekmesi" class="tab-content">
+    <div style="text-align:center; padding:100px 20px;">
+        <h2 style="color:var(--text2); font-size:18px;">Analiz Terminali</h2>
+        <p style="color:var(--text3); font-size:13px; margin-top:10px;">Bitcoin Isı Haritası verileri hazırlanıyor...</p>
+        <div style="margin-top:20px; font-size:40px; opacity:0.2;">📊</div>
+    </div>
+</div>
+
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove("active");
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+}
+</script>
 
 </body>
 </html>
