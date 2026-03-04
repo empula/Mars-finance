@@ -10,6 +10,19 @@
 <meta name="description" content="Mars Finance | Canlı Kripto Verileri ve Yatırım Hesaplayıcı">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  /* Sekme Butonları */
+  .tab-nav { display: flex; justify-content: center; gap: 8px; margin: 15px 0; }
+  .tab-btn { 
+    background: #111; color: #666; border: 1px solid #222; 
+    padding: 6px 12px; border-radius: 6px; cursor: pointer; 
+    font-size: 11px; font-weight: 600; transition: 0.3s; min-width: 90px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+  .tab-btn.active { 
+    background: #007bff; color: white; border-color: #007bff;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -42,6 +55,13 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 @keyframes dpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.75)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+<div class="tab-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'piyasa-sekmesi')">Piyasa</button>
+    <button class="tab-btn" onclick="openTab(event, 'analiz-sekmesi')">Analiz (Pro)</button>
+</div>
+
+<div id="piyasa-sekmesi" class="tab-content active">
+
 
 /* PAGE */
 .page{max-width:480px;margin:0 auto;padding:18px 13px 110px;}
@@ -1205,6 +1225,25 @@ function calculateInvest() {
         Mars Finance; canlı kripto para verileri, küresel varlık analizleri ve kullanıcı dostu yatırım hesaplama araçları sunan dijital bir finans platformudur. Bitcoin ve piyasa trendlerini buradan takip edebilirsiniz.
     </p>
 </div>
+
+</div> <div id="analiz-sekmesi" class="tab-content">
+    <div style="text-align:center; padding:100px 20px;">
+        <h2 style="color:#888; font-size:18px;">Analiz Terminali</h2>
+        <p style="color:#444; font-size:13px; margin-top:10px;">Veriler hazırlanıyor...</p>
+    </div>
+</div>
+
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.classList.add("active");
+}
+</script>
 
 </body>
 </html>
