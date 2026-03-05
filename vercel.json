@@ -3,10 +3,14 @@
   "functions": {
     "api/market.js": {
       "maxDuration": 30
+    },
+    "api/chat.js": {
+      "maxDuration": 30
     }
   },
   "routes": [
     { "src": "/api/market", "dest": "/api/market.js" },
+    { "src": "/api/chat", "dest": "/api/chat.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
