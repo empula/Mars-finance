@@ -1,3 +1,7 @@
+???
+
+
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
@@ -44,19 +48,10 @@ if(fx?.rates) {
     };
   }
 
-  const metalsRaw = await safe('https://metals.live/api/v1/spot');
-let metals = {
-  gold:{price:3100}, silver:{price:34},
-  platinum:{price:980}, copper:{price:4.9},
-};
-if(metalsRaw) {
-  const m = {};
-  metalsRaw.forEach(item => { m[item.metal?.toLowerCase()] = item.price; });
-  if(m.gold) metals.gold = {price: parseFloat(m.gold.toFixed(2))};
-  if(m.silver) metals.silver = {price: parseFloat(m.silver.toFixed(2))};
-  if(m.platinum) metals.platinum = {price: parseFloat(m.platinum.toFixed(2))};
-  if(m.copper) metals.copper = {price: parseFloat(m.copper.toFixed(4))};
-}
+  const metals = {
+    gold:{price:5265}, silver:{price:94},
+    platinum:{price:2010}, copper:{price:4.38},
+  };
 
   const fngData = fear?.data || [];
   const fearIndex = {
