@@ -1206,5 +1206,170 @@ function calculateInvest() {
     </p>
 </div>
 
+<style>@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap');
+#yansima-widget{position:fixed;bottom:28px;right:28px;z-index:99999;font-family:'Outfit',sans-serif;}
+#y-trigger{width:62px;height:62px;border-radius:50%;background:#000;border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,0.7),0 0 0 1px rgba(0,230,118,0.25);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);position:relative;}
+#y-trigger:hover{transform:scale(1.1);}
+#y-trigger.open{transform:scale(0.9);}
+.y-logo-ring{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 0deg,#00e676,#c9a84c,#00e676);animation:y-spin 6s linear infinite;display:flex;align-items:center;justify-content:center;}
+@keyframes y-spin{to{transform:rotate(360deg);}}
+.y-logo-inner{width:20px;height:20px;border-radius:50%;background:#000;}
+.y-close-icon{display:none;font-size:20px;color:#fff;line-height:1;}
+#y-trigger.open .y-logo-ring{display:none;}
+#y-trigger.open .y-close-icon{display:block;}
+.y-notif{position:absolute;top:4px;right:4px;width:10px;height:10px;border-radius:50%;background:#00e676;box-shadow:0 0 8px #00e676;animation:y-blink 2s ease-in-out infinite;border:2px solid #000;}
+@keyframes y-blink{0%,100%{opacity:1}50%{opacity:0.3}}
+#y-trigger.open .y-notif{display:none;}
+.y-tooltip{position:absolute;right:74px;bottom:50%;transform:translateY(50%);background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:8px 16px;font-size:12px;font-weight:600;color:#efefef;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+#y-trigger:hover .y-tooltip{opacity:1;}
+#y-trigger.open .y-tooltip{display:none;}
+#y-panel{position:absolute;bottom:78px;right:0;width:360px;background:#080808;border:1px solid rgba(255,255,255,0.08);border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.9);display:none;flex-direction:column;transform-origin:bottom right;}
+#y-panel.visible{display:flex;animation:y-open 0.35s cubic-bezier(0.34,1.4,0.64,1) both;}
+#y-panel.closing{animation:y-close 0.2s ease-in both;}
+@keyframes y-open{from{opacity:0;transform:scale(0.85) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes y-close{from{opacity:1;transform:scale(1);}to{opacity:0;transform:scale(0.9) translateY(10px);}}
+.y-header{padding:16px 18px 12px;border-bottom:1px solid rgba(255,255,255,0.06);background:#0d0d0d;display:flex;align-items:center;justify-content:space-between;}
+.y-header-left{display:flex;align-items:center;gap:10px;}
+.y-header-ring{width:34px;height:34px;border-radius:50%;background:conic-gradient(from 0deg,#00e676,#c9a84c,#00e676);animation:y-spin 6s linear infinite;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.y-header-inner2{width:22px;height:22px;border-radius:50%;background:#0d0d0d;}
+.y-header-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#efefef;line-height:1;}
+.y-header-sub{font-size:10px;color:#555;font-family:'DM Mono',monospace;letter-spacing:0.5px;margin-top:2px;}
+.y-live-pill{display:flex;align-items:center;gap:5px;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);border-radius:100px;padding:4px 10px;font-size:10px;font-family:'DM Mono',monospace;color:#00e676;letter-spacing:0.5px;}
+.y-live-dot{width:5px;height:5px;border-radius:50%;background:#00e676;box-shadow:0 0 6px #00e676;animation:y-blink 2s ease-in-out infinite;}
+.y-ticker{display:flex;gap:0;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.05);background:#0a0a0a;overflow-x:auto;scrollbar-width:none;}
+.y-ticker::-webkit-scrollbar{display:none;}
+.y-tick{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:100px;font-family:'DM Mono',monospace;font-size:10px;white-space:nowrap;}
+.y-tick-s{color:#3a3a3a;font-size:9px;}
+.y-tick-p{color:#bbb;}
+.y-up{color:#00e676;}
+.y-dn{color:#ff1744;}
+.y-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;max-height:300px;min-height:180px;scrollbar-width:none;}
+.y-messages::-webkit-scrollbar{display:none;}
+.y-msg{display:flex;flex-direction:column;gap:3px;animation:y-msg-in 0.2s ease both;}
+@keyframes y-msg-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.y-bubble{padding:11px 14px;font-size:13px;line-height:1.65;max-width:90%;}
+.y-bubble.ai{background:#111;border:1px solid rgba(255,255,255,0.07);border-radius:4px 16px 16px 16px;color:#ddd;align-self:flex-start;}
+.y-bubble.user{background:#efefef;color:#000;border-radius:16px 4px 16px 16px;align-self:flex-end;font-weight:500;}
+.y-time{font-size:9px;color:#2a2a2a;font-family:'DM Mono',monospace;padding:0 3px;}
+.y-time.r{text-align:right;}
+.y-typing{background:#111;border:1px solid rgba(255,255,255,0.07);border-radius:4px 16px 16px 16px;padding:12px 14px;align-self:flex-start;display:flex;gap:4px;align-items:center;}
+.y-typing span{width:4px;height:4px;background:#444;border-radius:50%;animation:y-td 1.2s ease-in-out infinite;}
+.y-typing span:nth-child(2){animation-delay:.2s;}
+.y-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes y-td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.y-chips{padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid rgba(255,255,255,0.05);}
+.y-chip{background:none;border:1px solid rgba(255,255,255,0.07);border-radius:100px;padding:5px 11px;font-size:11px;font-weight:500;color:#444;cursor:pointer;transition:all 0.15s;font-family:'Outfit',sans-serif;white-space:nowrap;}
+.y-chip:hover{border-color:rgba(0,230,118,0.4);color:#00e676;}
+.y-input-row{padding:10px 12px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;align-items:center;background:#080808;}
+.y-inp{flex:1;background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:9px 16px;font-size:12.5px;font-family:'Outfit',sans-serif;color:#efefef;outline:none;transition:border-color 0.15s;}
+.y-inp:focus{border-color:rgba(255,255,255,0.18);}
+.y-inp::placeholder{color:#2a2a2a;}
+.y-send{width:36px;height:36px;flex-shrink:0;background:#efefef;border:none;border-radius:50%;font-size:16px;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.y-send:hover{background:#00e676;transform:scale(1.05);}
+.y-footer{padding:5px 16px 9px;text-align:center;font-size:9px;color:#1e1e1e;font-family:'DM Mono',monospace;letter-spacing:0.5px;}</style>
+
+<div id="yansima-widget">
+  <div id="y-panel">
+    <div class="y-header">
+      <div class="y-header-left">
+        <div class="y-header-ring"><div class="y-header-inner2"></div></div>
+        <div><div class="y-header-name">Yansıma</div><div class="y-header-sub">Mars Finance · AI Asistan</div></div>
+      </div>
+      <div class="y-live-pill"><div class="y-live-dot"></div>CANLI</div>
+    </div>
+    <div class="y-ticker">
+      <div class="y-tick"><span class="y-tick-s">BTC</span><span class="y-tick-p" id="yt-BTC">—</span><span id="ytc-BTC" class="y-up">—</span></div>
+      <div class="y-tick"><span class="y-tick-s">ETH</span><span class="y-tick-p" id="yt-ETH">—</span><span id="ytc-ETH" class="y-up">—</span></div>
+      <div class="y-tick"><span class="y-tick-s">SOL</span><span class="y-tick-p" id="yt-SOL">—</span><span id="ytc-SOL" class="y-up">—</span></div>
+      <div class="y-tick"><span class="y-tick-s">BNB</span><span class="y-tick-p" id="yt-BNB">—</span><span id="ytc-BNB" class="y-up">—</span></div>
+      <div class="y-tick"><span class="y-tick-s">AVAX</span><span class="y-tick-p" id="yt-AVAX">—</span><span id="ytc-AVAX" class="y-up">—</span></div>
+    </div>
+    <div class="y-messages" id="yMsgs">
+      <div class="y-msg">
+        <div class="y-bubble ai">Merhaba! Ben <strong>Yansıma</strong> — Mars Finance'in AI piyasa asistanı. Kripto veya yatırım hakkında ne sormak istersen buyur. 📊</div>
+        <div class="y-time" id="yInitTime">—</div>
+      </div>
+    </div>
+    <div class="y-chips">
+      <button class="y-chip" onclick="yqSend(this)">BTC analizi</button>
+      <button class="y-chip" onclick="yqSend(this)">Ne alınır?</button>
+      <button class="y-chip" onclick="yqSend(this)">ETH yorumu</button>
+      <button class="y-chip" onclick="yqSend(this)">Piyasa durumu</button>
+    </div>
+    <div class="y-input-row">
+      <input class="y-inp" id="yInp" placeholder="Piyasa hakkında sor…" onkeydown="if(event.key==='Enter')ySend()">
+      <button class="y-send" onclick="ySend()">↑</button>
+    </div>
+    <div class="y-footer">marsfinance · Yansıma AI · Gerçek zamanlı veri</div>
+  </div>
+  <div id="y-trigger" onclick="yToggle()">
+    <div class="y-tooltip">Piyasa AI'ına sor</div>
+    <div class="y-notif"></div>
+    <div class="y-logo-ring"><div class="y-logo-inner"></div></div>
+    <div class="y-close-icon">✕</div>
+  </div>
+</div>
+
+<script>
+const Y_COINS={BTC:'bitcoin',ETH:'ethereum',SOL:'solana',BNB:'binancecoin',AVAX:'avalanche-2'};
+let yMarket={},yChatHistory=[],yOpen=false,yLoaded=false;
+document.getElementById('yInitTime').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+function yToggle(){
+  const panel=document.getElementById('y-panel');
+  const btn=document.getElementById('y-trigger');
+  if(!yOpen){yOpen=true;panel.style.display='flex';panel.classList.remove('closing');requestAnimationFrame(()=>panel.classList.add('visible'));btn.classList.add('open');if(!yLoaded){yFetchMarket();yLoaded=true;}}
+  else{yOpen=false;panel.classList.add('closing');btn.classList.remove('open');setTimeout(()=>{panel.style.display='none';panel.classList.remove('visible','closing');},200);}
+}
+function yFmt(n){if(n>=1000)return'$'+Math.round(n).toLocaleString('tr-TR');if(n>=1)return'$'+n.toFixed(2);return'$'+n.toFixed(4);}
+function yFmtPct(n){return(n>=0?'+':'')+n.toFixed(1)+'%';}
+async function yFetchMarket(){
+  try{
+    const ids=Object.values(Y_COINS).join(',');
+    const r=await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=5&page=1&sparkline=false&price_change_percentage=24h`);
+    if(!r.ok)return;
+    const data=await r.json();
+    data.forEach(d=>{const sym=Object.keys(Y_COINS).find(k=>Y_COINS[k]===d.id);if(sym)yMarket[sym]=d;});
+    Object.keys(Y_COINS).forEach(sym=>{
+      const d=yMarket[sym];if(!d)return;
+      const pEl=document.getElementById('yt-'+sym);const cEl=document.getElementById('ytc-'+sym);
+      if(pEl)pEl.textContent=yFmt(d.current_price);
+      if(cEl){const pct=d.price_change_percentage_24h||0;cEl.textContent=yFmtPct(pct);cEl.className=pct>=0?'y-up':'y-dn';}
+    });
+  }catch(e){}
+}
+const ySys=`Sen "Yansıma" adlı Mars Finance'in kripto piyasa analiz asistanısın. Türkçe konuş. Gerçek piyasa verilerine dayalı kısa ve net yorumlar yap. Teknik analiz, destek/direnç, RSI, hacim, trend kullan. Sadece piyasa analisti gibi konuş. Düz metin. 2-4 cümle.`;
+async function yCallAI(msg){
+  const d=yMarket['BTC'];
+  const ctx=d?`[BTC=${yFmt(d.current_price)}, 24s=${yFmtPct(d.price_change_percentage_24h||0)}] `:'';
+  yChatHistory.push({role:'user',content:ctx+msg});
+  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:yChatHistory,systemPrompt:ySys})});
+  if(!r.ok)throw new Error(r.status);
+  const json=await r.json();
+  const text=json.reply||'Yanıt alınamadı.';
+  yChatHistory.push({role:'assistant',content:text});
+  if(yChatHistory.length>16)yChatHistory=yChatHistory.slice(-12);
+  return text;
+}
+function yNow(){return new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});}
+function yAddBubble(text,role){
+  const msgs=document.getElementById('yMsgs');const w=document.createElement('div');w.className='y-msg';
+  if(role==='user'){w.innerHTML=`<div class="y-bubble user">${text}</div><div class="y-time r">${yNow()}</div>`;}
+  else{w.innerHTML=`<div class="y-bubble ai">${text}</div><div class="y-time">${yNow()}</div>`;}
+  msgs.appendChild(w);msgs.scrollTop=msgs.scrollHeight;return w;
+}
+function yAddTyping(){
+  const msgs=document.getElementById('yMsgs');const w=document.createElement('div');w.className='y-msg';
+  w.innerHTML='<div class="y-typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(w);msgs.scrollTop=msgs.scrollHeight;return w;
+}
+async function ySend(){
+  const inp=document.getElementById('yInp');const text=inp.value.trim();if(!text)return;
+  inp.value='';yAddBubble(text,'user');const t=yAddTyping();
+  try{const reply=await yCallAI(text);t.remove();yAddBubble(reply,'ai');}
+  catch(e){t.remove();yAddBubble('Şu an bağlanamıyorum, biraz sonra tekrar dene.','ai');}
+}
+function yqSend(btn){document.getElementById('yInp').value=btn.textContent;ySend();}
+setInterval(()=>{if(yOpen)yFetchMarket();},60000);
+</script>
 </body>
 </html>
