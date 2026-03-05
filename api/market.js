@@ -16,15 +16,20 @@ export default async function handler(req, res) {
     safe('https://api.alternative.me/fng/?limit=30'),
   ]);
 
-  let forex = {};
-  if(fx?.rates) {
-    const r = fx.rates, u = r.TRY;
-    forex = {
-      usd:{price:u}, eur:{price:u/r.EUR}, gbp:{price:u/r.GBP},
-      jpy:{price:(u/r.JPY)*100}, chf:{price:u/r.CHF},
-      cad:{price:u/r.CAD}, aud:{price:u/r.AUD}, sar:{price:u/r.SAR},
-    };
-  }
+ let forex = {};
+if(fx?.rates) {
+  const r = fx.rates;
+  forex = {
+    usd: {price: 1},
+    eur: {price: parseFloat((1/r.EUR).toFixed(4))},
+    gbp: {price: parseFloat((1/r.GBP).toFixed(4))},
+    jpy: {price: parseFloat((r.JPY).toFixed(2))},
+    chf: {price: parseFloat((1/r.CHF).toFixed(4))},
+    cad: {price: parseFloat((r.CAD).toFixed(4))},
+    aud: {price: parseFloat((r.AUD).toFixed(4))},
+    try: {price: parseFloat((r.TRY).toFixed(2))},
+  };
+}
 
   let crypto = {};
   if(cg) {
