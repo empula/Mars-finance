@@ -551,7 +551,7 @@ setInterval(function(){document.getElementById('clock').textContent=new Date().t
 // ── ASSETS
 var ASSETS={
   forex:[
-    {key:'usd',ico:'🇺🇸',name:'Dolar',sym:'USD/TRY',tvSym:'FX_IDC:USDTRY',unit:'$',dec:2,accent:'#4f8ef7'},
+    {key:'usd',ico:'🇺🇸',name:'Dolar',sym:'USD/TRY',tvSym:'FX_IDC:USDTRY',unit:'₺',dec:2,accent:'#4f8ef7'},
     {key:'eur',ico:'🇪🇺',name:'Euro',sym:'EUR/USD',tvSym:'FX_IDC:EURUSD',unit:'$',dec:4,accent:'#6366f1'},
     {key:'gbp',ico:'🇬🇧',name:'Sterlin',sym:'GBP/USD',tvSym:'FX_IDC:GBPUSD',unit:'$',dec:4,accent:'#8b5cf6'},
     {key:'jpy',ico:'🇯🇵',name:'Yen',sym:'USD/JPY',tvSym:'FX_IDC:USDJPY',unit:'¥',dec:2,accent:'#ec4899'},
@@ -561,12 +561,12 @@ var ASSETS={
     {key:'sar',ico:'🇸🇦',name:'Riyyal',sym:'SAR/USD',tvSym:'FX_IDC:SARUSD',unit:'$',dec:4,accent:'#22d45e'},
   ],
   crypto:[
-    {key:'btc',ico:'₿',name:'Bitcoin',sym:'BTC/USD',tvSym:'BINANCE:BTCUSDT',cgId:'bitcoin',cmc:'bitcoin',accent:'#f0a020'},
-    {key:'eth',ico:'Ξ',name:'Ethereum',sym:'ETH/USD',tvSym:'BINANCE:ETHUSDT',cgId:'ethereum',cmc:'ethereum',accent:'#6366f1'},
-    {key:'sol',ico:'◎',name:'Solana',sym:'SOL/USD',tvSym:'BINANCE:SOLUSDT',cgId:'solana',cmc:'solana',accent:'#b060f8'},
-    {key:'xrp',ico:'✕',name:'XRP',sym:'XRP/USD',tvSym:'BINANCE:XRPUSDT',cgId:'ripple',cmc:'xrp',accent:'#06b6d4'},
-    {key:'avax',ico:'🔺',name:'Avalanche',sym:'AVAX/USD',tvSym:'BINANCE:AVAXUSDT',cgId:'avalanche-2',cmc:'avalanche',accent:'#f04040'},
-    {key:'link',ico:'⬡',name:'Chainlink',sym:'LINK/USD',tvSym:'BINANCE:LINKUSDT',cgId:'chainlink',cmc:'chainlink',accent:'#4f8ef7'},
+    {key:'btc',ico:'₿',name:'Bitcoin',sym:'BTC/USD',tvSym:'BINANCE:BTCUSDT',cgId:'bitcoin',cmc:'bitcoin',accent:'#f0a020',unit:'$',dec:2},
+    {key:'eth',ico:'Ξ',name:'Ethereum',sym:'ETH/USD',tvSym:'BINANCE:ETHUSDT',cgId:'ethereum',cmc:'ethereum',accent:'#6366f1',unit:'$',dec:2},
+    {key:'sol',ico:'◎',name:'Solana',sym:'SOL/USD',tvSym:'BINANCE:SOLUSDT',cgId:'solana',cmc:'solana',accent:'#b060f8',unit:'$',dec:2},
+    {key:'xrp',ico:'✕',name:'XRP',sym:'XRP/USD',tvSym:'BINANCE:XRPUSDT',cgId:'ripple',cmc:'xrp',accent:'#06b6d4',unit:'$',dec:3},
+    {key:'avax',ico:'🔺',name:'Avalanche',sym:'AVAX/USD',tvSym:'BINANCE:AVAXUSDT',cgId:'avalanche-2',cmc:'avalanche',accent:'#f04040',unit:'$',dec:2},
+    {key:'link',ico:'⬡',name:'Chainlink',sym:'LINK/USD',tvSym:'BINANCE:LINKUSDT',cgId:'chainlink',cmc:'chainlink',accent:'#4f8ef7',unit:'$',dec:2},
   ],
   metals:[
     {key:'gold',ico:'🥇',name:'Altın',sym:'XAU/USD',tvSym:'TVC:GOLD',unit:'$',dec:2,accent:'#f0a020'},
@@ -586,10 +586,9 @@ function genH(b){var a=[],v=b*.97;for(var i=0;i<24;i++){v+=b*(Math.random()-.48)
 (function(){for(var k in INIT)D[k]={price:INIT[k]*(1+(Math.random()-.5)*.003),chg:CHGB[k]+(Math.random()-.5)*.2,hist:genH(INIT[k])};})();
 function simTick(){for(var k in INIT){D[k].price+=INIT[k]*(Math.random()-.5)*.0003;D[k].chg+=(Math.random()-.5)*.05;D[k].chg=Math.max(-9,Math.min(9,D[k].chg));D[k].hist.push(D[k].price);D[k].hist.shift();}}
 function fN(n,d){return Number(n).toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});}
-function pStr(k){var a=ALL[k],d=D[k];if(!a||!d)return'—';return a.unit+'\u202f'+fN(d.price,a.dec);}
+function pStr(k){var a=ALL[k],d=D[k];if(!a||!d)return'—';var u=a.unit||'$';return u+'\u202f'+fN(d.price,a.dec);}
 function fPct(n){if(n==null)return'—';return(n>=0?'▲ +':'▼ ')+Math.abs(n).toFixed(2)+'%';}
 function makeSpark(hist,up){if(!hist||!hist.length)return'';var mn=Math.min.apply(null,hist),mx=Math.max.apply(null,hist),rng=mx-mn||1;var pts=hist.map(function(v,i){return(i/(hist.length-1)*100).toFixed(1)+','+(34-(v-mn)/rng*28-1).toFixed(1);}).join(' ');return'<svg class="spk" viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="'+(up?'#22d45e':'#f04040')+'" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/></svg>';}
-
 function makeCard(a){
   var d=D[a.key]||{};var ps=d.price!=null?pStr(a.key):'—';var up=d.chg!=null&&d.chg>=0;
   var el=document.createElement('div');el.className='card';el.id='c-'+a.key;el.style.setProperty('--ca',a.accent);el.onclick=function(){openModal(a.key);};
