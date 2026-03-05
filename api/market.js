@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 if(fx?.rates) {
   const r = fx.rates;
   forex = {
-    usd: {price: 1},
+    usd: {price: parseFloat(r.TRY.toFixed(2))},
     eur: {price: parseFloat((1/r.EUR).toFixed(4))},
     gbp: {price: parseFloat((1/r.GBP).toFixed(4))},
     jpy: {price: parseFloat((r.JPY).toFixed(2))},
