@@ -38,10 +38,22 @@ export default async function handler(req, res) {
     };
   }
 
-  const metals = {
-    gold:{price:5265}, silver:{price:94},
-    platinum:{price:1042}, copper:{price:4.38},
+  const metalsRaw = await safe('https://metals.live/api/v1/spot');
+let metals = {
+  gold:{price:5265}, silver:{price:94},
+  platinum:{price:1042}, copper:{price:4.38},
+};
+
+if(metalsRaw) {
+  const m = {};
+  metalsRaw.forEach(item => { m[item.metal?.toLowerCase()] = item; });
+  metals = {
+    gold:{price: m.gold?.price ? Math.round(m.gold.price * (fx?.rates?.TRY||35)) : 5265},
+    silver:{price: m.silver?.price ? Math.round(m.silver.price * (fx?.rates?.TRY||35)) : 94},
+    platinum:{price: m.platinum?.price ? Math.round(m.platinum.price * (fx?.rates?.TRY||35)) : 1042},
+    copper:{price: m.copper?.price ? parseFloat((m.copper.price * (fx?.rates?.TRY||35)).toFixed(2)) : 4.38},
   };
+}
 
   const fngData = fear?.data || [];
   const fearIndex = {
