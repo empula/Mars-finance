@@ -551,14 +551,14 @@ setInterval(function(){document.getElementById('clock').textContent=new Date().t
 // ── ASSETS
 var ASSETS={
   forex:[
-    {key:'usd',ico:'🇺🇸',name:'Dolar',sym:'USD/TRY',tvSym:'FX_IDC:USDTRY',unit:'₺',dec:2,accent:'#4f8ef7'},
-    {key:'eur',ico:'🇪🇺',name:'Euro',sym:'EUR/TRY',tvSym:'FX_IDC:EURTRY',unit:'₺',dec:2,accent:'#6366f1'},
-    {key:'gbp',ico:'🇬🇧',name:'Sterlin',sym:'GBP/TRY',tvSym:'FX_IDC:GBPTRY',unit:'₺',dec:2,accent:'#8b5cf6'},
-    {key:'jpy',ico:'🇯🇵',name:'100 Yen',sym:'JPY×100/TRY',tvSym:'FX_IDC:JPYTRY',unit:'₺',dec:2,accent:'#ec4899'},
-    {key:'chf',ico:'🇨🇭',name:'İsv. Frangı',sym:'CHF/TRY',tvSym:'FX_IDC:CHFTRY',unit:'₺',dec:2,accent:'#f04040'},
-    {key:'cad',ico:'🇨🇦',name:'Kanada $',sym:'CAD/TRY',tvSym:'FX_IDC:CADTRY',unit:'₺',dec:2,accent:'#f97316'},
-    {key:'aud',ico:'🇦🇺',name:'Avust. $',sym:'AUD/TRY',tvSym:'FX_IDC:AUDTRY',unit:'₺',dec:2,accent:'#14b8a6'},
-    {key:'sar',ico:'🇸🇦',name:'Riyyal',sym:'SAR/TRY',tvSym:'FX_IDC:SARTRY',unit:'₺',dec:2,accent:'#22d45e'},
+    {key:'usd',ico:'🇺🇸',name:'Dolar',sym:'USD/TRY',tvSym:'FX_IDC:USDTRY',unit:'$',dec:2,accent:'#4f8ef7'},
+    {key:'eur',ico:'🇪🇺',name:'Euro',sym:'EUR/USD',tvSym:'FX_IDC:EURUSD',unit:'$',dec:4,accent:'#6366f1'},
+    {key:'gbp',ico:'🇬🇧',name:'Sterlin',sym:'GBP/USD',tvSym:'FX_IDC:GBPUSD',unit:'$',dec:4,accent:'#8b5cf6'},
+    {key:'jpy',ico:'🇯🇵',name:'Yen',sym:'USD/JPY',tvSym:'FX_IDC:USDJPY',unit:'¥',dec:2,accent:'#ec4899'},
+    {key:'chf',ico:'🇨🇭',name:'İsv. Frangı',sym:'CHF/USD',tvSym:'FX_IDC:CHFUSD',unit:'$',dec:4,accent:'#f04040'},
+    {key:'cad',ico:'🇨🇦',name:'Kanada $',sym:'USD/CAD',tvSym:'FX_IDC:USDCAD',unit:'C$',dec:4,accent:'#f97316'},
+    {key:'aud',ico:'🇦🇺',name:'Avust. $',sym:'AUD/USD',tvSym:'FX_IDC:AUDUSD',unit:'$',dec:4,accent:'#14b8a6'},
+    {key:'sar',ico:'🇸🇦',name:'Riyyal',sym:'SAR/USD',tvSym:'FX_IDC:SARUSD',unit:'$',dec:4,accent:'#22d45e'},
   ],
   crypto:[
     {key:'btc',ico:'₿',name:'Bitcoin',sym:'BTC/USD',tvSym:'BINANCE:BTCUSDT',cgId:'bitcoin',cmc:'bitcoin',accent:'#f0a020'},
@@ -586,7 +586,7 @@ function genH(b){var a=[],v=b*.97;for(var i=0;i<24;i++){v+=b*(Math.random()-.48)
 (function(){for(var k in INIT)D[k]={price:INIT[k]*(1+(Math.random()-.5)*.003),chg:CHGB[k]+(Math.random()-.5)*.2,hist:genH(INIT[k])};})();
 function simTick(){for(var k in INIT){D[k].price+=INIT[k]*(Math.random()-.5)*.0003;D[k].chg+=(Math.random()-.5)*.05;D[k].chg=Math.max(-9,Math.min(9,D[k].chg));D[k].hist.push(D[k].price);D[k].hist.shift();}}
 function fN(n,d){return Number(n).toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});}
-function pStr(k){var a=ALL[k],d=D[k];if(!a||!d)return'—';return(a.unit==='₺'?'₺\u202f':'$\u202f')+fN(d.price,a.dec);}
+function pStr(k){var a=ALL[k],d=D[k];if(!a||!d)return'—';return a.unit+'\u202f'+fN(d.price,a.dec);}
 function fPct(n){if(n==null)return'—';return(n>=0?'▲ +':'▼ ')+Math.abs(n).toFixed(2)+'%';}
 function makeSpark(hist,up){if(!hist||!hist.length)return'';var mn=Math.min.apply(null,hist),mx=Math.max.apply(null,hist),rng=mx-mn||1;var pts=hist.map(function(v,i){return(i/(hist.length-1)*100).toFixed(1)+','+(34-(v-mn)/rng*28-1).toFixed(1);}).join(' ');return'<svg class="spk" viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="'+(up?'#22d45e':'#f04040')+'" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/></svg>';}
 
