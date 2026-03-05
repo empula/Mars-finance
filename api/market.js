@@ -40,25 +40,20 @@ export default async function handler(req, res) {
 
  const metalsRaw = await safe('https://metals.live/api/v1/spot');
 let metals = {
-  gold:{price:5265}, silver:{price:94},
-  platinum:{price:1042}, copper:{price:4.38},
+  gold:{price:3000}, silver:{price:33},
+  platinum:{price:950}, copper:{price:4.38},
 };
-if(metalsRaw && fx?.rates?.TRY) {
-  const tryRate = fx.rates.TRY;
+if(metalsRaw) {
   const m = {};
   metalsRaw.forEach(item => { m[item.metal?.toLowerCase()] = item.price; });
-  
-  // Troy ons USD fiyatı × TRY kuru = TRY fiyatı
-  // Gram için troy onsu 31.1035'e böl
-  const ozToGram = 31.1035;
-  
   metals = {
-    gold:     { price: m.gold     ? Math.round((m.gold / ozToGram) * tryRate)     : 5265 },
-    silver:   { price: m.silver   ? Math.round((m.silver / ozToGram) * tryRate)   : 94 },
-    platinum: { price: m.platinum ? Math.round((m.platinum / ozToGram) * tryRate) : 1042 },
-    copper:   { price: m.copper   ? parseFloat(((m.copper / ozToGram) * tryRate).toFixed(2)) : 4.38 },
+    gold:     { price: m.gold     ? parseFloat(m.gold.toFixed(2))     : 3000 },
+    silver:   { price: m.silver   ? parseFloat(m.silver.toFixed(2))   : 33 },
+    platinum: { price: m.platinum ? parseFloat(m.platinum.toFixed(2)) : 950 },
+    copper:   { price: m.copper   ? parseFloat(m.copper.toFixed(2))   : 4.38 },
   };
 }
+
 
   const fngData = fear?.data || [];
   const fearIndex = {
