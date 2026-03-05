@@ -19,15 +19,16 @@ export default async function handler(req, res) {
  let forex = {};
 if(fx?.rates) {
   const r = fx.rates;
+  const u = r.TRY;
   forex = {
-    usd: {price: parseFloat(r.TRY.toFixed(2))},
-    eur: {price: parseFloat((1/r.EUR).toFixed(4))},
-    gbp: {price: parseFloat((1/r.GBP).toFixed(4))},
-    jpy: {price: parseFloat((r.JPY).toFixed(2))},
-    chf: {price: parseFloat((1/r.CHF).toFixed(4))},
-    cad: {price: parseFloat((r.CAD).toFixed(4))},
-    aud: {price: parseFloat((r.AUD).toFixed(4))},
-    try: {price: parseFloat((r.TRY).toFixed(2))},
+    usd: {price: parseFloat(u.toFixed(2))},
+    eur: {price: parseFloat((u/r.EUR).toFixed(2))},
+    gbp: {price: parseFloat((u/r.GBP).toFixed(2))},
+    jpy: {price: parseFloat((u/r.JPY).toFixed(2))},
+    chf: {price: parseFloat((u/r.CHF).toFixed(2))},
+    cad: {price: parseFloat((u/r.CAD).toFixed(2))},
+    aud: {price: parseFloat((u/r.AUD).toFixed(2))},
+    sar: {price: parseFloat((u/r.SAR).toFixed(2))},
   };
 }
 
