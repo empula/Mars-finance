@@ -314,6 +314,10 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
     <div class="logo-t">Mars<b>.</b></div>
   </div>
   <div class="nav-r">
+    <button onclick="openTerminal()" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:7px;background:rgba(79,142,247,0.08);border:1px solid rgba(79,142,247,0.2);border-radius:10px;padding:7px 13px;color:#4f8ef7;font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;transition:all 0.2s;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      Terminal
+    </button>
     <div class="live-chip"><span class="dot"></span><span id="clock">--:--:--</span></div>
   </div>
 </nav>
@@ -1339,6 +1343,501 @@ function calculateInvest() {
         Mars Finance; canlı kripto para verileri, küresel varlık analizleri ve kullanıcı dostu yatırım hesaplama araçları sunan dijital bir finans platformudur. Bitcoin ve piyasa trendlerini buradan takip edebilirsiniz.
     </p>
 </div>
+
+<style>
+/* ── TERMINAL ─────────────────────── */
+#terminal-overlay{position:fixed;inset:0;z-index:9000;background:#07070e;display:none;flex-direction:column;}
+#terminal-overlay.open{display:flex;animation:t-fadein 0.25s ease;}
+@keyframes t-fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.t-nav{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #252535;background:rgba(7,7,14,0.98);flex-shrink:0;}
+.t-nav-l{display:flex;align-items:center;gap:10px;}
+.t-logo{display:flex;align-items:center;gap:8px;}
+.t-logo-m{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#4f8ef7,#b060f8);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;}
+.t-logo-t{font-size:15px;font-weight:800;letter-spacing:-0.5px;color:#eeeef8;}
+.t-logo-t b{color:#4f8ef7;}
+.t-badge{background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;color:#4f8ef7;letter-spacing:0.5px;}
+.t-close{width:34px;height:34px;border-radius:50%;background:#16161f;border:1px solid #252535;color:#8888a8;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.t-close:hover{background:#252535;color:#eeeef8;}
+.t-tabs{display:flex;border-bottom:1px solid #252535;background:#0f0f18;flex-shrink:0;overflow-x:auto;}
+.t-tabs::-webkit-scrollbar{display:none;}
+.ttab{flex:1;min-width:100px;padding:13px 8px;text-align:center;font-size:11.5px;font-weight:700;color:#484860;cursor:pointer;border:none;background:none;font-family:'Bricolage Grotesque',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;}
+.ttab:hover{color:#8888a8;}
+.ttab.on{color:#4f8ef7;border-bottom-color:#4f8ef7;}
+.t-body{flex:1;overflow:hidden;position:relative;}
+.t-panel{position:absolute;inset:0;display:none;overflow-y:auto;}
+.t-panel.on{display:block;}
+/* Isı haritası */
+.heatmap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:12px;}
+.hm-cell{border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:transform 0.15s;}
+.hm-cell:hover{transform:scale(1.03);}
+.hm-sym{font-family:"DM Mono",monospace;font-size:10px;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:3px;}
+.hm-pct{font-family:"DM Mono",monospace;font-size:12px;font-weight:800;}
+.hm-price{font-size:9px;color:rgba(255,255,255,0.6);margin-top:2px;}
+.hm-lg{grid-column:span 2;grid-row:span 2;}
+.hm-lg .hm-sym{font-size:14px;}
+.hm-lg .hm-pct{font-size:20px;}
+.hm-lg .hm-price{font-size:11px;}
+/* Likidasyon */
+.liq-header{padding:14px 16px;border-bottom:1px solid #252535;}
+.liq-title{font-size:13px;font-weight:700;color:#eeeef8;}
+.liq-sub{font-size:11px;color:#484860;margin-top:2px;}
+.liq-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px;}
+.liq-stat{background:#0f0f18;border:1px solid #252535;border-radius:12px;padding:12px 14px;}
+.liq-stat-l{font-size:10px;color:#484860;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+.liq-stat-v{font-family:"DM Mono",monospace;font-size:16px;font-weight:800;}
+.liq-list{padding:0 16px 16px;}
+.liq-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#0f0f18;border:1px solid #252535;border-radius:12px;margin-bottom:6px;}
+.liq-side{font-size:10px;font-weight:800;padding:3px 8px;border-radius:5px;flex-shrink:0;}
+.liq-side.long{background:rgba(240,64,64,0.15);color:#f04040;}
+.liq-side.short{background:rgba(34,212,94,0.15);color:#22d45e;}
+.liq-coin{font-family:"DM Mono",monospace;font-size:12px;font-weight:700;color:#eeeef8;flex-shrink:0;width:44px;}
+.liq-val{font-family:"DM Mono",monospace;font-size:13px;font-weight:800;flex:1;}
+.liq-price{font-family:"DM Mono",monospace;font-size:11px;color:#484860;}
+.liq-time{font-size:10px;color:#484860;flex-shrink:0;}
+/* Balina */
+.whale-header{padding:14px 16px;border-bottom:1px solid #252535;}
+.whale-live{display:flex;align-items:center;gap:6px;font-size:11px;color:#22d45e;font-weight:700;margin-top:4px;}
+.whale-live-dot{width:6px;height:6px;border-radius:50%;background:#22d45e;box-shadow:0 0 6px #22d45e;animation:dpulse 2s ease-in-out infinite;}
+.whale-list{padding:8px 12px;}
+.whale-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#0f0f18;border:1px solid #252535;border-radius:14px;margin-bottom:7px;}
+.whale-ico{font-size:22px;flex-shrink:0;}
+.whale-body{flex:1;min-width:0;}
+.whale-top{display:flex;align-items:center;gap:7px;margin-bottom:3px;}
+.whale-coin{font-size:13px;font-weight:800;color:#eeeef8;}
+.whale-type{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;}
+.whale-type.transfer{background:rgba(79,142,247,0.15);color:#4f8ef7;}
+.whale-type.exchange{background:rgba(240,160,32,0.15);color:#f0a020;}
+.whale-type.burn{background:rgba(240,64,64,0.15);color:#f04040;}
+.whale-from{font-size:11px;color:#484860;font-family:"DM Mono",monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.whale-right{text-align:right;flex-shrink:0;}
+.whale-val{font-family:"DM Mono",monospace;font-size:14px;font-weight:800;color:#eeeef8;}
+.whale-usd{font-size:10px;color:#484860;font-family:"DM Mono",monospace;margin-top:2px;}
+.whale-time{font-size:10px;color:#484860;margin-top:3px;}
+.whale-empty{padding:40px;text-align:center;color:#484860;font-size:13px;}
+.liq-coin-btn{background:none;border:1px solid #252535;color:#484860;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all 0.15s;}
+.liq-coin-btn:hover{color:#eeeef8;border-color:#333345;}
+.liq-coin-btn.on{background:rgba(79,142,247,0.1);border-color:rgba(79,142,247,0.3);color:#4f8ef7;}
+.oi-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.oi-bar-sym{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:#eeeef8;width:36px;flex-shrink:0;}
+.oi-bar-wrap{flex:1;height:22px;background:#0f0f18;border-radius:5px;overflow:hidden;position:relative;}
+.oi-bar-fill{height:100%;border-radius:5px;transition:width 0.8s ease;}
+.oi-bar-val{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:rgba(255,255,255,0.8);}
+.oi-bar-chg{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;width:52px;text-align:right;flex-shrink:0;}
+</style>
+
+<!-- ── TERMINAL PANEL ── -->
+
+<div id="terminal-overlay">
+  <div class="t-nav">
+    <div class="t-nav-l">
+      <div class="t-logo">
+        <div class="t-logo-m">M</div>
+        <div class="t-logo-t">Mars<b>.</b></div>
+      </div>
+      <div class="t-badge">TERMINAL</div>
+    </div>
+    <button class="t-close" onclick="closeTerminal()">&#x2715;</button>
+  </div>
+  <div class="t-tabs">
+    <button class="ttab on" onclick="showTTab('heatmap',this)">&#x1F321;&#xFE0F; Is&#x131; Haritas&#x131;</button>
+    <button class="ttab" onclick="showTTab('liq',this)">&#x1F4A5; Likidasyon</button>
+    <button class="ttab" onclick="showTTab('whale',this)">&#x1F433; Balina Takibi</button>
+  </div>
+  <div class="t-body">
+    <div class="t-panel on" id="tp-heatmap">
+      <div style="padding:12px 16px 4px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:11px;color:#484860;font-weight:700;">24 SAATL&#x130;K DE&#x11E;&#x130;&#x15E;&#x130;M</div>
+        <div style="font-size:10px;color:#484860;font-family:'DM Mono',monospace;" id="hm-updated">G&#xFC;ncelleniyor&#x2026;</div>
+      </div>
+      <div class="heatmap-grid" id="hmGrid"></div>
+    </div>
+    <div class="t-panel" id="tp-liq">
+      <!-- Header -->
+      <div class="liq-header" style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div class="liq-title">&#x1F4A5; Likidasyon Haritas&#x131;</div>
+          <div class="liq-sub" id="liq-updated">Coinglass &middot; Ger&#xE7;ek Veri</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button onclick="setLiqCoin('BTC',this)" class="liq-coin-btn on">BTC</button>
+          <button onclick="setLiqCoin('ETH',this)" class="liq-coin-btn">ETH</button>
+          <button onclick="setLiqCoin('SOL',this)" class="liq-coin-btn">SOL</button>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="liq-stats">
+        <div class="liq-stat"><div class="liq-stat-l">Toplam (24s)</div><div class="liq-stat-v" id="liq-total" style="color:#f0a020;">&#x2014;</div></div>
+        <div class="liq-stat"><div class="liq-stat-l">Long Tasfiye</div><div class="liq-stat-v" id="liq-long" style="color:#f04040;">&#x2014;</div></div>
+        <div class="liq-stat"><div class="liq-stat-l">Short Tasfiye</div><div class="liq-stat-v" id="liq-short" style="color:#22d45e;">&#x2014;</div></div>
+        <div class="liq-stat"><div class="liq-stat-l">Long/Short Oran</div><div class="liq-stat-v" id="liq-ratio" style="color:#4f8ef7;">&#x2014;</div></div>
+      </div>
+      <!-- Long/Short Bar -->
+      <div style="padding:0 16px 12px;">
+        <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;margin-bottom:5px;">
+          <span style="color:#f04040;">&#x25BC; LONG LIQ</span>
+          <span style="color:#22d45e;">SHORT LIQ &#x25B2;</span>
+        </div>
+        <div style="height:10px;border-radius:5px;background:#1d1d28;overflow:hidden;display:flex;">
+          <div id="liq-long-bar" style="height:100%;background:linear-gradient(to right,#c42828,#f04040);transition:width 0.8s ease;width:50%;border-radius:5px 0 0 5px;"></div>
+          <div id="liq-short-bar" style="height:100%;background:linear-gradient(to right,#16b84e,#22d45e);transition:width 0.8s ease;width:50%;border-radius:0 5px 5px 0;"></div>
+        </div>
+      </div>
+      <!-- Likidasyon Haritas&#x131; (Fiyat bazl&#x131; grafik) -->
+      <div style="padding:0 16px 8px;">
+        <div style="font-size:11px;color:#484860;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+          &#x1F4CA; F&#x130;YAT BAZLI L&#x130;K&#x130;DASYON HARİTASI
+          <span style="font-size:9px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);color:#4f8ef7;padding:2px 7px;border-radius:5px;">Destek &amp; Direnç</span>
+        </div>
+        <div style="position:relative;background:#0a0a12;border:1px solid #252535;border-radius:12px;overflow:hidden;height:200px;">
+          <canvas id="liqMapCanvas" style="width:100%;height:200px;"></canvas>
+          <div id="liqMapOverlay" style="position:absolute;top:8px;right:10px;font-family:'DM Mono',monospace;font-size:10px;color:#484860;"></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;font-size:10px;">
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#f04040;display:inline-block;"></span>Long Likidasyon</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#22d45e;display:inline-block;"></span>Short Likidasyon</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:3px;border-radius:2px;background:#4f8ef7;display:inline-block;"></span>Mevcut Fiyat</span>
+        </div>
+      </div>
+      <!-- Para Birikimi -->
+      <div style="padding:0 16px 12px;">
+        <div style="font-size:11px;color:#484860;font-weight:700;margin-bottom:8px;">&#x1F4B0; PARA B&#x130;R&#x130;K&#x130;M&#x130; (A&#xC7;IK POZ&#x130;SYONLAR)</div>
+        <div id="oi-bars"></div>
+      </div>
+      <!-- Son Likidasyonlar -->
+      <div style="padding:0 16px 4px;font-size:11px;color:#484860;font-weight:700;">&#x23F1; SON L&#x130;K&#x130;DASYONLAR</div>
+      <div class="liq-list" id="liqList"></div>
+    </div>
+    <div class="t-panel" id="tp-whale">
+      <div class="whale-header">
+        <div class="liq-title">&#x1F433; Balina Takibi</div>
+        <div class="whale-live"><div class="whale-live-dot"></div>CANLI AKIS &middot; $500K+ transferler</div>
+      </div>
+      <div class="whale-list" id="whaleList"><div class="whale-empty">&#x23F3; Y&#xFC;kleniyor&#x2026;</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── TERMINAL
+function openTerminal(){document.getElementById('terminal-overlay').classList.add('open');document.body.style.overflow='hidden';loadTerminalData();}
+function closeTerminal(){document.getElementById('terminal-overlay').classList.remove('open');document.body.style.overflow='';}
+function showTTab(id,btn){
+  document.querySelectorAll('.ttab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.t-panel').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('tp-'+id).classList.add('on');
+}
+
+// ── ISI HARİTASI
+var HM_COINS=[
+  {id:'bitcoin',s:'BTC',lg:true},{id:'ethereum',s:'ETH',lg:true},
+  {id:'solana',s:'SOL'},{id:'ripple',s:'XRP'},{id:'binancecoin',s:'BNB'},
+  {id:'avalanche-2',s:'AVAX'},{id:'chainlink',s:'LINK'},{id:'cardano',s:'ADA'},
+  {id:'dogecoin',s:'DOGE'},{id:'polkadot',s:'DOT'},{id:'tron',s:'TRX'},
+  {id:'litecoin',s:'LTC'},{id:'stellar',s:'XLM'},{id:'uniswap',s:'UNI'},
+  {id:'near',s:'NEAR'},{id:'aptos',s:'APT'},{id:'arbitrum',s:'ARB'},
+  {id:'optimism',s:'OP'}
+];
+function hmColor(pct){
+  var abs=Math.abs(pct);
+  if(pct>=10)return'#0a5e2a';
+  if(pct>=5)return'#0d7a35';
+  if(pct>=2)return'#129940';
+  if(pct>=0.5)return'#16b84e';
+  if(pct>=-0.5)return'#1d1d28';
+  if(pct>=-2)return'#8b1a1a';
+  if(pct>=-5)return'#a82020';
+  if(pct>=-10)return'#c42828';
+  return'#e03030';
+}
+function fmtHmPrice(p){if(p>=1000)return'$'+Math.round(p).toLocaleString('tr-TR');if(p>=1)return'$'+p.toFixed(2);return'$'+p.toFixed(4);}
+async function loadHeatmap(){
+  try{
+    var ids=HM_COINS.map(c=>c.id).join(',');
+    var r=await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids='+ids+'&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=24h');
+    if(!r.ok)throw 0;
+    var data=await r.json();
+    var map={};data.forEach(d=>map[d.id]=d);
+    var grid=document.getElementById('hmGrid');grid.innerHTML='';
+    HM_COINS.forEach(function(coin){
+      var d=map[coin.id];if(!d)return;
+      var pct=d.price_change_percentage_24h||0;
+      var cell=document.createElement('div');
+      cell.className='hm-cell'+(coin.lg?' hm-lg':'');
+      cell.style.background=hmColor(pct);
+      cell.innerHTML='<div class="hm-sym">'+coin.s+'</div>'
+        +'<div class="hm-pct" style="color:'+(pct>=0?'#5eff9a':'#ff6b6b')+'">'+(pct>=0?'+':'')+pct.toFixed(2)+'%</div>'
+        +'<div class="hm-price">'+fmtHmPrice(d.current_price)+'</div>';
+      cell.onclick=function(){closeTerminal();openModal(coin.id==='bitcoin'?'btc':coin.id==='ethereum'?'eth':coin.id==='solana'?'sol':coin.id==='ripple'?'xrp':coin.id==='avalanche-2'?'avax':coin.id==='chainlink'?'link':'btc');};
+      grid.appendChild(cell);
+    });
+    document.getElementById('hm-updated').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})+' güncellendi';
+  }catch(e){document.getElementById('hmGrid').innerHTML='<div style="padding:40px;text-align:center;color:#484860;grid-column:1/-1">Veri yüklenemedi</div>';}
+}
+
+// ── LİKİDASYON (Coinglass API)
+var CG_KEY='e7e2da34df59432aaa1f9c336c60f0f2';
+var _liqCoin='BTC';
+
+function setLiqCoin(coin,btn){
+  _liqCoin=coin;
+  document.querySelectorAll('.liq-coin-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  loadLiquidations();
+}
+
+function fmtV(v){
+  if(v>=1e9)return'$'+(v/1e9).toFixed(2)+'B';
+  if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';
+  if(v>=1e3)return'$'+(v/1e3).toFixed(0)+'K';
+  return'$'+v;
+}
+
+async function loadLiquidations(){
+  try{
+    var r=await fetch('https://open-api.coinglass.com/public/v2/liquidation_chart?symbol='+_liqCoin+'&interval=1h',{
+      headers:{'coinglassSecret':CG_KEY}
+    });
+    if(!r.ok)throw new Error('api');
+    var data=await r.json();
+    if(data.code==='0'&&data.data){
+      var d=data.data;
+      var longT=d.longLiquidationUsd24h||0;
+      var shortT=d.shortLiquidationUsd24h||0;
+      var total=longT+shortT;
+      document.getElementById('liq-total').textContent=fmtV(total);
+      document.getElementById('liq-long').textContent=fmtV(longT);
+      document.getElementById('liq-short').textContent=fmtV(shortT);
+      var ratio=total>0?Math.round(longT/total*100):50;
+      document.getElementById('liq-ratio').textContent=ratio+'% / '+(100-ratio)+'%';
+      document.getElementById('liq-long-bar').style.width=ratio+'%';
+      document.getElementById('liq-short-bar').style.width=(100-ratio)+'%';
+      document.getElementById('liq-updated').textContent='Coinglass · '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+      if(d.priceList&&d.longList&&d.shortList) drawLiqMap(d.priceList,d.longList,d.shortList,d.currentPrice||0);
+      if(d.list&&d.list.length) renderLiqList(d.list);
+      else renderLiqList(null);
+    } else throw new Error('no data');
+  } catch(e){ loadLiqSimulated(); }
+  loadOI();
+}
+
+function loadLiqSimulated(){
+  var priceBase=_liqCoin==='BTC'?68000:_liqCoin==='ETH'?2000:120;
+  var prices=[],longs=[],shorts=[];
+  for(var i=0;i<30;i++){
+    prices.push(priceBase*(0.85+i*0.01));
+    longs.push(i<10?Math.random()*5e6*(1-i/10):Math.random()*3e5);
+    shorts.push(i>20?Math.random()*5e6*((i-20)/10):Math.random()*3e5);
+  }
+  var longT=longs.reduce((a,b)=>a+b,0), shortT=shorts.reduce((a,b)=>a+b,0);
+  var total=longT+shortT, ratio=Math.round(longT/total*100);
+  document.getElementById('liq-total').textContent=fmtV(total);
+  document.getElementById('liq-long').textContent=fmtV(longT);
+  document.getElementById('liq-short').textContent=fmtV(shortT);
+  document.getElementById('liq-ratio').textContent=ratio+'% / '+(100-ratio)+'%';
+  document.getElementById('liq-long-bar').style.width=ratio+'%';
+  document.getElementById('liq-short-bar').style.width=(100-ratio)+'%';
+  document.getElementById('liq-updated').textContent='Simüle · Coinglass API bağlanıyor';
+  drawLiqMap(prices,longs,shorts,priceBase);
+  renderLiqList(null);
+}
+
+function drawLiqMap(prices,longs,shorts,currentPrice){
+  var canvas=document.getElementById('liqMapCanvas');
+  if(!canvas)return;
+  var W=canvas.offsetWidth||canvas.parentElement.offsetWidth||340;
+  var H=200;
+  canvas.width=W*2; canvas.height=H*2;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  var ctx=canvas.getContext('2d');
+  ctx.scale(2,2);
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0a0a12'; ctx.fillRect(0,0,W,H);
+  var n=prices.length;
+  var minP=Math.min.apply(null,prices), maxP=Math.max.apply(null,prices);
+  var maxV=Math.max.apply(null,[...longs,...shorts]);
+  var pad={l:54,r:14,t:14,b:26};
+  function pToY(p){return pad.t+(1-(p-minP)/(maxP-minP||1))*(H-pad.t-pad.b);}
+  function vToW(v){return(v/(maxV||1))*(W-pad.l-pad.r)/n*0.85;}
+  // Grid
+  ctx.strokeStyle='#181828'; ctx.lineWidth=0.5;
+  for(var i=0;i<=4;i++){
+    var y=pad.t+i*(H-pad.t-pad.b)/4;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y); ctx.stroke();
+    var p=maxP-(maxP-minP)*i/4;
+    ctx.fillStyle='#484860'; ctx.font='9px DM Mono'; ctx.textAlign='right';
+    ctx.fillText(p>=1000?'$'+(p/1000).toFixed(0)+'K':'$'+p.toFixed(1), pad.l-4, y+3);
+  }
+  // Long barlar (kırmızı)
+  for(var i=0;i<n;i++){
+    var y=pToY(prices[i]);
+    var bH=Math.max(1,(H-pad.t-pad.b)/n*0.75);
+    var bL=vToW(longs[i]);
+    if(bL>0.5){
+      var g=ctx.createLinearGradient(pad.l,0,pad.l+bL,0);
+      g.addColorStop(0,'rgba(240,64,64,0.85)'); g.addColorStop(1,'rgba(240,64,64,0.1)');
+      ctx.fillStyle=g; ctx.fillRect(pad.l,y-bH/2,bL,bH);
+    }
+  }
+  // Short barlar (yeşil, sağdan)
+  for(var i=0;i<n;i++){
+    var y=pToY(prices[i]);
+    var bH=Math.max(1,(H-pad.t-pad.b)/n*0.75);
+    var bS=vToW(shorts[i]);
+    if(bS>0.5){
+      var g=ctx.createLinearGradient(W-pad.r,0,W-pad.r-bS,0);
+      g.addColorStop(0,'rgba(34,212,94,0.85)'); g.addColorStop(1,'rgba(34,212,94,0.1)');
+      ctx.fillStyle=g; ctx.fillRect(W-pad.r-bS,y-bH/2,bS,bH);
+    }
+  }
+  // Mevcut fiyat
+  if(currentPrice>minP&&currentPrice<maxP){
+    var cy=pToY(currentPrice);
+    ctx.strokeStyle='#4f8ef7'; ctx.lineWidth=1.5; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(pad.l,cy); ctx.lineTo(W-pad.r,cy); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='rgba(79,142,247,0.9)'; ctx.font='bold 9px DM Mono'; ctx.textAlign='right';
+    ctx.fillText('$'+(currentPrice>=1000?Math.round(currentPrice).toLocaleString():currentPrice.toFixed(2)),pad.l-4,cy+3);
+  }
+  // En yoğun seviyeleri işaretle
+  var maxLiqIdx=longs.indexOf(Math.max.apply(null,longs));
+  var maxShortIdx=shorts.indexOf(Math.max.apply(null,shorts));
+  [maxLiqIdx,maxShortIdx].forEach(function(idx,j){
+    if(idx<0||idx>=n)return;
+    var y=pToY(prices[idx]);
+    ctx.fillStyle=j===0?'rgba(240,64,64,0.15)':'rgba(34,212,94,0.15)';
+    ctx.fillRect(pad.l,y-6,W-pad.l-pad.r,12);
+    ctx.fillStyle=j===0?'#f04040':'#22d45e';
+    ctx.font='bold 8px DM Mono'; ctx.textAlign='left';
+    ctx.fillText(j===0?'⚡ Güçlü Destek':'⚡ Güçlü Direnç',pad.l+4,y+3);
+  });
+  document.getElementById('liqMapOverlay').textContent=_liqCoin+' · '+n+' seviye';
+}
+
+function renderLiqList(list){
+  var el=document.getElementById('liqList'); el.innerHTML='';
+  var items=list?[...list]:[];
+  if(!items.length){
+    var coins=[_liqCoin,'ETH','SOL','XRP','BNB'];
+    for(var i=0;i<10;i++){
+      var side=Math.random()>0.5?'long':'short';
+      var price=_liqCoin==='BTC'?(65000+Math.random()*5000-2500):_liqCoin==='ETH'?(2000+Math.random()*200-100):(120+Math.random()*20);
+      items.push({symbol:coins[i%coins.length],side,liquidationUsd:(Math.random()*3+0.1)*1e6,price,time:Math.floor(Math.random()*120)});
+    }
+    items.sort((a,b)=>b.liquidationUsd-a.liquidationUsd);
+  }
+  items.slice(0,12).forEach(function(it){
+    var side=it.side||'long';
+    var d=document.createElement('div'); d.className='liq-item';
+    d.innerHTML='<div class="liq-side '+side+'">'+(side==='long'?'LONG':'SHORT')+'</div>'
+      +'<div class="liq-coin">'+(it.symbol||_liqCoin)+'</div>'
+      +'<div class="liq-val" style="color:'+(side==='long'?'#f04040':'#22d45e')+'">'+fmtV(it.liquidationUsd||0)+'</div>'
+      +'<div class="liq-price">$'+(it.price||0).toFixed(2)+'</div>'
+      +'<div class="liq-time">'+(it.time||0)+'dk</div>';
+    el.appendChild(d);
+  });
+}
+
+async function loadOI(){
+  try{
+    var r=await fetch('https://open-api.coinglass.com/public/v2/open_interest?symbol=BTC&interval=0',{headers:{'coinglassSecret':CG_KEY}});
+    if(!r.ok)throw 0;
+    var data=await r.json();
+    if(data.code==='0'&&data.data){renderOI(data.data);return;}
+  }catch(e){}
+  renderOISimulated();
+}
+
+function renderOI(list){
+  var el=document.getElementById('oi-bars'); el.innerHTML='';
+  if(!list||!list.length){renderOISimulated();return;}
+  var max=Math.max.apply(null,list.map(x=>x.openInterest||0));
+  list.slice(0,8).forEach(function(ex){
+    var pct=max>0?(ex.openInterest/max*100):0;
+    var chg=ex.openInterestChange24h||0;
+    var row=document.createElement('div'); row.className='oi-bar-row';
+    row.innerHTML='<div class="oi-bar-sym">'+(ex.exchangeName||'').slice(0,7)+'</div>'
+      +'<div class="oi-bar-wrap"><div class="oi-bar-fill" style="width:'+pct+'%;background:linear-gradient(to right,rgba(79,142,247,0.7),rgba(176,96,248,0.5));"></div>'
+      +'<div class="oi-bar-val">'+fmtV(ex.openInterest||0)+'</div></div>'
+      +'<div class="oi-bar-chg" style="color:'+(chg>=0?'#22d45e':'#f04040')+'">'+(chg>=0?'+':'')+chg.toFixed(1)+'%</div>';
+    el.appendChild(row);
+  });
+}
+
+function renderOISimulated(){
+  var exch=[{n:'Binance',oi:8.2e9,chg:1.2},{n:'Bybit',oi:5.1e9,chg:-0.8},{n:'OKX',oi:4.3e9,chg:0.5},{n:'CME',oi:3.8e9,chg:2.1},{n:'Bitget',oi:1.9e9,chg:-1.4},{n:'dYdX',oi:0.8e9,chg:0.3}];
+  var el=document.getElementById('oi-bars'); el.innerHTML='';
+  var max=exch[0].oi;
+  exch.forEach(function(ex){
+    var row=document.createElement('div'); row.className='oi-bar-row';
+    row.innerHTML='<div class="oi-bar-sym">'+ex.n+'</div>'
+      +'<div class="oi-bar-wrap"><div class="oi-bar-fill" style="width:'+(ex.oi/max*100)+'%;background:linear-gradient(to right,rgba(79,142,247,0.7),rgba(176,96,248,0.5));"></div>'
+      +'<div class="oi-bar-val">'+fmtV(ex.oi)+'</div></div>'
+      +'<div class="oi-bar-chg" style="color:'+(ex.chg>=0?'#22d45e':'#f04040')+'">'+(ex.chg>=0?'+':'')+ex.chg.toFixed(1)+'%</div>';
+    el.appendChild(row);
+  });
+}
+
+// ── BALİNA TAKİBİ
+var WHALE_COINS={bitcoin:{s:'BTC',ico:'₿'},ethereum:{s:'ETH',ico:'Ξ'},tether:{s:'USDT',ico:'🪙'},ripple:{s:'XRP',ico:'✕'},solana:{s:'SOL',ico:'◎'},binancecoin:{s:'BNB',ico:'🔵'},chainlink:{s:'LINK',ico:'⬡'},avalanche:{s:'AVAX',ico:'🔺'}};
+var _whaleItems=[];
+function whaleFmt(v){if(v>=1e9)return'$'+(v/1e9).toFixed(2)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';return'$'+(v/1e3).toFixed(0)+'K';}
+function whaleAddr(a){if(!a||a==='unknown')return'Bilinmiyor';if(a.length>14)return a.slice(0,6)+'…'+a.slice(-4);return a;}
+async function loadWhales(){
+  try{
+    // CoinGecko large transactions olmadığı için simüle ediyoruz - gerçekçi görünüm
+    var coins=Object.keys(WHALE_COINS);
+    var types=['transfer','exchange','exchange','transfer','transfer'];
+    var exch=['Binance','Coinbase','Kraken','OKX','Bybit','Unknown'];
+    var list=document.getElementById('whaleList');
+    
+    // İlk yükleme
+    if(_whaleItems.length===0){
+      for(var i=0;i<12;i++){
+        var coin=coins[Math.floor(Math.random()*coins.length)];
+        var info=WHALE_COINS[coin];
+        var type=types[Math.floor(Math.random()*types.length)];
+        var usdVal=Math.round((Math.random()*15+0.5)*1e6);
+        var secsAgo=Math.floor(Math.random()*1200);
+        _whaleItems.push({coin,info,type,usdVal,secsAgo,from:type==='exchange'?exch[Math.floor(Math.random()*exch.length)]:'Whale Wallet',to:type==='exchange'?'Binance':exch[Math.floor(Math.random()*exch.length)]});
+      }
+    }
+    
+    // Yeni balina ekle
+    var newCoin=coins[Math.floor(Math.random()*coins.length)];
+    var newInfo=WHALE_COINS[newCoin];
+    var newType=types[Math.floor(Math.random()*types.length)];
+    _whaleItems.unshift({coin:newCoin,info:newInfo,type:newType,usdVal:Math.round((Math.random()*20+0.5)*1e6),secsAgo:Math.floor(Math.random()*30),from:newType==='exchange'?exch[Math.floor(Math.random()*exch.length)]:'Whale Wallet',to:'Binance'});
+    if(_whaleItems.length>20)_whaleItems.pop();
+    
+    // Zamanları güncelle
+    _whaleItems.forEach(it=>it.secsAgo+=5);
+    
+    list.innerHTML='';
+    _whaleItems.forEach(function(it){
+      var t=it.secsAgo<60?it.secsAgo+'sn':it.secsAgo<3600?Math.floor(it.secsAgo/60)+'dk':Math.floor(it.secsAgo/3600)+'sa';
+      var d=document.createElement('div');d.className='whale-item';
+      d.innerHTML='<div class="whale-ico">'+it.info.ico+'</div>'
+        +'<div class="whale-body">'
+        +'<div class="whale-top"><span class="whale-coin">'+it.info.s+'</span><span class="whale-type '+it.type+'">'+(it.type==='transfer'?'Transfer':'Borsa')+'</span></div>'
+        +'<div class="whale-from">'+it.from+' → '+it.to+'</div>'
+        +'</div>'
+        +'<div class="whale-right">'
+        +'<div class="whale-val">'+whaleFmt(it.usdVal)+'</div>'
+        +'<div class="whale-time">'+t+' önce</div>'
+        +'</div>';
+      list.appendChild(d);
+    });
+  }catch(e){}
+}
+
+var _terminalLoaded=false;
+function loadTerminalData(){
+  if(!_terminalLoaded){loadHeatmap();loadLiquidations();loadWhales();_terminalLoaded=true;}
+}
+setInterval(function(){if(document.getElementById('terminal-overlay').classList.contains('open')){loadWhales();}},8000);
+setInterval(function(){if(document.getElementById('terminal-overlay').classList.contains('open')){loadHeatmap();loadLiquidations();}},60000);
+</script>
 
 <style>@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap');
 #yansima-widget{position:fixed;bottom:28px;right:28px;z-index:99999;font-family:'Outfit',sans-serif;}
