@@ -466,7 +466,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <div style="background:rgba(240,160,32,0.12);border:1px solid rgba(240,160,32,0.2);border-radius:50px;padding:3px 10px;font-size:10px;font-weight:700;color:#f0a020;letter-spacing:0.5px;">YENİ</div>
+        <div id="bulletinNewBadge" style="background:rgba(240,160,32,0.12);border:1px solid rgba(240,160,32,0.2);border-radius:50px;padding:3px 10px;font-size:10px;font-weight:700;color:#f0a020;letter-spacing:0.5px;">YENİ</div>
         <div id="bulletinArrow" style="color:#444;font-size:18px;transition:transform 0.3s;">▾</div>
       </div>
     </div>
@@ -534,7 +534,10 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
 
 <script>
 document.getElementById('bulletinDateLabel').textContent = new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-function toggleBulletin(){
+const bulletinDate = '2026-03-06';
+const today = new Date().toISOString().split('T')[0];
+if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.display='none';
+  function toggleBulletin(){
   const body = document.getElementById('bulletinBody');
   const arrow = document.getElementById('bulletinArrow');
   if(body.style.display === 'none'){
