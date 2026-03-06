@@ -404,6 +404,55 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
   </div>
 </div>
 
+<!-- ══ DÜNYA VARLIK SIRALAMASI ══ -->
+
+<div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Dünya Varlık Sıralaması</div></div>
+<div class="rank-card">
+  <div class="rank-tabs">
+    <button class="rtab on" onclick="showRank('all',this)">🌐 Tümü</button>
+    <button class="rtab" onclick="showRank('stock',this)">📊 Hisse</button>
+    <button class="rtab" onclick="showRank('crypto',this)">🪙 Kripto</button>
+    <button class="rtab" onclick="showRank('metals',this)">🥇 Madenler</button>
+    <button class="rtab" onclick="showRank('forex',this)">💱 Döviz</button>
+  </div>
+  <div class="rank-list" id="rankList"></div>
+</div>
+<div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Yatırım Hesaplayıcı</div></div>
+<div class="fear-card" style="padding: 20px; margin-bottom: 20px; background: #000; border: 1px solid #222; border-radius: 15px;">
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+        <input type="number" id="calcAmount" placeholder="Yatırım Tutarı ($)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none;">
+        <input type="number" id="calcRate" placeholder="Beklenen Yıllık Getiri (%)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none;">
+      <input type="number" id="calcGoal" placeholder="Hedef Tutar ($)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none; margin-top: 10px;">
+        <button onclick="calculateInvest()" style="width: 100%; padding: 12px; background: #007aff; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">Hesapla</button>
+        <div id="calcResultBox" style="display:none; margin-top: 5px; padding: 15px; background: rgba(0, 122, 255, 0.1); border: 1px dashed #007aff; border-radius: 10px; text-align: center;">
+            <div style="font-size: 11px; color: #007aff; margin-bottom: 5px;">1 Yıl Sonraki Tahmini Bakiye:</div>
+        <div id="liveStatus" style="display:none; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
+    <span style="width: 8px; height: 8px; background: #007aff; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #007aff; animation: pulse 1.5s infinite;"></span>
+    <span style="font-size: 10px; color: #007aff; font-weight: bold; letter-spacing: 1px;">CANLI VERİ SİMÜLASYONU</span>
+</div>
+
+<style>
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 122, 255, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); }
+}
+</style>
+
+         <div id="calcResultValue" style="font-size: 22px; font-weight: 800; color: #fff;">$0.00</div>
+        </div>
+              <div id="goalProgressContainer" style="display:none; margin-top: 15px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; font-size: 10px; color: #888; margin-bottom: 5px;">
+                <span>Hedef İlerlemesi</span>
+                <span id="goalPercentText">0%</span>
+            </div>
+            <div style="width: 100%; height: 8px; background: #222; border-radius: 10px; overflow: hidden;">
+                <div id="goalProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #007aff, #00c6ff); transition: width 1s ease-in-out;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- GÜNLÜK BÜLTEN -->
 <div style="margin-bottom:14px;">
   <div onclick="toggleBulletin()" style="background:linear-gradient(135deg,#0d0d18,#12121e);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 20px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;">
@@ -497,56 +546,6 @@ function toggleBulletin(){
   }
 }
 </script>
-
-<!-- ══ DÜNYA VARLIK SIRALAMASI ══ -->
-
-<div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Dünya Varlık Sıralaması</div></div>
-<div class="rank-card">
-  <div class="rank-tabs">
-    <button class="rtab on" onclick="showRank('all',this)">🌐 Tümü</button>
-    <button class="rtab" onclick="showRank('stock',this)">📊 Hisse</button>
-    <button class="rtab" onclick="showRank('crypto',this)">🪙 Kripto</button>
-    <button class="rtab" onclick="showRank('metals',this)">🥇 Madenler</button>
-    <button class="rtab" onclick="showRank('forex',this)">💱 Döviz</button>
-  </div>
-  <div class="rank-list" id="rankList"></div>
-</div>
-<div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Yatırım Hesaplayıcı</div></div>
-<div class="fear-card" style="padding: 20px; margin-bottom: 20px; background: #000; border: 1px solid #222; border-radius: 15px;">
-    <div style="display: flex; flex-direction: column; gap: 15px;">
-        <input type="number" id="calcAmount" placeholder="Yatırım Tutarı ($)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none;">
-        <input type="number" id="calcRate" placeholder="Beklenen Yıllık Getiri (%)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none;">
-      <input type="number" id="calcGoal" placeholder="Hedef Tutar ($)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none; margin-top: 10px;">
-        <button onclick="calculateInvest()" style="width: 100%; padding: 12px; background: #007aff; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">Hesapla</button>
-        <div id="calcResultBox" style="display:none; margin-top: 5px; padding: 15px; background: rgba(0, 122, 255, 0.1); border: 1px dashed #007aff; border-radius: 10px; text-align: center;">
-            <div style="font-size: 11px; color: #007aff; margin-bottom: 5px;">1 Yıl Sonraki Tahmini Bakiye:</div>
-        <div id="liveStatus" style="display:none; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
-    <span style="width: 8px; height: 8px; background: #007aff; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #007aff; animation: pulse 1.5s infinite;"></span>
-    <span style="font-size: 10px; color: #007aff; font-weight: bold; letter-spacing: 1px;">CANLI VERİ SİMÜLASYONU</span>
-</div>
-
-<style>
-@keyframes pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 122, 255, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); }
-}
-</style>
-
-         <div id="calcResultValue" style="font-size: 22px; font-weight: 800; color: #fff;">$0.00</div>
-        </div>
-              <div id="goalProgressContainer" style="display:none; margin-top: 15px; text-align: left;">
-            <div style="display: flex; justify-content: space-between; font-size: 10px; color: #888; margin-bottom: 5px;">
-                <span>Hedef İlerlemesi</span>
-                <span id="goalPercentText">0%</span>
-            </div>
-            <div style="width: 100%; height: 8px; background: #222; border-radius: 10px; overflow: hidden;">
-                <div id="goalProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #007aff, #00c6ff); transition: width 1s ease-in-out;"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!-- ══ HABERLER ══ -->
 
