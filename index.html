@@ -270,6 +270,81 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
 .ft-lt b{color:var(–blue);}
 .ft-disc{font-size:11px;color:var(–text3);line-height:1.8;max-width:310px;margin:0 auto 12px;}
 .ft-sig{font-size:10.5px;color:var(–text3);font-style:italic;padding-top:10px;border-top:1px solid var(–border);display:inline-block;}
+
+/* ── DESKTOP LAYOUT ─────────────────── */
+@media (min-width: 768px) {
+.page {
+max-width: 1200px;
+padding: 24px 32px 80px;
+display: grid;
+grid-template-columns: 1fr 380px;
+grid-template-rows: auto;
+gap: 0 24px;
+align-items: start;
+}
+/* Sol sütun */
+.hero         { grid-column: 1; grid-row: 1; }
+.ticker-box   { grid-column: 1 / -1; grid-row: 2; margin-bottom: 20px; }
+.slabel:nth-of-type(1) { grid-column: 1; }
+
+/* Hero büyüsün */
+.hero { padding: 40px 36px 34px; }
+.hero-h { font-size: 48px; }
+.hero-p { font-size: 15px; }
+.hstat-n { font-size: 22px; }
+
+/* Nav genişlesin */
+.nav { padding: 0 32px; height: 64px; }
+.logo-t { font-size: 22px; }
+.logo-m { width: 34px; height: 34px; font-size: 16px; }
+
+/* Kartlar 3 sütun */
+.g2 { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.card-price { font-size: 19px; }
+.card-ico { font-size: 28px; }
+
+/* Fear card genişlesin */
+.fear-card { padding: 28px 28px 24px; }
+.fear-score { font-size: 56px; }
+.gauge-wrap { height: 120px; }
+.gauge-svg { height: 120px; }
+.fear-hist-row { gap: 10px; }
+.fh-score { font-size: 18px; }
+
+/* Rank card */
+.rank-card { margin-bottom: 20px; }
+.rank-item { padding: 14px 24px; }
+.rank-name { font-size: 15px; }
+
+/* News card */
+.news-card { margin-bottom: 20px; }
+.ni { padding: 16px 24px; }
+.ni-title { font-size: 15px; }
+
+/* Modal masaüstünde ortada açılsın */
+.overlay { align-items: center; }
+.modal { border-radius: 20px; max-width: 640px; max-height: 85vh; }
+
+/* Section labels */
+.slabel { margin: 28px 0 14px; }
+.slabel-txt { font-size: 13px; }
+
+/* Quick tags */
+.qtags { gap: 8px; margin-bottom: 22px; }
+.qtag { padding: 8px 16px; font-size: 13px; }
+
+/* Status bar */
+.statusbar { padding: 13px 20px; }
+
+/* Footer */
+footer { padding: 40px 32px 32px; }
+.ft-disc { max-width: 480px; font-size: 12px; }
+}
+
+@media (min-width: 1024px) {
+.page { grid-template-columns: 1fr 420px; gap: 0 28px; }
+.g2 { grid-template-columns: 1fr 1fr 1fr; }
+}
 </style>
 
 </head>
@@ -1482,5 +1557,6 @@ setInterval(()=>{if(yOpen)yFetchMarket();},60000);
   }
 }, 3000);
 </script>
+
 </body>
 </html>
