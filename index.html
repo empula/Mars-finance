@@ -10,6 +10,11 @@
 <meta name="description" content="Mars Finance | Canlı Kripto Verileri ve Yatırım Hesaplayıcı">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mars">
+<link rel="apple-touch-icon" href="/icon-192.png">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -77,7 +82,7 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .spin{display:inline-block;}
 .spin.go{animation:spin .7s linear infinite;}
 
-/* ── FEAR INDEX ───────────────────── */
+/* FEAR INDEX */
 .fear-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–r);padding:20px 20px 18px;margin-bottom:14px;position:relative;overflow:hidden;}
 .fear-card-glow{position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;pointer-events:none;transition:background .5s;}
 .fear-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
@@ -86,19 +91,16 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .fear-score-wrap{text-align:right;}
 .fear-score{font-family:‘DM Mono’,monospace;font-size:42px;font-weight:700;letter-spacing:-1px;line-height:1;}
 .fear-label{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:4px;}
-/* Gauge */
 .gauge-wrap{position:relative;width:100%;height:90px;margin-bottom:14px;}
 .gauge-svg{width:100%;height:90px;}
 .gauge-needle{transform-origin:50% 100%;transition:transform 1.2s cubic-bezier(.34,1.3,.64,1);}
 .gauge-label-row{display:flex;justify-content:space-between;margin-top:-4px;}
 .gauge-lbl{font-size:10px;color:var(–text3);font-weight:600;}
-/* History */
 .fear-hist-row{display:flex;gap:6px;margin-bottom:16px;}
 .fh-item{flex:1;background:var(–bg3);border:1px solid var(–border);border-radius:8px;padding:8px 0;text-align:center;}
 .fh-period{font-size:9.5px;color:var(–text3);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;}
 .fh-score{font-family:‘DM Mono’,monospace;font-size:14px;font-weight:700;}
 .fh-name{font-size:9px;font-weight:700;margin-top:2px;}
-/* Market sentiment */
 .fear-sent-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .sent-item{background:var(–bg3);border:1px solid var(–border);border-radius:var(–r3);padding:10px 12px;}
 .sent-name{font-size:11px;color:var(–text3);font-weight:600;margin-bottom:5px;}
@@ -106,7 +108,7 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .sent-bar{height:100%;border-radius:3px;transition:width 1s ease;}
 .sent-pct{font-family:‘DM Mono’,monospace;font-size:12px;font-weight:700;}
 
-/* ── ASSET RANKINGS ───────────────── */
+/* ASSET RANKINGS */
 .rank-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–r);overflow:hidden;margin-bottom:14px;}
 .rank-tabs{display:flex;border-bottom:1px solid var(–border);background:var(–bg3);}
 .rtab{flex:1;padding:11px 4px;text-align:center;font-size:11px;font-weight:700;color:var(–text3);cursor:pointer;transition:all .15s;border:none;background:none;font-family:‘Bricolage Grotesque’,sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;line-height:1.2;}
@@ -133,7 +135,7 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .rank-bar-row{height:3px;background:var(–bg4);border-radius:2px;margin-top:5px;overflow:hidden;}
 .rank-bar-fill{height:100%;border-radius:2px;transition:width .8s ease;}
 
-/* ── NEWS ─────────────────────────── */
+/* NEWS */
 .news-card{background:var(–bg2);border:1px solid var(–border);border-radius:var(–r);overflow:hidden;margin-bottom:14px;}
 .news-head{padding:14px 18px 12px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;}
 .news-head-l{display:flex;align-items:center;gap:10px;}
@@ -153,7 +155,6 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .ni:hover{background:var(–bg3);}
 .ni:hover .ni-arr{opacity:1;}
 .news-more-btn{width:100%;padding:12px;background:transparent;border:none;border-top:1px solid var(–border);color:var(–text3);font-size:18px;cursor:pointer;text-align:center;line-height:1;}
-.news-more-btn:hover{color:var(–text1);}
 .ni-ico{flex-shrink:0;width:40px;height:40px;border-radius:11px;background:var(–bg3);border:1px solid var(–border);display:flex;align-items:center;justify-content:center;font-size:19px;}
 .ni-body{flex:1;min-width:0;}
 .ni-title{font-size:13.5px;font-weight:600;line-height:1.45;margin-bottom:6px;color:var(–text);}
@@ -219,8 +220,6 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .m-sec-lbl{font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(–text3);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
 .m-sec-note{font-size:10px;font-style:italic;}
 .tv-box{border-radius:var(–r3);overflow:hidden;border:1px solid var(–border);background:var(–bg3);}
-
-/* Analyst cards */
 .an-card{background:var(–bg3);border:1px solid var(–border);border-radius:var(–r3);padding:14px;margin-bottom:10px;}
 .an-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:11px;}
 .an-ava{width:38px;height:38px;border-radius:50%;background:var(–bg4);border:1px solid var(–border2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
@@ -233,13 +232,11 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .an-sent.bull{background:var(–up-bg);color:var(–up);border:1px solid rgba(34,212,94,.2);}
 .an-sent.bear{background:var(–dn-bg);color:var(–dn);border:1px solid rgba(240,64,64,.2);}
 .an-sent.neutral{background:var(–gold-bg);color:var(–gold);border:1px solid rgba(240,160,32,.2);}
-/* Accuracy meter */
 .an-acc{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
 .an-acc-lbl{font-size:10px;color:var(–text3);font-weight:700;flex-shrink:0;}
 .an-acc-bar{flex:1;height:5px;background:var(–bg4);border-radius:3px;overflow:hidden;}
 .an-acc-fill{height:100%;border-radius:3px;background:linear-gradient(to right,var(–blue),var(–up));}
 .an-acc-pct{font-family:‘DM Mono’,monospace;font-size:11px;font-weight:700;color:var(–up);flex-shrink:0;}
-/* Track record */
 .an-record{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
 .an-call{font-size:10px;padding:2px 8px;border-radius:5px;font-weight:700;}
 .an-call.hit{background:var(–up-bg);color:var(–up);}
@@ -249,8 +246,6 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .an-tlbl{font-size:10.5px;color:var(–text3);}
 .an-tval{font-family:‘DM Mono’,monospace;font-size:13px;font-weight:800;color:var(–text);}
 .an-tdate{font-size:10px;color:var(–text3);}
-
-/* Modal stats */
 .m-stats{display:grid;grid-template-columns:1fr 1fr;margin:16px 18px 0;}
 .mstat{padding:11px 4px;border-bottom:1px solid var(–border);}
 .mstat:nth-child(odd){padding-right:12px;border-right:1px solid var(–border);}
@@ -314,7 +309,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
   </div>
 </div>
 
-<!-- ══ KORKU & AÇGÖZLÜLÜK ENDEKSİ ══ -->
+<!-- KORKU & AÇGÖZLÜLÜK ENDEKSİ -->
 
 <div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Piyasa Duygu Endeksi</div></div>
 <div class="fear-card" id="fearCard">
@@ -329,7 +324,6 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
       <div class="fear-label" id="fearLabel">Açgözlülük</div>
     </div>
   </div>
-  <!-- Gauge -->
   <div class="gauge-wrap">
     <svg class="gauge-svg" viewBox="0 0 300 100">
       <defs>
@@ -341,11 +335,8 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
           <stop offset="100%" stop-color="#22d45e"/>
         </linearGradient>
       </defs>
-      <!-- Track -->
       <path d="M 30 90 A 120 120 0 0 1 270 90" fill="none" stroke="#1d1d28" stroke-width="14" stroke-linecap="round"/>
-      <!-- Color arc -->
       <path d="M 30 90 A 120 120 0 0 1 270 90" fill="none" stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round" opacity="0.85"/>
-      <!-- Tick marks -->
       <g stroke="#07070e" stroke-width="2" opacity="0.6">
         <line x1="30" y1="90" x2="42" y2="90" transform="rotate(-90 150 90)"/>
         <line x1="30" y1="90" x2="40" y2="90" transform="rotate(-45 150 90)"/>
@@ -353,13 +344,11 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
         <line x1="30" y1="90" x2="40" y2="90" transform="rotate(45 150 90)"/>
         <line x1="30" y1="90" x2="42" y2="90" transform="rotate(90 150 90)"/>
       </g>
-      <!-- Needle -->
       <g class="gauge-needle" id="gaugeNeedle">
         <line x1="150" y1="90" x2="150" y2="20" stroke="#eeeef8" stroke-width="2.5" stroke-linecap="round"/>
         <circle cx="150" cy="90" r="5" fill="#eeeef8"/>
         <circle cx="150" cy="90" r="3" fill="#07070e"/>
       </g>
-      <!-- Score labels -->
       <text x="22" y="105" font-size="9" fill="#484860" text-anchor="middle" font-family="DM Mono">0</text>
       <text x="150" y="15" font-size="9" fill="#484860" text-anchor="middle" font-family="DM Mono">50</text>
       <text x="278" y="105" font-size="9" fill="#484860" text-anchor="middle" font-family="DM Mono">100</text>
@@ -372,14 +361,12 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
       <span class="gauge-lbl" style="color:#22d45e">Aşırı Açgözlülük</span>
     </div>
   </div>
-  <!-- History -->
   <div class="fear-hist-row">
     <div class="fh-item"><div class="fh-period">Dün</div><div class="fh-score" id="fh0">—</div><div class="fh-name" id="fhn0">—</div></div>
     <div class="fh-item"><div class="fh-period">1 Hafta</div><div class="fh-score" id="fh1">—</div><div class="fh-name" id="fhn1">—</div></div>
     <div class="fh-item"><div class="fh-period">1 Ay</div><div class="fh-score" id="fh2">—</div><div class="fh-name" id="fhn2">—</div></div>
     <div class="fh-item"><div class="fh-period">1 Yıl</div><div class="fh-score" id="fh3">—</div><div class="fh-name" id="fhn3">—</div></div>
   </div>
-  <!-- Market sentiments -->
   <div class="fear-sent-row">
     <div class="sent-item">
       <div class="sent-name">Kripto Piyasası</div>
@@ -404,56 +391,8 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
   </div>
 </div>
 
-<!-- ══ DÜNYA VARLIK SIRALAMASI ══ -->
-
-<div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Dünya Varlık Sıralaması</div></div>
-<div class="rank-card">
-  <div class="rank-tabs">
-    <button class="rtab on" onclick="showRank('all',this)">🌐 Tümü</button>
-    <button class="rtab" onclick="showRank('stock',this)">📊 Hisse</button>
-    <button class="rtab" onclick="showRank('crypto',this)">🪙 Kripto</button>
-    <button class="rtab" onclick="showRank('metals',this)">🥇 Madenler</button>
-    <button class="rtab" onclick="showRank('forex',this)">💱 Döviz</button>
-  </div>
-  <div class="rank-list" id="rankList"></div>
-</div>
-<div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Yatırım Hesaplayıcı</div></div>
-<div class="fear-card" style="padding: 20px; margin-bottom: 20px; background: #000; border: 1px solid #222; border-radius: 15px;">
-    <div style="display: flex; flex-direction: column; gap: 15px;">
-        <input type="number" id="calcAmount" placeholder="Yatırım Tutarı ($)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none;">
-        <input type="number" id="calcRate" placeholder="Beklenen Yıllık Getiri (%)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none;">
-      <input type="number" id="calcGoal" placeholder="Hedef Tutar ($)" style="width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; outline: none; margin-top: 10px;">
-        <button onclick="calculateInvest()" style="width: 100%; padding: 12px; background: #007aff; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">Hesapla</button>
-        <div id="calcResultBox" style="display:none; margin-top: 5px; padding: 15px; background: rgba(0, 122, 255, 0.1); border: 1px dashed #007aff; border-radius: 10px; text-align: center;">
-            <div style="font-size: 11px; color: #007aff; margin-bottom: 5px;">1 Yıl Sonraki Tahmini Bakiye:</div>
-        <div id="liveStatus" style="display:none; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
-    <span style="width: 8px; height: 8px; background: #007aff; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #007aff; animation: pulse 1.5s infinite;"></span>
-    <span style="font-size: 10px; color: #007aff; font-weight: bold; letter-spacing: 1px;">CANLI VERİ SİMÜLASYONU</span>
-</div>
-
-<style>
-@keyframes pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 122, 255, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); }
-}
-</style>
-
-         <div id="calcResultValue" style="font-size: 22px; font-weight: 800; color: #fff;">$0.00</div>
-        </div>
-              <div id="goalProgressContainer" style="display:none; margin-top: 15px; text-align: left;">
-            <div style="display: flex; justify-content: space-between; font-size: 10px; color: #888; margin-bottom: 5px;">
-                <span>Hedef İlerlemesi</span>
-                <span id="goalPercentText">0%</span>
-            </div>
-            <div style="width: 100%; height: 8px; background: #222; border-radius: 10px; overflow: hidden;">
-                <div id="goalProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #007aff, #00c6ff); transition: width 1s ease-in-out;"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- GÜNLÜK BÜLTEN -->
+
 <div style="margin-bottom:14px;">
   <div onclick="toggleBulletin()" style="background:linear-gradient(135deg,#0d0d18,#12121e);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 20px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;">
     <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(240,160,32,0.08),transparent 70%);pointer-events:none;"></div>
@@ -471,13 +410,10 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
       </div>
     </div>
   </div>
-
   <div id="bulletinBody" style="display:none;background:#0a0a0f;border:1px solid rgba(255,255,255,0.06);border-top:none;border-radius:0 0 20px 20px;padding:20px;margin-top:-8px;">
     <div style="font-size:13.5px;line-height:1.9;color:#888;">
-
       <div style="color:#eee;font-weight:700;font-size:15px;margin-bottom:12px;">☀️ Güzel bir sabahtan herkese günaydın!</div>
       <p style="margin-bottom:16px;">Haftanın son işlem gününde küresel piyasalar baskı altında seyrediyor. Bitcoin kâr satışlarıyla 70.600 dolara gerilerken Korku & Açgözlülük Endeksi 18 ile aşırı korku bölgesinde. Bugünün odak noktası 16.30'daki ABD istihdam raporu.</p>
-
       <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
       <div style="color:#f0a020;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">💰 KRİPTO PARALAR</div>
       <p style="margin-bottom:10px;">Bitcoin 74.000 dolardan geri çekildi, 70.600 dolara geriledi. Son 5 günlük %16'lık yükselişin ardından kâr satışları ve kaldıraçlı pozisyon tasfiyeleri etkili oldu.</p>
@@ -485,48 +421,40 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
       <p style="margin-bottom:10px;">Altcoinlerin %38'i tüm zamanların en düşük seviyelerinin yakınında işlem görüyor — FTX çöküşünden bu yana en derin düşüş.</p>
       <p style="margin-bottom:10px;">SEC, Justin Sun ve Tron bağlantılı şirketlerle 10 milyon dolarlık uzlaşmaya vardı.</p>
       <p style="margin-bottom:10px;">NYSE'nin ana şirketi ICE, blokzincir tabanlı hisse senedi ticaretine geçiş yapan OKX'e yaklaşık 25 milyar dolar değerleme üzerinden yatırım yaptı.</p>
-
       <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
       <div style="color:#4f8ef7;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🏦 FED & MAKRO GÜNDEM</div>
       <p style="margin-bottom:10px;">Fed'in Mart toplantısında faiz sabit kalacak — piyasanın %95,6'sı değişiklik beklemiyor. Bu yıl için fiyatlanan toplam indirim yalnızca 40 bp seviyesinde.</p>
       <p style="margin-bottom:10px;">Fed Başkanı Powell'ın görevi Mayıs'ta sona eriyor. Daha güvercin bir ismin göreve gelmesi olası; bu durum altın ve kripto için potansiyel katalizör olarak izleniyor.</p>
       <p style="margin-bottom:10px;">Bugün 16.30'da ABD Tarım Dışı İstihdam (NFP) ve İşsizlik Oranı verileri açıklanacak.</p>
-
       <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
       <div style="color:#22d45e;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">📈 BORSALAR & ŞİRKET HABERLERİ</div>
       <p style="margin-bottom:10px;">S&P 500 bugün 6.831 seviyesinde, -%0,56 ile baskı altında. VIX 23,75'e yükseldi.</p>
       <p style="margin-bottom:10px;">Nvidia ve AMD'nin tüm ülkelere yaptığı sevkiyatlar için ABD hükümeti onayı zorunlu hale geliyor.</p>
       <p style="margin-bottom:10px;">Arthur Hayes, ABD-İran geriliminin Fed'i zorunlu faiz indirimine itebileceğini öne sürerek yıl sonu Bitcoin hedefini 500.000-750.000 dolar olarak açıkladı.</p>
-
       <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
       <div style="color:#f0a020;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🥇 ALTIN & GÜMÜŞ</div>
       <p style="margin-bottom:10px;">Ons altın 5.079 dolara geriledi. Deutsche Bank, UBS ve Wells Fargo yıl sonu hedeflerini 6.000-6.300 dolar aralığında koruyor.</p>
       <p style="margin-bottom:10px;">Dünya Altın Konseyi: Şubat ayında küresel altın ETF'lerine 5,3 milyar dolar giriş — üst üste dokuzuncu ay pozitif akış.</p>
-
       <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
       <div style="color:#f86030;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">⚡ ENERJİ</div>
       <p style="margin-bottom:10px;">Brent petrol bugün 84,38 dolar seviyesinde, -%1,21 ile hafif gerilemekte. WTI 79,88 dolarda seyrediyor.</p>
       <p style="margin-bottom:10px;">Hürmüz Boğazı endişeleri petrolde risk primini canlı tutuyor. ABD askeri uyarı yayımladı: Amerikan bayraklı gemiler İran sularından geçmesin.</p>
       <p style="margin-bottom:10px;">Avrupa doğalgaz fiyatları Hürmüz kaynaklı şokla yüksek seyrediyor.</p>
-
       <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
       <div style="color:#22d45e;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🇹🇷 TÜRKİYE GÜNDEMİ</div>
       <p style="margin-bottom:10px;">Dolar/TL bugün 43,99 seviyesinde. Türk lirası son 12 ayda dolara karşı %20,91 değer kaybetti.</p>
       <p style="margin-bottom:10px;">Şubat enflasyonu %31,53 olarak açıklandı — Ocak'taki %30,65'ten yükseliş. Merkez Bankası politika faizini Ocak toplantısında %37'ye indirdi.</p>
       <p style="margin-bottom:10px;">Türkiye ekonomisi 2025'i yaklaşık %3,3 büyümeyle kapattı. 2026 hedefi %3,8.</p>
-
       <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
       <div style="color:#f04040;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🌍 JEOPOLİTİK</div>
       <p style="margin-bottom:10px;">ABD-İran gerilimi sürerken müzakereler Umman üzerinden devam ediyor. Trump görüşmeleri "çok iyi" olarak nitelendirdi, ancak İran nükleer zenginleştirmeden vazgeçmiyor.</p>
       <p style="margin-bottom:10px;">Hürmüz'de tanker trafiği keskin biçimde azaldı; 200'den fazla gemi bölgede bekliyor.</p>
-
       <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
       <div style="color:#b060f8;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">📅 EKONOMİK TAKVİM</div>
       <div style="background:#0f0f18;border:1px solid rgba(176,96,248,0.15);border-radius:10px;padding:12px 14px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">16.30</span><span style="color:#ccc;font-size:13px;">ABD Tarım Dışı İstihdam (NFP) — Şubat</span></div>
         <div style="display:flex;align-items:center;gap:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">16.30</span><span style="color:#ccc;font-size:13px;">ABD İşsizlik Oranı — Şubat</span></div>
       </div>
-
       <div style="margin-top:16px;text-align:center;font-size:10px;color:#2a2a2a;font-family:'DM Mono',monospace;">Mars Finance · Günlük Piyasa Bülteni</div>
     </div>
   </div>
@@ -537,20 +465,58 @@ document.getElementById('bulletinDateLabel').textContent = new Date().toLocaleDa
 const bulletinDate = '2026-03-06';
 const today = new Date().toISOString().split('T')[0];
 if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.display='none';
-  function toggleBulletin(){
+function toggleBulletin(){
   const body = document.getElementById('bulletinBody');
   const arrow = document.getElementById('bulletinArrow');
-  if(body.style.display === 'none'){
-    body.style.display = 'block';
-    arrow.style.transform = 'rotate(180deg)';
-  } else {
-    body.style.display = 'none';
-    arrow.style.transform = 'rotate(0deg)';
-  }
+  if(body.style.display === 'none'){body.style.display='block';arrow.style.transform='rotate(180deg)';}
+  else{body.style.display='none';arrow.style.transform='rotate(0deg)';}
 }
 </script>
 
-<!-- ══ HABERLER ══ -->
+<!-- DÜNYA VARLIK SIRALAMASI -->
+
+<div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Dünya Varlık Sıralaması</div></div>
+<div class="rank-card">
+  <div class="rank-tabs">
+    <button class="rtab on" onclick="showRank('all',this)">🌐 Tümü</button>
+    <button class="rtab" onclick="showRank('stock',this)">📊 Hisse</button>
+    <button class="rtab" onclick="showRank('crypto',this)">🪙 Kripto</button>
+    <button class="rtab" onclick="showRank('metals',this)">🥇 Madenler</button>
+    <button class="rtab" onclick="showRank('forex',this)">💱 Döviz</button>
+  </div>
+  <div class="rank-list" id="rankList"></div>
+</div>
+
+<!-- YATIRIM HESAPLAYICI -->
+
+<div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Yatırım Hesaplayıcı</div></div>
+<div class="fear-card" style="padding:20px;margin-bottom:20px;background:#000;border:1px solid #222;border-radius:15px;">
+  <div style="display:flex;flex-direction:column;gap:15px;">
+    <input type="number" id="calcAmount" placeholder="Yatırım Tutarı ($)" style="width:100%;background:#111;border:1px solid #333;color:#fff;padding:12px;border-radius:10px;outline:none;">
+    <input type="number" id="calcRate" placeholder="Beklenen Yıllık Getiri (%)" style="width:100%;background:#111;border:1px solid #333;color:#fff;padding:12px;border-radius:10px;outline:none;">
+    <input type="number" id="calcGoal" placeholder="Hedef Tutar ($)" style="width:100%;background:#111;border:1px solid #333;color:#fff;padding:12px;border-radius:10px;outline:none;margin-top:10px;">
+    <button onclick="calculateInvest()" style="width:100%;padding:12px;background:#007aff;color:white;border:none;border-radius:10px;cursor:pointer;font-weight:bold;">Hesapla</button>
+    <div id="calcResultBox" style="display:none;margin-top:5px;padding:15px;background:rgba(0,122,255,0.1);border:1px dashed #007aff;border-radius:10px;text-align:center;">
+      <div style="font-size:11px;color:#007aff;margin-bottom:5px;">1 Yıl Sonraki Tahmini Bakiye:</div>
+      <div id="liveStatus" style="display:none;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;">
+        <span style="width:8px;height:8px;background:#007aff;border-radius:50%;display:inline-block;box-shadow:0 0 10px #007aff;animation:pulse 1.5s infinite;"></span>
+        <span style="font-size:10px;color:#007aff;font-weight:bold;letter-spacing:1px;">CANLI VERİ SİMÜLASYONU</span>
+      </div>
+      <style>@keyframes pulse{0%{transform:scale(0.95);box-shadow:0 0 0 0 rgba(0,122,255,0.7);}70%{transform:scale(1);box-shadow:0 0 0 10px rgba(0,122,255,0);}100%{transform:scale(0.95);box-shadow:0 0 0 0 rgba(0,122,255,0);}}</style>
+      <div id="calcResultValue" style="font-size:22px;font-weight:800;color:#fff;">$0.00</div>
+    </div>
+    <div id="goalProgressContainer" style="display:none;margin-top:15px;text-align:left;">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:#888;margin-bottom:5px;">
+        <span>Hedef İlerlemesi</span><span id="goalPercentText">0%</span>
+      </div>
+      <div style="width:100%;height:8px;background:#222;border-radius:10px;overflow:hidden;">
+        <div id="goalProgressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#007aff,#00c6ff);transition:width 1s ease-in-out;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HABERLER -->
 
 <div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Dünya Haberleri</div><div class="slabel-count" id="newsCount">—</div></div>
 <div class="news-card">
@@ -611,7 +577,7 @@ if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.dis
 <footer>
   <div class="ft-logo"><div class="ft-lm">M</div><div class="ft-lt">Mars<b>.</b></div></div>
   <div class="ft-disc">Veriler ExchangeRate-API, CoinGecko ve metals.live kaynağından alınır. Grafikler TradingView. Analist isabetleri kamuya açık tahmin kayıtlarından derlenmiştir. Yatırım tavsiyesi değildir.</div>
-  <div class="ft-sig">© 2026 Mars &nbsp;·&nbsp; Tüm hakları saklıdır &nbsp;·&nbsp; Anıl Kalafat</div>
+  <div class="ft-sig">© 2026 Mars · Tüm hakları saklıdır · Anıl Kalafat</div>
 </footer>
 
 </div><!-- /page -->
@@ -639,669 +605,387 @@ if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.dis
     <div class="m-pad"></div>
   </div>
 </div>
-
 <script>
-// ── CLOCK
+// CLOCK
 setInterval(function(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('tr-TR');},1000);
 
-// ── ASSETS
+// ASSETS
 var ASSETS={
-  forex:[
-    {key:'usd',ico:'🇺🇸',name:'Dolar',sym:'USD/TRY',tvSym:'FX_IDC:USDTRY',unit:'₺',dec:2,accent:'#4f8ef7'},
-    {key:'eur',ico:'🇪🇺',name:'Euro',sym:'EUR/TRY',tvSym:'FX_IDC:EURTRY',unit:'₺',dec:2,accent:'#6366f1'},
-    {key:'gbp',ico:'🇬🇧',name:'Sterlin',sym:'GBP/TRY',tvSym:'FX_IDC:GBPTRY',unit:'₺',dec:2,accent:'#8b5cf6'},
-    {key:'jpy',ico:'🇯🇵',name:'Yen',sym:'JPY/TRY',tvSym:'FX_IDC:JPYTRY',unit:'₺',dec:2,accent:'#ec4899'},
-    {key:'chf',ico:'🇨🇭',name:'İsv. Frangı',sym:'CHF/TRY',tvSym:'FX_IDC:CHFTRY',unit:'₺',dec:2,accent:'#f04040'},
-    {key:'cad',ico:'🇨🇦',name:'Kanada $',sym:'CAD/TRY',tvSym:'FX_IDC:CADTRY',unit:'₺',dec:2,accent:'#f97316'},
-    {key:'aud',ico:'🇦🇺',name:'Avust. $',sym:'AUD/TRY',tvSym:'FX_IDC:AUDTRY',unit:'₺',dec:2,accent:'#14b8a6'},
-    {key:'sar',ico:'🇸🇦',name:'Riyyal',sym:'SAR/TRY',tvSym:'FX_IDC:SARTRY',unit:'₺',dec:2,accent:'#22d45e'},
-  ],
-  crypto:[
-    {key:'btc',ico:'₿',name:'Bitcoin',sym:'BTC/USD',tvSym:'BINANCE:BTCUSDT',cgId:'bitcoin',cmc:'bitcoin',accent:'#f0a020',unit:'$',dec:2},
-    {key:'eth',ico:'Ξ',name:'Ethereum',sym:'ETH/USD',tvSym:'BINANCE:ETHUSDT',cgId:'ethereum',cmc:'ethereum',accent:'#6366f1',unit:'$',dec:2},
-    {key:'sol',ico:'◎',name:'Solana',sym:'SOL/USD',tvSym:'BINANCE:SOLUSDT',cgId:'solana',cmc:'solana',accent:'#b060f8',unit:'$',dec:2},
-    {key:'xrp',ico:'✕',name:'XRP',sym:'XRP/USD',tvSym:'BINANCE:XRPUSDT',cgId:'ripple',cmc:'xrp',accent:'#06b6d4',unit:'$',dec:3},
-    {key:'avax',ico:'🔺',name:'Avalanche',sym:'AVAX/USD',tvSym:'BINANCE:AVAXUSDT',cgId:'avalanche-2',cmc:'avalanche',accent:'#f04040',unit:'$',dec:2},
-    {key:'link',ico:'⬡',name:'Chainlink',sym:'LINK/USD',tvSym:'BINANCE:LINKUSDT',cgId:'chainlink',cmc:'chainlink',accent:'#4f8ef7',unit:'$',dec:2},
-  ],
-  metals:[
-    {key:'gold',ico:'🥇',name:'Altın',sym:'XAU/USD',tvSym:'TVC:GOLD',unit:'$',dec:2,accent:'#f0a020'},
-    {key:'silver',ico:'🥈',name:'Gümüş',sym:'XAG/USD',tvSym:'TVC:SILVER',unit:'$',dec:2,accent:'#94a3b8'},
-    {key:'platinum',ico:'⬜',name:'Platin',sym:'XPT/USD',tvSym:'TVC:PLATINUM',unit:'$',dec:2,accent:'#cbd5e1'},
-    {key:'copper',ico:'🟤',name:'Bakır',sym:'HG/lb',tvSym:'CAPITALCOM:COPPER',unit:'$',dec:3,accent:'#b45309'},
-  ]
+forex:[
+{key:‘usd’,ico:‘🇺🇸’,name:‘Dolar’,sym:‘USD/TRY’,tvSym:‘FX_IDC:USDTRY’,unit:‘₺’,dec:2,accent:’#4f8ef7’},
+{key:‘eur’,ico:‘🇪🇺’,name:‘Euro’,sym:‘EUR/TRY’,tvSym:‘FX_IDC:EURTRY’,unit:‘₺’,dec:2,accent:’#6366f1’},
+{key:‘gbp’,ico:‘🇬🇧’,name:‘Sterlin’,sym:‘GBP/TRY’,tvSym:‘FX_IDC:GBPTRY’,unit:‘₺’,dec:2,accent:’#8b5cf6’},
+{key:‘jpy’,ico:‘🇯🇵’,name:‘Yen’,sym:‘JPY/TRY’,tvSym:‘FX_IDC:JPYTRY’,unit:‘₺’,dec:2,accent:’#ec4899’},
+{key:‘chf’,ico:‘🇨🇭’,name:‘İsv. Frangı’,sym:‘CHF/TRY’,tvSym:‘FX_IDC:CHFTRY’,unit:‘₺’,dec:2,accent:’#f04040’},
+{key:‘cad’,ico:‘🇨🇦’,name:‘Kanada $’,sym:‘CAD/TRY’,tvSym:‘FX_IDC:CADTRY’,unit:‘₺’,dec:2,accent:’#f97316’},
+{key:‘aud’,ico:‘🇦🇺’,name:‘Avust. $’,sym:‘AUD/TRY’,tvSym:‘FX_IDC:AUDTRY’,unit:‘₺’,dec:2,accent:’#14b8a6’},
+{key:‘sar’,ico:‘🇸🇦’,name:‘Riyyal’,sym:‘SAR/TRY’,tvSym:‘FX_IDC:SARTRY’,unit:‘₺’,dec:2,accent:’#22d45e’},
+],
+crypto:[
+{key:‘btc’,ico:‘₿’,name:‘Bitcoin’,sym:‘BTC/USD’,tvSym:‘BINANCE:BTCUSDT’,cgId:‘bitcoin’,cmc:‘bitcoin’,accent:’#f0a020’,unit:’$’,dec:2},
+{key:‘eth’,ico:‘Ξ’,name:‘Ethereum’,sym:‘ETH/USD’,tvSym:‘BINANCE:ETHUSDT’,cgId:‘ethereum’,cmc:‘ethereum’,accent:’#6366f1’,unit:’$’,dec:2},
+{key:‘sol’,ico:‘◎’,name:‘Solana’,sym:‘SOL/USD’,tvSym:‘BINANCE:SOLUSDT’,cgId:‘solana’,cmc:‘solana’,accent:’#b060f8’,unit:’$’,dec:2},
+{key:‘xrp’,ico:‘✕’,name:‘XRP’,sym:‘XRP/USD’,tvSym:‘BINANCE:XRPUSDT’,cgId:‘ripple’,cmc:‘xrp’,accent:’#06b6d4’,unit:’$’,dec:3},
+{key:‘avax’,ico:‘🔺’,name:‘Avalanche’,sym:‘AVAX/USD’,tvSym:‘BINANCE:AVAXUSDT’,cgId:‘avalanche-2’,cmc:‘avalanche’,accent:’#f04040’,unit:’$’,dec:2},
+{key:‘link’,ico:‘⬡’,name:‘Chainlink’,sym:‘LINK/USD’,tvSym:‘BINANCE:LINKUSDT’,cgId:‘chainlink’,cmc:‘chainlink’,accent:’#4f8ef7’,unit:’$’,dec:2},
+],
+metals:[
+{key:‘gold’,ico:‘🥇’,name:‘Altın’,sym:‘XAU/USD’,tvSym:‘TVC:GOLD’,unit:’$’,dec:2,accent:’#f0a020’},
+{key:‘silver’,ico:‘🥈’,name:‘Gümüş’,sym:‘XAG/USD’,tvSym:‘TVC:SILVER’,unit:’$’,dec:2,accent:’#94a3b8’},
+{key:‘platinum’,ico:‘⬜’,name:‘Platin’,sym:‘XPT/USD’,tvSym:‘TVC:PLATINUM’,unit:’$’,dec:2,accent:’#cbd5e1’},
+{key:‘copper’,ico:‘🟤’,name:‘Bakır’,sym:‘HG/lb’,tvSym:‘CAPITALCOM:COPPER’,unit:’$’,dec:3,accent:’#b45309’},
+]
 };
 var ALL={};
-['forex','crypto','metals'].forEach(function(c){ASSETS[c].forEach(function(a){ALL[a.key]=a;a.cat=c;});});
+[‘forex’,‘crypto’,‘metals’].forEach(function(c){ASSETS[c].forEach(function(a){ALL[a.key]=a;a.cat=c;});});
 
-// ── PRICE DATA
+// PRICE DATA
 var D={};
 var INIT={usd:38.05,eur:41.32,gbp:49.19,jpy:25.11,chf:42.50,cad:27.80,aud:23.90,sar:10.14,btc:68500,eth:2013,sol:131,xrp:2.10,avax:19.5,link:13.1,gold:5265,silver:94,platinum:1042,copper:4.38};
 var CHGB={usd:0.18,eur:-0.12,gbp:0.31,jpy:-0.07,chf:0.09,cad:0.22,aud:-0.15,sar:0.01,btc:1.42,eth:-0.87,sol:3.21,xrp:2.14,avax:-1.38,link:0.75,gold:0.44,silver:-0.22,platinum:0.61,copper:-0.33};
 function genH(b){var a=[],v=b*.97;for(var i=0;i<24;i++){v+=b*(Math.random()-.48)*.004;a.push(v);}return a;}
 (function(){for(var k in INIT)D[k]={price:INIT[k]*(1+(Math.random()-.5)*.003),chg:CHGB[k]+(Math.random()-.5)*.2,hist:genH(INIT[k])};})();
 function simTick(){for(var k in INIT){D[k].price+=INIT[k]*(Math.random()-.5)*.0003;D[k].chg+=(Math.random()-.5)*.05;D[k].chg=Math.max(-9,Math.min(9,D[k].chg));D[k].hist.push(D[k].price);D[k].hist.shift();}}
-function fN(n,d){return Number(n).toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});}
-function pStr(k){var a=ALL[k],d=D[k];if(!a||!d)return'—';var u=a.unit||'$';return u+'\u202f'+fN(d.price,a.dec);}
-function fPct(n){if(n==null)return'—';return(n>=0?'▲ +':'▼ ')+Math.abs(n).toFixed(2)+'%';}
-function makeSpark(hist,up){if(!hist||!hist.length)return'';var mn=Math.min.apply(null,hist),mx=Math.max.apply(null,hist),rng=mx-mn||1;var pts=hist.map(function(v,i){return(i/(hist.length-1)*100).toFixed(1)+','+(34-(v-mn)/rng*28-1).toFixed(1);}).join(' ');return'<svg class="spk" viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="'+(up?'#22d45e':'#f04040')+'" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/></svg>';}
+function fN(n,d){return Number(n).toLocaleString(‘tr-TR’,{minimumFractionDigits:d,maximumFractionDigits:d});}
+function pStr(k){var a=ALL[k],d=D[k];if(!a||!d)return’—’;var u=a.unit||’$’;return u+’\u202f’+fN(d.price,a.dec);}
+function fPct(n){if(n==null)return’—’;return(n>=0?‘▲ +’:‘▼ ‘)+Math.abs(n).toFixed(2)+’%’;}
+function makeSpark(hist,up){if(!hist||!hist.length)return’’;var mn=Math.min.apply(null,hist),mx=Math.max.apply(null,hist),rng=mx-mn||1;var pts=hist.map(function(v,i){return(i/(hist.length-1)*100).toFixed(1)+’,’+(34-(v-mn)/rng*28-1).toFixed(1);}).join(’ ‘);return’<svg class="spk" viewBox="0 0 100 34" preserveAspectRatio="none"><polyline fill="none" stroke="'+(up?'#22d45e':'#f04040')+'" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/></svg>’;}
 function makeCard(a){
-  var d=D[a.key]||{};var ps=d.price!=null?pStr(a.key):'—';var up=d.chg!=null&&d.chg>=0;
-  var el=document.createElement('div');el.className='card';el.id='c-'+a.key;el.style.setProperty('--ca',a.accent);el.onclick=function(){openModal(a.key);};
-  el.innerHTML='<div class="card-accent-line"></div><div class="card-top"><span class="card-ico">'+a.ico+'</span><span class="card-sym">'+a.sym+'</span></div><div class="card-name">'+a.name+'</div><div class="card-price" id="p-'+a.key+'">'+ps+'</div><span class="cbadge '+(d.chg==null?'nt':up?'up':'dn')+'" id="b-'+a.key+'">'+fPct(d.chg)+'</span><div class="card-spark" id="sp-'+a.key+'">'+makeSpark(d.hist,up)+'</div><div class="card-hint">📈 Grafik & Analiz</div>';
-  return el;
+var d=D[a.key]||{};var ps=d.price!=null?pStr(a.key):’—’;var up=d.chg!=null&&d.chg>=0;
+var el=document.createElement(‘div’);el.className=‘card’;el.id=‘c-’+a.key;el.style.setProperty(’–ca’,a.accent);el.onclick=function(){openModal(a.key);};
+el.innerHTML=’<div class="card-accent-line"></div><div class="card-top"><span class="card-ico">’+a.ico+’</span><span class="card-sym">’+a.sym+’</span></div><div class="card-name">’+a.name+’</div><div class="card-price" id="p-'+a.key+'">’+ps+’</div><span class="cbadge '+(d.chg==null?'nt':up?'up':'dn')+'" id="b-'+a.key+'">’+fPct(d.chg)+’</span><div class="card-spark" id="sp-'+a.key+'">’+makeSpark(d.hist,up)+’</div><div class="card-hint">📈 Grafik & Analiz</div>’;
+return el;
 }
-function renderGrids(){['forex','crypto','metals'].forEach(function(c){var g=document.getElementById(c+'-grid');g.innerHTML='';ASSETS[c].forEach(function(a){g.appendChild(makeCard(a));});});}
-function updateCards(){for(var k in ALL){var p=document.getElementById('p-'+k),b=document.getElementById('b-'+k),s=document.getElementById('sp-'+k);if(!p)continue;var d=D[k]||{};p.textContent=d.price!=null?pStr(k):'—';var up=d.chg!=null&&d.chg>=0;if(b){b.className='cbadge '+(d.chg==null?'nt':up?'up':'dn');b.textContent=fPct(d.chg);}if(s)s.innerHTML=makeSpark(d.hist,up);}}
+function renderGrids(){[‘forex’,‘crypto’,‘metals’].forEach(function(c){var g=document.getElementById(c+’-grid’);g.innerHTML=’’;ASSETS[c].forEach(function(a){g.appendChild(makeCard(a));});});}
+function updateCards(){for(var k in ALL){var p=document.getElementById(‘p-’+k),b=document.getElementById(‘b-’+k),s=document.getElementById(‘sp-’+k);if(!p)continue;var d=D[k]||{};p.textContent=d.price!=null?pStr(k):’—’;var up=d.chg!=null&&d.chg>=0;if(b){b.className=’cbadge ’+(d.chg==null?‘nt’:up?‘up’:‘dn’);b.textContent=fPct(d.chg);}if(s)s.innerHTML=makeSpark(d.hist,up);}}
 
-// ── CACHED API RESPONSE
 var lastApiData=null;
-
 async function tryReal(){
-  try{
-    var r=await fetch('/api/market');if(!r.ok)throw 0;
-    var data=await r.json();if(!data.ok)throw 0;
-    lastApiData=data;
-    // Fiyatlar
-    ['usd','eur','gbp','jpy','chf','cad','aud','sar'].forEach(function(k){if(data.forex[k])D[k].price=data.forex[k].price;});
-    ['btc','eth','sol','xrp','avax','link'].forEach(function(k){if(data.crypto[k]){D[k].price=data.crypto[k].price;D[k].chg=data.crypto[k].chg;}});
-    ['gold','silver','platinum','copper'].forEach(function(k){if(data.metals[k])D[k].price=data.metals[k].price;});
-    // Fear & Greed — gerçek veri (alternative.me)
-    if(data.fearIndex&&data.fearIndex.value!=null){
-      _fearReady=true;
-      var fi=data.fearIndex;
-      var hist=fi.history?fi.history.slice(0,4).map(function(h){return h.value;}):[];
-      setFear(fi.value,hist);
-    }
-    // Kripto sıralama — gerçek veri
-    if(data.cryptoRank&&data.cryptoRank.length){
-      updateCryptoRank(data.cryptoRank);
-    }
-    // Gerçek haberler (CoinGecko News API)
-    if(data.news&&data.news.length){
-      _newsAll=data.news;
-      loadNews(curF);
-    }
-    return true;
-  }catch(e){return false;}
+try{
+var r=await fetch(’/api/market’);if(!r.ok)throw 0;
+var data=await r.json();if(!data.ok)throw 0;
+lastApiData=data;
+[‘usd’,‘eur’,‘gbp’,‘jpy’,‘chf’,‘cad’,‘aud’,‘sar’].forEach(function(k){if(data.forex[k])D[k].price=data.forex[k].price;});
+[‘btc’,‘eth’,‘sol’,‘xrp’,‘avax’,‘link’].forEach(function(k){if(data.crypto[k]){D[k].price=data.crypto[k].price;D[k].chg=data.crypto[k].chg;}});
+[‘gold’,‘silver’,‘platinum’,‘copper’].forEach(function(k){if(data.metals[k])D[k].price=data.metals[k].price;});
+if(data.fearIndex&&data.fearIndex.value!=null){_fearReady=true;var fi=data.fearIndex;var hist=fi.history?fi.history.slice(0,4).map(function(h){return h.value;}):[]; setFear(fi.value,hist);}
+if(data.cryptoRank&&data.cryptoRank.length){updateCryptoRank(data.cryptoRank);}
+if(data.news&&data.news.length){_newsAll=data.news;loadNews(curF);}
+return true;
+}catch(e){return false;}
 }
 async function loadAll(){
-  var si=document.getElementById('si');si.classList.add('go');
-  var ok=await tryReal();
-  if(!ok)simTick();
-  updateCards();
-  si.classList.remove('go');
-  document.getElementById('lastUp').textContent=new Date().toLocaleTimeString('tr-TR');
+var si=document.getElementById(‘si’);si.classList.add(‘go’);
+var ok=await tryReal();
+if(!ok)simTick();
+updateCards();
+si.classList.remove(‘go’);
+document.getElementById(‘lastUp’).textContent=new Date().toLocaleTimeString(‘tr-TR’);
 }
 renderGrids();loadAll();
 setInterval(function(){simTick();updateCards();},3500);
 setInterval(loadAll,60000);
 
-// ── FEAR & GREED INDEX
-var FEAR_LABELS=['Aşırı Korku','Aşırı Korku','Korku','Korku','Nötr','Nötr','Açgözlülük','Açgözlülük','Aşırı Açgözlülük','Aşırı Açgözlülük'];
-var FEAR_COLORS=['#f04040','#f04040','#f08020','#f0a020','#f0d020','#c0d030','#80d040','#40c050','#22d45e','#22d45e'];
+// FEAR & GREED
+var FEAR_LABELS=[‘Aşırı Korku’,‘Aşırı Korku’,‘Korku’,‘Korku’,‘Nötr’,‘Nötr’,‘Açgözlülük’,‘Açgözlülük’,‘Aşırı Açgözlülük’,‘Aşırı Açgözlülük’];
+var FEAR_COLORS=[’#f04040’,’#f04040’,’#f08020’,’#f0a020’,’#f0d020’,’#c0d030’,’#80d040’,’#40c050’,’#22d45e’,’#22d45e’];
 function fearLabel(s){return FEAR_LABELS[Math.min(9,Math.floor(s/10))];}
 function fearColor(s){return FEAR_COLORS[Math.min(9,Math.floor(s/10))];}
 function setFear(score,hist){
-  document.getElementById('fearScore').textContent=score;
-  var lbl=fearLabel(score);
-  var col=fearColor(score);
-  document.getElementById('fearLabel').textContent=lbl;
-  document.getElementById('fearLabel').style.color=col;
-  document.getElementById('fearScore').style.color=col;
-  document.getElementById('fearGlow').style.background='radial-gradient(circle,'+col+'22,transparent 70%)';
-  // Needle: score 0→left(-90deg), score 100→right(90deg)
-  var angle=-90+(score/100)*180;
-  document.getElementById('gaugeNeedle').style.transform='rotate('+angle+'deg)';
-  // History
-  if(hist&&hist.length>=4){
-    for(var i=0;i<4;i++){
-      var s=hist[i];var c=fearColor(s);
-      document.getElementById('fh'+i).textContent=s;
-      document.getElementById('fh'+i).style.color=c;
-      document.getElementById('fhn'+i).textContent=fearLabel(s);
-      document.getElementById('fhn'+i).style.color=c;
-    }
-  }
-  // Sentiments
-  var sentData=[
-    {id:'crypto',val:score+Math.round((Math.random()-.5)*10)},
-    {id:'stock',val:score-Math.round(5+Math.random()*8)},
-    {id:'forex',val:50+Math.round((Math.random()-.5)*20)},
-    {id:'comm',val:score+Math.round((Math.random()-.5)*15)},
-  ];
-  sentData.forEach(function(s){
-    var v=Math.max(1,Math.min(99,s.val));var c=fearColor(v);
-    var b=document.getElementById(s.id+'Bar');var p=document.getElementById(s.id+'Pct');
-    if(b){b.style.width=v+'%';b.style.background='linear-gradient(to right,#f04040,'+c+')';}
-    if(p){p.textContent=v+' — '+fearLabel(v);p.style.color=c;}
-  });
+document.getElementById(‘fearScore’).textContent=score;
+var lbl=fearLabel(score);var col=fearColor(score);
+document.getElementById(‘fearLabel’).textContent=lbl;
+document.getElementById(‘fearLabel’).style.color=col;
+document.getElementById(‘fearScore’).style.color=col;
+document.getElementById(‘fearGlow’).style.background=‘radial-gradient(circle,’+col+‘22,transparent 70%)’;
+var angle=-90+(score/100)*180;
+document.getElementById(‘gaugeNeedle’).style.transform=‘rotate(’+angle+‘deg)’;
+if(hist&&hist.length>=4){
+for(var i=0;i<4;i++){var s=hist[i];var c=fearColor(s);document.getElementById(‘fh’+i).textContent=s;document.getElementById(‘fh’+i).style.color=c;document.getElementById(‘fhn’+i).textContent=fearLabel(s);document.getElementById(‘fhn’+i).style.color=c;}
 }
-// ── FEAR & GREED — API'den gelir, simülasyon KAPALI
-// İlk yüklemede boş göster, API gelince doldur
+var sentData=[{id:‘crypto’,val:score+Math.round((Math.random()-.5)*10)},{id:‘stock’,val:score-Math.round(5+Math.random()*8)},{id:‘forex’,val:50+Math.round((Math.random()-.5)*20)},{id:‘comm’,val:score+Math.round((Math.random()-.5)*15)},];
+sentData.forEach(function(s){var v=Math.max(1,Math.min(99,s.val));var c=fearColor(v);var b=document.getElementById(s.id+‘Bar’);var p=document.getElementById(s.id+‘Pct’);if(b){b.style.width=v+’%’;b.style.background=‘linear-gradient(to right,#f04040,’+c+’)’;}if(p){p.textContent=v+’ — ’+fearLabel(v);p.style.color=c;}});
+}
 var _fearReady=false;
-var _fearSim=50; // başlangıç nötr
-setTimeout(function(){if(!_fearReady)setFear(_fearSim,[50,50,50,50]);},800);
+setTimeout(function(){if(!_fearReady)setFear(50,[50,50,50,50]);},800);
 
-// ── KRİPTO SIRALAMASINI GÜNCELLE (gerçek veriden)
-var _cryptoRankData=null;
-var _currentRankCat='all';
-// İkon haritası (CoinGecko id → emoji)
-var COIN_ICO={'bitcoin':'₿','ethereum':'Ξ','tether':'🪙','ripple':'✕','solana':'◎','binancecoin':'🔵','usd-coin':'🟡','staked-ether':'Ξ','cardano':'🔵','avalanche-2':'🔺','dogecoin':'🐕','shiba-inu':'🐕','chainlink':'⬡','polkadot':'⬤','tron':'🔴','litecoin':'🔘','wrapped-bitcoin':'₿','monero':'⚫','ethereum-classic':'Ξ','stellar':'⭐'};
-function coinIco(id){return COIN_ICO[id]||'🪙';}
-function fMcap(v){
-  if(!v)return'—';
-  if(v>=1e12)return'$'+(v/1e12).toFixed(2)+'T';
-  if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';
-  if(v>=1e6)return'$'+(v/1e6).toFixed(0)+'M';
-  return'$'+v;
-}
-function updateCryptoRank(arr){
-  _cryptoRankData=arr;
-  if(_currentRankCat==='crypto'){
-    renderCryptoRank(arr);
-  }
-  // All tab'ı da güncelle
-  if(_currentRankCat==='all'){
-    renderAllRank();
-  }
-}
-function renderCryptoRank(arr){
-  var list=document.getElementById('rankList');list.innerHTML='';
-  var max=arr[0]?arr[0].mcap:1;
-  arr.slice(0,15).forEach(function(coin,i){
-    var n=i+1;var nc=n===1?'top1':n===2?'top2':n===3?'top3':'';
-    var up=coin.chg24>=0;
-    var bar=max>0?(coin.mcap/max*100):0;
-    var div=document.createElement('div');div.className='rank-item';
-    div.innerHTML='<div class="rank-num '+nc+'">'+(nc?['🥇','🥈','🥉'][n-1]:n)+'</div>'
-      +'<div class="rank-ico">'+coinIco(coin.id)+'</div>'
-      +'<div class="rank-body"><div class="rank-name">'+coin.name+'</div>'
-      +'<div class="rank-sub">'+coin.symbol+' · Kripto</div>'
-      +'<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+Math.min(100,bar)+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>'
-      +'<div class="rank-right"><div class="rank-val">'+fMcap(coin.mcap)+'</div>'
-      +'<div class="rank-chg '+(up?'up':'dn')+'">'+(up?'▲ +':'▼ ')+Math.abs(coin.chg24||0).toFixed(2)+'%</div></div>';
-    list.appendChild(div);
-  });
-}
-function renderAllRank(){
-  // Karışık liste: sabit hisse + gerçek kripto top 5 + sabit madenler
-  var list=document.getElementById('rankList');list.innerHTML='';
-  var allItems=[];
-  // Sabit büyük hisseler + madenler
-  var STATIC=[
-    {cat:'metals',ico:'🥇',name:'Altın',sub:'XAU · Emtia',val:'$17.9T',chg:0.44,bar:100},
-    {cat:'stock',ico:'🏢',name:'Apple',sub:'AAPL · S&P500',val:'$3.4T',chg:0.82,bar:19},
-    {cat:'stock',ico:'🤖',name:'Microsoft',sub:'MSFT · S&P500',val:'$3.1T',chg:1.14,bar:17.3},
-    {cat:'stock',ico:'🔍',name:'NVIDIA',sub:'NVDA · S&P500',val:'$2.9T',chg:2.31,bar:16.2},
-    {cat:'stock',ico:'🛒',name:'Amazon',sub:'AMZN · S&P500',val:'$2.1T',chg:0.44,bar:11.7},
-  ];
-  STATIC.forEach(function(item,i){
-    var n=i+1;var nc=n===1?'top1':n===2?'top2':n===3?'top3':'';
-    var up=item.chg>=0;
-    var div=document.createElement('div');div.className='rank-item';
-    div.innerHTML='<div class="rank-num '+nc+'">'+(nc?['🥇','🥈','🥉'][n-1]:n)+'</div>'
-      +'<div class="rank-ico">'+item.ico+'</div>'
-      +'<div class="rank-body"><div class="rank-name">'+item.name+'</div><div class="rank-sub">'+item.sub+'</div>'
-      +'<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+item.bar+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>'
-      +'<div class="rank-right"><div class="rank-val">'+item.val+'</div>'
-      +'<div class="rank-chg '+(up?'up':'dn')+'">'+(up?'▲ +':'▼ ')+Math.abs(item.chg).toFixed(2)+'%</div></div>';
-    list.appendChild(div);
-  });
-  // Gerçek kripto (API'den) veya statik fallback
-  var cryptos=_cryptoRankData?_cryptoRankData.slice(0,5):RANKS_STATIC.crypto;
-  cryptos.forEach(function(coin,i){
-    var up=(coin.chg24||coin.chg||0)>=0;
-    var bar=_cryptoRankData?(coin.mcap/(_cryptoRankData[0].mcap)*9.6):coin.bar;
-    var name=coin.name;var sym=coin.symbol?coin.symbol.toUpperCase():coin.sub;
-    var val=coin.mcap?fMcap(coin.mcap):coin.val;
-    var ico=coin.id?coinIco(coin.id):coin.ico;
-    var chgVal=coin.chg24!=null?coin.chg24:(coin.chg||0);
-    var div=document.createElement('div');div.className='rank-item';
-    div.innerHTML='<div class="rank-num">'+(i+6)+'</div>'
-      +'<div class="rank-ico">'+ico+'</div>'
-      +'<div class="rank-body"><div class="rank-name">'+name+'</div><div class="rank-sub">'+sym+' · Kripto</div>'
-      +'<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+Math.min(100,bar)+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>'
-      +'<div class="rank-right"><div class="rank-val">'+val+'</div>'
-      +'<div class="rank-chg '+(up?'up':'dn')+'">'+(up?'▲ +':'▼ ')+Math.abs(chgVal).toFixed(2)+'%</div></div>';
-    list.appendChild(div);
-  });
-}
-
-
-// ── WORLD ASSET RANKINGS
-// ── RANKS — statik fallback
+// RANKINGS
 var RANKS_STATIC={
-  stock:[
-    {ico:'🏢',name:'Apple',sub:'AAPL',val:'$3.4T',chg:0.82,bar:100},
-    {ico:'🤖',name:'Microsoft',sub:'MSFT',val:'$3.1T',chg:1.14,bar:91},
-    {ico:'🔍',name:'NVIDIA',sub:'NVDA',val:'$2.9T',chg:2.31,bar:85},
-    {ico:'🛒',name:'Amazon',sub:'AMZN',val:'$2.1T',chg:0.44,bar:62},
-    {ico:'🔎',name:'Alphabet',sub:'GOOGL',val:'$2.0T',chg:-0.22,bar:59},
-    {ico:'⚡',name:'Tesla',sub:'TSLA',val:'$890B',chg:-1.21,bar:26},
-    {ico:'💳',name:'Saudi Aramco',sub:'2222',val:'$1.76T',chg:0.11,bar:52},
-    {ico:'🏦',name:'Berkshire',sub:'BRK.A',val:'$1.08T',chg:0.33,bar:32},
-    {ico:'💊',name:'Eli Lilly',sub:'LLY',val:'$720B',chg:1.8,bar:21},
-    {ico:'💰',name:'JPMorgan',sub:'JPM',val:'$680B',chg:0.6,bar:20},
-  ],
-  cryptoFallback:[
-    {id:'bitcoin',ico:'₿',name:'Bitcoin',sub:'BTC',val:'$1.72T',chg24:1.42,mcap:1720000000000},
-    {id:'ethereum',ico:'Ξ',name:'Ethereum',sub:'ETH',val:'$257B',chg24:-0.87,mcap:257000000000},
-    {id:'ripple',ico:'✕',name:'XRP',sub:'XRP',val:'$128B',chg24:2.14,mcap:128000000000},
-    {id:'tether',ico:'🪙',name:'Tether',sub:'USDT',val:'$143B',chg24:0.01,mcap:143000000000},
-    {id:'solana',ico:'◎',name:'Solana',sub:'SOL',val:'$67B',chg24:3.21,mcap:67000000000},
-    {id:'binancecoin',ico:'🔵',name:'BNB',sub:'BNB',val:'$89B',chg24:0.55,mcap:89000000000},
-    {id:'avalanche-2',ico:'🔺',name:'Avalanche',sub:'AVAX',val:'$8.7B',chg24:-1.38,mcap:8700000000},
-    {id:'chainlink',ico:'⬡',name:'Chainlink',sub:'LINK',val:'$7.1B',chg24:0.75,mcap:7100000000},
-  ],
-  metals:[
-    {ico:'🥇',name:'Altın',sub:'XAU',val:'$17.9T',chg:0.44,bar:100},
-    {ico:'🥈',name:'Gümüş',sub:'XAG',val:'$1.8T',chg:-0.22,bar:10},
-    {ico:'⬜',name:'Platin',sub:'XPT',val:'$243B',chg:0.61,bar:1.4},
-    {ico:'⬛',name:'Paladyum',sub:'XPD',val:'$52B',chg:-0.8,bar:0.3},
-    {ico:'🟤',name:'Bakır',sub:'HG',val:'$220B',chg:-0.33,bar:1.2},
-  ],
-  forex:[
-    {ico:'🇺🇸',name:'Dolar',sub:'USD',val:'Referans',chg:0.18,bar:100},
-    {ico:'🇪🇺',name:'Euro',sub:'EUR',val:'\u20ac1 = $1.08',chg:-0.12,bar:88},
-    {ico:'🇬🇧',name:'Sterlin',sub:'GBP',val:'\u00a31 = $1.27',chg:0.31,bar:82},
-    {ico:'🇯🇵',name:'Yen',sub:'JPY',val:'\u00a5150 = $1',chg:-0.07,bar:40},
-    {ico:'🇨🇭',name:'Frank',sub:'CHF',val:'\u20a31 = $1.11',chg:0.09,bar:90},
-    {ico:'🇨🇦',name:'Kanada $',sub:'CAD',val:'C$1 = $0.73',chg:0.22,bar:62},
-    {ico:'🇸🇦',name:'Riyyal',sub:'SAR',val:'1 SAR = $0.27',chg:0.01,bar:22},
-    {ico:'🇦🇺',name:'Avust. $',sub:'AUD',val:'A$1 = $0.63',chg:-0.15,bar:55},
-  ]
+stock:[
+{ico:‘🏢’,name:‘Apple’,sub:‘AAPL’,val:’$3.4T’,chg:0.82,bar:100},
+{ico:‘🤖’,name:‘Microsoft’,sub:‘MSFT’,val:’$3.1T’,chg:1.14,bar:91},
+{ico:‘🔍’,name:‘NVIDIA’,sub:‘NVDA’,val:’$2.9T’,chg:2.31,bar:85},
+{ico:‘🛒’,name:‘Amazon’,sub:‘AMZN’,val:’$2.1T’,chg:0.44,bar:62},
+{ico:‘🔎’,name:‘Alphabet’,sub:‘GOOGL’,val:’$2.0T’,chg:-0.22,bar:59},
+{ico:‘⚡’,name:‘Tesla’,sub:‘TSLA’,val:’$890B’,chg:-1.21,bar:26},
+{ico:‘💳’,name:‘Saudi Aramco’,sub:‘2222’,val:’$1.76T’,chg:0.11,bar:52},
+{ico:‘🏦’,name:‘Berkshire’,sub:‘BRK.A’,val:’$1.08T’,chg:0.33,bar:32},
+{ico:‘💊’,name:‘Eli Lilly’,sub:‘LLY’,val:’$720B’,chg:1.8,bar:21},
+{ico:‘💰’,name:‘JPMorgan’,sub:‘JPM’,val:’$680B’,chg:0.6,bar:20},
+],
+cryptoFallback:[
+{id:‘bitcoin’,ico:‘₿’,name:‘Bitcoin’,sub:‘BTC’,val:’$1.72T’,chg24:1.42,mcap:1720000000000},
+{id:‘ethereum’,ico:‘Ξ’,name:‘Ethereum’,sub:‘ETH’,val:’$257B’,chg24:-0.87,mcap:257000000000},
+{id:‘ripple’,ico:‘✕’,name:‘XRP’,sub:‘XRP’,val:’$128B’,chg24:2.14,mcap:128000000000},
+{id:‘tether’,ico:‘🪙’,name:‘Tether’,sub:‘USDT’,val:’$143B’,chg24:0.01,mcap:143000000000},
+{id:‘solana’,ico:‘◎’,name:‘Solana’,sub:‘SOL’,val:’$67B’,chg24:3.21,mcap:67000000000},
+{id:‘binancecoin’,ico:‘🔵’,name:‘BNB’,sub:‘BNB’,val:’$89B’,chg24:0.55,mcap:89000000000},
+{id:‘avalanche-2’,ico:‘🔺’,name:‘Avalanche’,sub:‘AVAX’,val:’$8.7B’,chg24:-1.38,mcap:8700000000},
+{id:‘chainlink’,ico:‘⬡’,name:‘Chainlink’,sub:‘LINK’,val:’$7.1B’,chg24:0.75,mcap:7100000000},
+],
+metals:[
+{ico:‘🥇’,name:‘Altın’,sub:‘XAU’,val:’$17.9T’,chg:0.44,bar:100},
+{ico:‘🥈’,name:‘Gümüş’,sub:‘XAG’,val:’$1.8T’,chg:-0.22,bar:10},
+{ico:‘⬜’,name:‘Platin’,sub:‘XPT’,val:’$243B’,chg:0.61,bar:1.4},
+{ico:‘⬛’,name:‘Paladyum’,sub:‘XPD’,val:’$52B’,chg:-0.8,bar:0.3},
+{ico:‘🟤’,name:‘Bakır’,sub:‘HG’,val:’$220B’,chg:-0.33,bar:1.2},
+],
+forex:[
+{ico:‘🇺🇸’,name:‘Dolar’,sub:‘USD’,val:‘Referans’,chg:0.18,bar:100},
+{ico:‘🇪🇺’,name:‘Euro’,sub:‘EUR’,val:‘€1 = $1.08’,chg:-0.12,bar:88},
+{ico:‘🇬🇧’,name:‘Sterlin’,sub:‘GBP’,val:‘£1 = $1.27’,chg:0.31,bar:82},
+{ico:‘🇯🇵’,name:‘Yen’,sub:‘JPY’,val:‘¥150 = $1’,chg:-0.07,bar:40},
+{ico:‘🇨🇭’,name:‘Frank’,sub:‘CHF’,val:‘₣1 = $1.11’,chg:0.09,bar:90},
+{ico:‘🇨🇦’,name:‘Kanada $’,sub:‘CAD’,val:‘C$1 = $0.73’,chg:0.22,bar:62},
+{ico:‘🇸🇦’,name:‘Riyyal’,sub:‘SAR’,val:‘1 SAR = $0.27’,chg:0.01,bar:22},
+{ico:‘🇦🇺’,name:‘Avust. $’,sub:‘AUD’,val:‘A$1 = $0.63’,chg:-0.15,bar:55},
+]
 };
 var _cryptoRankData=null;
-var _currentRankCat='all';
-var COIN_ICO={bitcoin:'\u20bf',ethereum:'\u039e',tether:'\ud83e\ude99',ripple:'\u2715',solana:'\u25ce',binancecoin:'\ud83d\udd35','usd-coin':'\ud83d\udfe1',cardano:'\ud83d\udd35','avalanche-2':'\ud83d\udd3a',dogecoin:'\ud83d\udc15','shiba-inu':'\ud83d\udc15',chainlink:'\u2b21',polkadot:'\u2b24',tron:'\ud83d\udd34',litecoin:'\ud83d\udd18',stellar:'\u2b50'};
-function coinIco(id){return COIN_ICO[id]||'\ud83e\ude99';}
-function fMcap(v){if(!v)return'\u2014';if(v>=1e12)return'$'+(v/1e12).toFixed(2)+'T';if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(0)+'M';return'$'+v;}
+var _currentRankCat=‘all’;
+var COIN_ICO={bitcoin:‘₿’,ethereum:‘Ξ’,tether:‘🪙’,ripple:‘✕’,solana:‘◎’,binancecoin:‘🔵’,‘usd-coin’:‘🟡’,cardano:‘🔵’,‘avalanche-2’:‘🔺’,dogecoin:‘🐕’,‘shiba-inu’:‘🐕’,chainlink:‘⬡’,polkadot:‘⬤’,tron:‘🔴’,litecoin:‘🔘’,stellar:‘⭐’};
+function coinIco(id){return COIN_ICO[id]||‘🪙’;}
+function fMcap(v){if(!v)return’—’;if(v>=1e12)return’$’+(v/1e12).toFixed(2)+‘T’;if(v>=1e9)return’$’+(v/1e9).toFixed(1)+‘B’;if(v>=1e6)return’$’+(v/1e6).toFixed(0)+‘M’;return’$’+v;}
 
 function renderRankItems(items,list,cryptoMode){
-  var max=cryptoMode&&items.length?items[0].mcap:null;
-  items.forEach(function(item,i){
-    var n=i+1;var nc=n===1?'top1':n===2?'top2':n===3?'top3':'';
-    var up=cryptoMode?(item.chg24||0)>=0:(item.chg||0)>=0;
-    var barW=cryptoMode?(max?(item.mcap/max*100):0):Math.min(100,item.bar||0);
-    var name=item.name;
-    var sub=cryptoMode?(item.symbol?item.symbol.toUpperCase():item.sub)+' \u00b7 Kripto':item.sub;
-    var ico=cryptoMode?coinIco(item.id):item.ico;
-    var val=cryptoMode?fMcap(item.mcap):(item.val||'\u2014');
-    var chgVal=cryptoMode?(item.chg24||0):(item.chg||0);
-    var div=document.createElement('div');div.className='rank-item';
-    div.innerHTML='<div class="rank-num '+nc+'">'+(nc?['\ud83e\udd47','\ud83e\udd48','\ud83e\udd49'][n-1]:n)+'</div>'
-      +'<div class="rank-ico">'+ico+'</div>'
-      +'<div class="rank-body"><div class="rank-name">'+name+'</div><div class="rank-sub">'+sub+'</div>'
-      +'<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+barW+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>'
-      +'<div class="rank-right"><div class="rank-val">'+val+'</div>'
-      +'<div class="rank-chg '+(up?'up':'dn')+'">'+(up?'\u25b2 +':'\u25bc ')+Math.abs(chgVal).toFixed(2)+'%</div></div>';
-    list.appendChild(div);
-  });
+var max=cryptoMode&&items.length?items[0].mcap:null;
+items.forEach(function(item,i){
+var n=i+1;var nc=n===1?‘top1’:n===2?‘top2’:n===3?‘top3’:’’;
+var up=cryptoMode?(item.chg24||0)>=0:(item.chg||0)>=0;
+var barW=cryptoMode?(max?(item.mcap/max*100):0):Math.min(100,item.bar||0);
+var name=item.name;
+var sub=cryptoMode?(item.symbol?item.symbol.toUpperCase():item.sub)+’ · Kripto’:item.sub;
+var ico=cryptoMode?coinIco(item.id):item.ico;
+var val=cryptoMode?fMcap(item.mcap):(item.val||’—’);
+var chgVal=cryptoMode?(item.chg24||0):(item.chg||0);
+var div=document.createElement(‘div’);div.className=‘rank-item’;
+div.innerHTML=’<div class="rank-num '+nc+'">’+(nc?[‘🥇’,‘🥈’,‘🥉’][n-1]:n)+’</div>’
++’<div class="rank-ico">’+ico+’</div>’
++’<div class="rank-body"><div class="rank-name">’+name+’</div><div class="rank-sub">’+sub+’</div>’
++’<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+barW+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>’
++’<div class="rank-right"><div class="rank-val">’+val+’</div>’
++’<div class="rank-chg '+(up?'up':'dn')+'">’+(up?‘▲ +’:‘▼ ‘)+Math.abs(chgVal).toFixed(2)+’%</div></div>’;
+list.appendChild(div);
+});
 }
 
 function showRank(cat,btn){
-  document.querySelectorAll('.rtab').forEach(function(b){b.classList.remove('on');});
-  btn.classList.add('on');
-  _currentRankCat=cat;
-  var list=document.getElementById('rankList');list.innerHTML='';
-  if(cat==='all'){
-    // Statik satırlar (altın + hisseler)
-    var topItems=[
-      {ico:'\ud83e\udd47',name:'Alt\u0131n',sub:'XAU \u00b7 Emtia',val:'$17.9T',chg:0.44,bar:100},
-      {ico:'\ud83c\udfe2',name:'Apple',sub:'AAPL \u00b7 S&P500',val:'$3.4T',chg:0.82,bar:19},
-      {ico:'\ud83e\udd16',name:'Microsoft',sub:'MSFT \u00b7 S&P500',val:'$3.1T',chg:1.14,bar:17.3},
-      {ico:'\ud83d\udd0d',name:'NVIDIA',sub:'NVDA \u00b7 S&P500',val:'$2.9T',chg:2.31,bar:16.2},
-      {ico:'\ud83d\uded2',name:'Amazon',sub:'AMZN \u00b7 S&P500',val:'$2.1T',chg:0.44,bar:11.7},
-    ];
-    renderRankItems(topItems,list,false);
-    var cryptos=_cryptoRankData||RANKS_STATIC.cryptoFallback;
-    var maxMcap=cryptos[0]?cryptos[0].mcap:1;
-    cryptos.slice(0,8).forEach(function(coin,i){
-      var n=i+6;
-      var up=(coin.chg24||0)>=0;
-      var barW=(coin.mcap/maxMcap*9.6);
-      var ico=coin.id?coinIco(coin.id):(coin.ico||'\ud83e\ude99');
-      var sym=coin.symbol?coin.symbol.toUpperCase():coin.sub;
-      var div=document.createElement('div');div.className='rank-item';
-      div.innerHTML='<div class="rank-num">'+n+'</div>'
-        +'<div class="rank-ico">'+ico+'</div>'
-        +'<div class="rank-body"><div class="rank-name">'+coin.name+'</div><div class="rank-sub">'+sym+' \u00b7 Kripto</div>'
-        +'<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+Math.min(100,barW)+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>'
-        +'<div class="rank-right"><div class="rank-val">'+fMcap(coin.mcap)+'</div>'
-        +'<div class="rank-chg '+(up?'up':'dn')+'">'+(up?'\u25b2 +':'\u25bc ')+Math.abs(coin.chg24||0).toFixed(2)+'%</div></div>';
-      list.appendChild(div);
-    });
-    return;
-  }
-  if(cat==='crypto'){
-    var cryptos=_cryptoRankData||RANKS_STATIC.cryptoFallback;
-    renderRankItems(cryptos.slice(0,15),list,true);
-    return;
-  }
-  renderRankItems(RANKS_STATIC[cat]||[],list,false);
-}
-
-function updateCryptoRank(arr){
-  _cryptoRankData=arr;
-  if(_currentRankCat==='crypto'||_currentRankCat==='all'){
-    showRank(_currentRankCat,document.querySelector('.rtab.on'));
-  }
-}
-showRank('all',document.querySelector('.rtab.on'));
-
-// ── NEWS
-var NEWS=[
-// KRİPTO
-  {cat:'crypto',ico:'₿',title:'Bitcoin 65.000 dolar seviyesinde; İran savaşının ardından toparlanma sürüyor',source:'CoinDesk',url:'https://coindesk.com',time:'2 sa'},
-  {cat:'crypto',ico:'📉',title:'Altcoinlerin %38\'i tarihi dip seviyelerinde — FTX çöküşünden derin düşüş',source:'CoinPedia',url:'https://coinpedia.org',time:'3 sa'},
-  {cat:'crypto',ico:'Ξ',title:'Ethereum staking rekoru: 37.1 milyon ETH kilitlendi, borsa arzı azalıyor',source:'CoinPedia',url:'https://coinpedia.org',time:'4 sa'},
-  {cat:'crypto',ico:'◎',title:'Solana 83 dolar seviyesinde; güçlü geliştirici aktivitesi ile direnç gösteriyor',source:'CryptoNews',url:'https://cryptonews.com',time:'5 sa'},
-  {cat:'crypto',ico:'✕',title:'XRP 1.35 dolar; kripto ETF girişleri 3 ardışık günde 1 milyar dolar aştı',source:'CryptoNews',url:'https://cryptonews.com',time:'6 sa'},
-  {cat:'crypto',ico:'⚖️',title:'ABD Senatosu konut tasarısına CBDC yasağı ekledi — Fed dijital para çıkaramayacak',source:'CoinDesk',url:'https://coindesk.com',time:'8 sa'},
-  {cat:'crypto',ico:'🔗',title:'Vitalik Buterin, Ethereum blok üreticisi merkezileşmesine karşı plan açıkladı',source:'CoinDesk',url:'https://coindesk.com',time:'10 sa'},
-  {cat:'crypto',ico:'🏦',title:'Morgan Stanley ulusal kripto saklama ve staking hizmetleri için başvuru yaptı',source:'CryptoNews',url:'https://cryptonews.com',time:'12 sa'},
-
-  // PİYASALAR
-  {cat:'markets',ico:'📉',title:'S&P 500 futures %1.6 düştü; İran\'da yeni saldırılar borsaları sarstı',source:'Bloomberg',url:'https://bloomberg.com',time:'1 sa'},
-  {cat:'markets',ico:'🥇',title:'Altın 5.317 doları aştı; yatırımcılar güvenli limanlara akın ediyor',source:'Bloomberg',url:'https://bloomberg.com',time:'2 sa'},
-  {cat:'markets',ico:'📊',title:'Nasdaq %1.8 geriledi; Nvidia +2.9% ve Microsoft +1.5% ile dip alımı yapıldı',source:'CNBC',url:'https://cnbc.com',time:'3 sa'},
-  {cat:'markets',ico:'🛡️',title:'Savunma hisseleri fırladı: Northrop Grumman +5%, Palantir +5.8%',source:'CNBC',url:'https://cnbc.com',time:'4 sa'},
-  {cat:'markets',ico:'✈️',title:'Havacılık hisseleri çöktü: United Airlines -6%, American -5%, Delta -5%',source:'CNBC',url:'https://cnbc.com',time:'5 sa'},
-  {cat:'markets',ico:'🇩🇪',title:'Asya ve Avrupa borsaları son 2 günün en sert düşüşünü yaşıyor',source:'Bloomberg',url:'https://bloomberg.com',time:'6 sa'},
-  {cat:'markets',ico:'🏦',title:'VIX korku endeksi %18 fırladı; piyasalarda volatilite tırmanıyor',source:'CNBC',url:'https://cnbc.com',time:'7 sa'},
-
-  // EKONOMİ
-  {cat:'eco',ico:'🏦',title:'Fed Mart toplantısında faiz sabit kalacak — İran savaşı enflasyon riskini artırdı',source:'CNBC',url:'https://cnbc.com',time:'2 sa'},
-  {cat:'eco',ico:'📊',title:'ABD ISM imalat fiyatları Haziran 2022\'den bu yana en yüksek seviyede: 70.5',source:'Reuters',url:'https://reuters.com',time:'4 sa'},
-  {cat:'eco',ico:'🇪🇺',title:'Eurozone imalat PMI 44 ayın zirvesinde: 50.8 — Almanya 4 yıl sonra büyüme bölgesine girdi',source:'Reuters',url:'https://reuters.com',time:'5 sa'},
-  {cat:'eco',ico:'💱',title:'Dolar güçleniyor; Avrupa para birimleri jeopolitik şoktan en çok etkilenen kesim',source:'Bloomberg',url:'https://bloomberg.com',time:'6 sa'},
-  {cat:'eco',ico:'🇹🇷',title:'Türkiye enflasyonla mücadelede kararlı; Merkez Bankası sıkı para politikasını koruyor',source:'Bloomberg HT',url:'https://bloomberght.com',time:'8 sa'},
-  {cat:'eco',ico:'📈',title:'JP Morgan: Yıl sonu S&P 500 hedefi 7.500 — Wells Fargo da aynı görüşte',source:'CNBC',url:'https://cnbc.com',time:'10 sa'},
-
-  // JEOPOLİTİK
-  {cat:'geo',ico:'💥',title:'ABD-İsrail İran\'a yeni saldırılar başlattı; Trump savaşın haftalarca süreceğini açıkladı',source:'Al Jazeera',url:'https://aljazeera.com',time:'30 dk'},
-  {cat:'geo',ico:'🌊',title:'İran Hürmüz Boğazı\'nı kapattı: 150 tanker mahsur, küresel petrol ticareti durdu',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
-  {cat:'geo',ico:'🇮🇷',title:'İran\'ın Dini Lideri Hamaney öldürüldü — Devrim Muhafızları bölgeye saldırı başlattı',source:'Reuters',url:'https://reuters.com',time:'2 sa'},
-  {cat:'geo',ico:'🇸🇦',title:'Riyad\'daki ABD Büyükelçiliği insansız hava aracıyla vuruldu; Suudi Arabistan\'da yangın',source:'OPB',url:'https://opb.org',time:'3 sa'},
-  {cat:'geo',ico:'🇶🇦',title:'Katar LNG tesisleri İran insansız hava araçlarıyla vuruldu; üretim durduruldu',source:'Al Jazeera',url:'https://aljazeera.com',time:'4 sa'},
-  {cat:'geo',ico:'✈️',title:'Dubai ve Körfez havalimanları kapandı; yüz binlerce yolcu mahsur kaldı',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
-
-  // ENERJİ
-  {cat:'energy',ico:'🛢️',title:'Brent petrol 85 doları aştı — Hürmüz Boğazı\'nın kapanmasıyla fiyatlar tırmanıyor',source:'Bloomberg',url:'https://bloomberg.com',time:'1 sa'},
-  {cat:'energy',ico:'🔥',title:'Avrupa doğalgaz fiyatları %85 fırladı; Katar LNG ihracatı durdu',source:'Bloomberg',url:'https://bloomberg.com',time:'2 sa'},
-  {cat:'energy',ico:'⛽',title:'ABD benzin fiyatları yükseliyor — GasBuddy: 1-2 hafta içinde litre başına 10-30 sent artış',source:'CNBC',url:'https://cnbc.com',time:'3 sa'},
-  {cat:'energy',ico:'🚢',title:'Küresel petrolün %20\'si geçen Hürmüz\'de tanker trafiği %80 düştü',source:'NPR',url:'https://npr.org',time:'4 sa'},
-  {cat:'energy',ico:'💡',title:'OPEC üretimi artıracağını duyurdu ancak piyasayı sakinleştirmeye yetmedi',source:'Reuters',url:'https://reuters.com',time:'5 sa'},
-  {cat:'energy',ico:'☀️',title:'Analistler: Çatışma uzarsa petrol 100 doları aşabilir — en kötü senaryo masada',source:'CNBC',url:'https://cnbc.com',time:'6 sa'},
+document.querySelectorAll(’.rtab’).forEach(function(b){b.classList.remove(‘on’);});
+btn.classList.add(‘on’);_currentRankCat=cat;
+var list=document.getElementById(‘rankList’);list.innerHTML=’’;
+if(cat===‘all’){
+var topItems=[
+{ico:‘🥇’,name:‘Altın’,sub:‘XAU · Emtia’,val:’$17.9T’,chg:0.44,bar:100},
+{ico:‘🏢’,name:‘Apple’,sub:‘AAPL · S&P500’,val:’$3.4T’,chg:0.82,bar:19},
+{ico:‘🤖’,name:‘Microsoft’,sub:‘MSFT · S&P500’,val:’$3.1T’,chg:1.14,bar:17.3},
+{ico:‘🔍’,name:‘NVIDIA’,sub:‘NVDA · S&P500’,val:’$2.9T’,chg:2.31,bar:16.2},
+{ico:‘🛒’,name:‘Amazon’,sub:‘AMZN · S&P500’,val:’$2.1T’,chg:0.44,bar:11.7},
 ];
-// ── GERÇEK HABERLER (API'den)
-function loadRealNews(newsArr){
-  _newsAll=newsArr;
-  loadNews(curF);
-  return;
-  // legacy below kept for reference
-  var list=document.getElementById('newsList');
-  list.innerHTML='';
-  document.getElementById('newsCount').textContent=newsArr.length+' haber';
-  newsArr.forEach(function(n){
-    if(!n.title||!n.url)return;
-    var ago=n.ts?timeAgo(n.ts):'az önce';
-    var a=document.createElement('a');a.className='ni';a.href=n.url;a.target='_blank';a.rel='noopener noreferrer';
-    a.innerHTML='<div class="ni-ico">📰</div>'
-      +'<div class="ni-body"><div class="ni-title">'+escH(n.title)+'</div>'
-      +'<div class="ni-meta"><span class="ni-src">'+escH(n.source||'Haber')+'</span>'
-      +'<span class="ni-time">'+ago+'</span>'
-      +'<span class="ni-pill crypto">Kripto</span></div></div>'
-      +'<span class="ni-arr">›</span>';
-    list.appendChild(a);
-  });
-  _realNewsLoaded=true;
+renderRankItems(topItems,list,false);
+var cryptos=_cryptoRankData||RANKS_STATIC.cryptoFallback;
+var maxMcap=cryptos[0]?cryptos[0].mcap:1;
+cryptos.slice(0,8).forEach(function(coin,i){
+var n=i+6;var up=(coin.chg24||0)>=0;var barW=(coin.mcap/maxMcap*9.6);
+var ico=coin.id?coinIco(coin.id):(coin.ico||‘🪙’);var sym=coin.symbol?coin.symbol.toUpperCase():coin.sub;
+var div=document.createElement(‘div’);div.className=‘rank-item’;
+div.innerHTML=’<div class="rank-num">’+n+’</div>’
++’<div class="rank-ico">’+ico+’</div>’
++’<div class="rank-body"><div class="rank-name">’+coin.name+’</div><div class="rank-sub">’+sym+’ · Kripto</div>’
++’<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+Math.min(100,barW)+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>’
++’<div class="rank-right"><div class="rank-val">’+fMcap(coin.mcap)+’</div>’
++’<div class="rank-chg '+(up?'up':'dn')+'">’+(up?‘▲ +’:‘▼ ‘)+Math.abs(coin.chg24||0).toFixed(2)+’%</div></div>’;
+list.appendChild(div);
+});
+return;
 }
-var _realNewsLoaded=false;
-function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function timeAgo(ts){
-  var d=Date.now()/1000-ts;
-  if(d<60)return Math.round(d)+' sn';
-  if(d<3600)return Math.round(d/60)+' dk';
-  if(d<86400)return Math.round(d/3600)+' sa';
-  return Math.round(d/86400)+' gün';
+if(cat===‘crypto’){var cryptos=_cryptoRankData||RANKS_STATIC.cryptoFallback;renderRankItems(cryptos.slice(0,15),list,true);return;}
+renderRankItems(RANKS_STATIC[cat]||[],list,false);
 }
+function updateCryptoRank(arr){_cryptoRankData=arr;if(_currentRankCat===‘crypto’||_currentRankCat===‘all’){showRank(_currentRankCat,document.querySelector(’.rtab.on’));}}
+showRank(‘all’,document.querySelector(’.rtab.on’));
 
-var CLBL={markets:'Piyasalar',crypto:'Kripto',eco:'Ekonomi',geo:'Jeopolitik',energy:'Enerji'};
-var curF='crypto';
-function setF(f,btn){curF=f;document.querySelectorAll('.nfb').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');loadNews(f);}
+// NEWS
+var NEWS=[
+{cat:‘crypto’,ico:‘₿’,title:‘Bitcoin 65.000 dolar seviyesinde; İran savaşının ardından toparlanma sürüyor’,source:‘CoinDesk’,url:‘https://coindesk.com’,time:‘2 sa’},
+{cat:‘crypto’,ico:‘📉’,title:‘Altcoinlerin %38'i tarihi dip seviyelerinde — FTX çöküşünden derin düşüş’,source:‘CoinPedia’,url:‘https://coinpedia.org’,time:‘3 sa’},
+{cat:‘crypto’,ico:‘Ξ’,title:‘Ethereum staking rekoru: 37.1 milyon ETH kilitlendi, borsa arzı azalıyor’,source:‘CoinPedia’,url:‘https://coinpedia.org’,time:‘4 sa’},
+{cat:‘crypto’,ico:‘◎’,title:‘Solana 83 dolar seviyesinde; güçlü geliştirici aktivitesi ile direnç gösteriyor’,source:‘CryptoNews’,url:‘https://cryptonews.com’,time:‘5 sa’},
+{cat:‘crypto’,ico:‘✕’,title:‘XRP 1.35 dolar; kripto ETF girişleri 3 ardışık günde 1 milyar dolar aştı’,source:‘CryptoNews’,url:‘https://cryptonews.com’,time:‘6 sa’},
+{cat:‘crypto’,ico:‘⚖️’,title:‘ABD Senatosu konut tasarısına CBDC yasağı ekledi — Fed dijital para çıkaramayacak’,source:‘CoinDesk’,url:‘https://coindesk.com’,time:‘8 sa’},
+{cat:‘crypto’,ico:‘🔗’,title:‘Vitalik Buterin, Ethereum blok üreticisi merkezileşmesine karşı plan açıkladı’,source:‘CoinDesk’,url:‘https://coindesk.com’,time:‘10 sa’},
+{cat:‘crypto’,ico:‘🏦’,title:‘Morgan Stanley ulusal kripto saklama ve staking hizmetleri için başvuru yaptı’,source:‘CryptoNews’,url:‘https://cryptonews.com’,time:‘12 sa’},
+{cat:‘markets’,ico:‘📉’,title:‘S&P 500 futures %1.6 düştü; İran'da yeni saldırılar borsaları sarstı’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘1 sa’},
+{cat:‘markets’,ico:‘🥇’,title:‘Altın 5.317 doları aştı; yatırımcılar güvenli limanlara akın ediyor’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘2 sa’},
+{cat:‘markets’,ico:‘📊’,title:‘Nasdaq %1.8 geriledi; Nvidia +2.9% ve Microsoft +1.5% ile dip alımı yapıldı’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘3 sa’},
+{cat:‘markets’,ico:‘🛡️’,title:‘Savunma hisseleri fırladı: Northrop Grumman +5%, Palantir +5.8%’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘4 sa’},
+{cat:‘markets’,ico:‘✈️’,title:‘Havacılık hisseleri çöktü: United Airlines -6%, American -5%, Delta -5%’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘5 sa’},
+{cat:‘markets’,ico:‘🇩🇪’,title:‘Asya ve Avrupa borsaları son 2 günün en sert düşüşünü yaşıyor’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘6 sa’},
+{cat:‘markets’,ico:‘🏦’,title:‘VIX korku endeksi %18 fırladı; piyasalarda volatilite tırmanıyor’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘7 sa’},
+{cat:‘eco’,ico:‘🏦’,title:‘Fed Mart toplantısında faiz sabit kalacak — İran savaşı enflasyon riskini artırdı’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘2 sa’},
+{cat:‘eco’,ico:‘📊’,title:‘ABD ISM imalat fiyatları Haziran 2022'den bu yana en yüksek seviyede: 70.5’,source:‘Reuters’,url:‘https://reuters.com’,time:‘4 sa’},
+{cat:‘eco’,ico:‘🇪🇺’,title:‘Eurozone imalat PMI 44 ayın zirvesinde: 50.8 — Almanya 4 yıl sonra büyüme bölgesine girdi’,source:‘Reuters’,url:‘https://reuters.com’,time:‘5 sa’},
+{cat:‘eco’,ico:‘💱’,title:‘Dolar güçleniyor; Avrupa para birimleri jeopolitik şoktan en çok etkilenen kesim’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘6 sa’},
+{cat:‘eco’,ico:‘🇹🇷’,title:‘Türkiye enflasyonla mücadelede kararlı; Merkez Bankası sıkı para politikasını koruyor’,source:‘Bloomberg HT’,url:‘https://bloomberght.com’,time:‘8 sa’},
+{cat:‘geo’,ico:‘💥’,title:‘ABD-İsrail İran'a yeni saldırılar başlattı; Trump savaşın haftalarca süreceğini açıkladı’,source:‘Al Jazeera’,url:‘https://aljazeera.com’,time:‘30 dk’},
+{cat:‘geo’,ico:‘🌊’,title:‘İran Hürmüz Boğazı'nı kapattı: 150 tanker mahsur, küresel petrol ticareti durdu’,source:‘Al Jazeera’,url:‘https://aljazeera.com’,time:‘1 sa’},
+{cat:‘geo’,ico:‘🇮🇷’,title:‘İran'ın Dini Lideri Hamaney öldürüldü — Devrim Muhafızları bölgeye saldırı başlattı’,source:‘Reuters’,url:‘https://reuters.com’,time:‘2 sa’},
+{cat:‘geo’,ico:‘🇶🇦’,title:‘Katar LNG tesisleri İran insansız hava araçlarıyla vuruldu; üretim durduruldu’,source:‘Al Jazeera’,url:‘https://aljazeera.com’,time:‘4 sa’},
+{cat:‘energy’,ico:‘🛢️’,title:‘Brent petrol 85 doları aştı — Hürmüz Boğazı'nın kapanmasıyla fiyatlar tırmanıyor’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘1 sa’},
+{cat:‘energy’,ico:‘🔥’,title:‘Avrupa doğalgaz fiyatları %85 fırladı; Katar LNG ihracatı durdu’,source:‘Bloomberg’,url:‘https://bloomberg.com’,time:‘2 sa’},
+{cat:‘energy’,ico:‘⛽’,title:‘ABD benzin fiyatları yükseliyor — 1-2 hafta içinde litre başına 10-30 sent artış bekleniyor’,source:‘CNBC’,url:‘https://cnbc.com’,time:‘3 sa’},
+{cat:‘energy’,ico:‘🚢’,title:‘Küresel petrolün %20'si geçen Hürmüz'de tanker trafiği %80 düştü’,source:‘NPR’,url:‘https://npr.org’,time:‘4 sa’},
+{cat:‘energy’,ico:‘💡’,title:‘OPEC üretimi artıracağını duyurdu ancak piyasayı sakinleştirmeye yetmedi’,source:‘Reuters’,url:‘https://reuters.com’,time:‘5 sa’},
+];
+
+var CLBL={markets:‘Piyasalar’,crypto:‘Kripto’,eco:‘Ekonomi’,geo:‘Jeopolitik’,energy:‘Enerji’};
+var curF=‘crypto’;
+function setF(f,btn){curF=f;document.querySelectorAll(’.nfb’).forEach(function(b){b.classList.remove(‘on’);});btn.classList.add(‘on’);loadNews(f);}
 var _newsAll=[];
+function escH(s){return String(s).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’);}
+function timeAgo(ts){var d=Date.now()/1000-ts;if(d<60)return Math.round(d)+’ sn’;if(d<3600)return Math.round(d/60)+’ dk’;if(d<86400)return Math.round(d/3600)+’ sa’;return Math.round(d/86400)+’ gün’;}
 function loadNews(f){
-  var list=document.getElementById('newsList');
-  list.innerHTML='';
-  var arr=_newsAll.length?_newsAll:NEWS;
-  var filtered=f&&f!=='all'?arr.filter(function(n){return n.cat===f;}):arr;
-  document.getElementById('newsCount').textContent=filtered.length+' haber';
-  if(!filtered.length){list.innerHTML='<div class="news-load">Haber bulunamadı.</div>';return;}
-  filtered.forEach(function(n){
-    var ico=n.ico||'📰';
-    var timeStr=n.ts?timeAgo(n.ts):(n.time?n.time+' önce':'az önce');
-    var cat=n.cat||'markets';
-    var a=document.createElement('a');a.className='ni';a.href=n.url;a.target='_blank';a.rel='noopener noreferrer';
-    a.innerHTML='<div class="ni-ico">'+ico+'</div><div class="ni-body"><div class="ni-title">'+escH(n.title)+'</div><div class="ni-meta"><span class="ni-src">'+escH(n.source||'Haber')+'</span><span class="ni-time">'+timeStr+'</span><span class="ni-pill '+cat+'">'+(CLBL[cat]||cat)+'</span></div></div><span class="ni-arr">›</span>';
-    list.appendChild(a);
-  });
+var list=document.getElementById(‘newsList’);list.innerHTML=’’;
+var arr=_newsAll.length?_newsAll:NEWS;
+var filtered=f&&f!==‘all’?arr.filter(function(n){return n.cat===f;}):arr;
+document.getElementById(‘newsCount’).textContent=filtered.length+’ haber’;
+if(!filtered.length){list.innerHTML=’<div class="news-load">Haber bulunamadı.</div>’;return;}
+filtered.forEach(function(n){
+var ico=n.ico||‘📰’;var timeStr=n.ts?timeAgo(n.ts):(n.time?n.time+’ önce’:‘az önce’);var cat=n.cat||‘markets’;
+var a=document.createElement(‘a’);a.className=‘ni’;a.href=n.url;a.target=’_blank’;a.rel=‘noopener noreferrer’;
+a.innerHTML=’<div class="ni-ico">’+ico+’</div><div class="ni-body"><div class="ni-title">’+escH(n.title)+’</div><div class="ni-meta"><span class="ni-src">’+escH(n.source||‘Haber’)+’</span><span class="ni-time">’+timeStr+’</span><span class="ni-pill '+cat+'">’+(CLBL[cat]||cat)+’</span></div></div><span class="ni-arr">›</span>’;
+list.appendChild(a);
+});
 }
+loadNews(‘crypto’);
+setInterval(function(){loadAll();},120000);
 
-loadNews('crypto');setInterval(function(){loadAll();},120000);
-
-// ── ANALYSTS (accuracy-sorted, high-accuracy focus)
+// ANALYSTS
 var ANALYSTS={
-  btc:[
-    {name:'PlanB',role:'Quant Analist & Yaratıcı',firm:'S2F Modeli',ava:'📐',sent:'bull',
-     acc:91,calls:['BTC 2020: $60K ✓','BTC 2021: $100K ~','BTC 2024: $150K ▲'],
-     quote:'"Stock-to-Flow modeli Bitcoin\'in kıtlık temelli değerini tutarlı şekilde öngörüyor. Halving döngüleri ve kurumsal talep göz önüne alındığında 150.000 dolar hedefi makul görünmektedir."',target:'$150,000',date:'2026 Q4'},
-    {name:'Willy Woo',role:'On-Chain Analist',firm:'Bağımsız',ava:'📊',sent:'bull',
-     acc:88,calls:['2020 boğa: ✓','2022 ayı: ✓','2024 ATH: ✓'],
-     quote:'"On-chain verileri kurumsal birikimin devam ettiğini ve zincir üstü aktivitenin güçlendiğini gösteriyor. HODL dalgaları uzun vadeli yatırımcı hakimiyetine işaret ediyor."',target:'$120,000',date:'2026 Q3'},
-    {name:'Michael Saylor',role:'Yönetim Kurulu Başkanı',firm:'MicroStrategy',ava:'👨‍💼',sent:'bull',
-     acc:78,calls:['2020 alım ✓','2022 kayıp ✗','2024 kâr ✓'],
-     quote:'"Bitcoin, insanlık tarihinin en üstün para biçimidir. Her düzeltme kurumsal yatırımcılar için alım fırsatıdır. MicroStrategy satın almaya devam edecek."',target:'$500,000',date:'2030'},
-    {name:'Peter Schiff',role:'Baş Ekonomist',firm:'Euro Pacific Capital',ava:'🧔',sent:'bear',
-     acc:22,calls:['2017 düşüş ✗','2020 düşüş ✗','2022 düşüş ✓'],
-     quote:'"Bitcoin\'in gerçek bir içsel değeri yoktur. Spekülatif bir balon olan bu varlığın değer kaybetmesi kaçınılmazdır. Altın her zaman daha güvenlidir."',target:'$10,000',date:'2026'},
-  ],
-  eth:[
-    {name:'Benjamin Cowen',role:'Kripto Analist',firm:'ITC Crypto',ava:'📉',sent:'bull',
-     acc:85,calls:['2021 ETH $4K: ✓','2022 düşüş: ✓','2024 yükseliş: ✓'],
-     quote:'"Ethereum\'un makro döngüsü ve tarihsel fiyat kalıpları 2026\'da 4.000-5.000 dolar bandını destekliyor. ETF onayları büyük bir katalizör olabilir."',target:'$5,000',date:'2026 Q3'},
-    {name:'Vitalik Buterin',role:'Kurucu',firm:'Ethereum Foundation',ava:'👨‍💻',sent:'bull',
-     acc:80,calls:['PoS geçişi ✓','Layer-2 büyüme ✓','Ölçekleme ✓'],
-     quote:'"Ethereum\'un Layer-2 ekosistemi ağın değerini katlanarak artırmaktadır. Rollup\'lar ve EIP iyileştirmeleriyle Ethereum küresel finans altyapısı haline geliyor."',target:'$5,000',date:'2026 Q3'},
-  ],
-  sol:[
-    {name:'Ansem',role:'Kripto Trader',firm:'Bağımsız',ava:'🐸',sent:'bull',
-     acc:87,calls:['SOL 2023 dip: ✓','SOL 2024 yükseliş: ✓','SOL ATH: ✓'],
-     quote:'"Solana ekosistemi kullanıcı sayısı ve işlem hacminde Ethereum\'u geride bırakmaya devam ediyor. Meme coin sezonu ve DeFi büyümesiyle SOL 300+ dolar görünür."',target:'$300',date:'2026 Q4'},
-    {name:'Anatoly Yakovenko',role:'Kurucu',firm:'Solana Labs',ava:'👨‍🔬',sent:'bull',
-     acc:75,calls:['Ağ büyümesi ✓','Kurumsal ortaklık ✓','Ücret güncellemesi ✓'],
-     quote:'"Solana\'nın ölçeklenebilirliği ve ekosistemi rakipsizdir. Firedancer güncellemesiyle ağ kapasitesi katlanacak ve kurumsal benimseme hızlanacak."',target:'$300',date:'2026 Q4'},
-  ],
-  gold:[
-    {name:'Jim Rogers',role:'Yatırımcı & Yazar',firm:'Rogers Holdings',ava:'🎩',sent:'bull',
-     acc:89,calls:['2008 altın: ✓','2020 altın: ✓','2022 gerileme: ✓'],
-     quote:'"Merkez bankaları rekor altın alımına devam ediyor ve dolar zayıflıyor. Jeopolitik belirsizlik ve enflasyon ortamında altın 4.000 dolara yürüyecek."',target:'$4,000',date:'2026'},
-    {name:'Ray Dalio',role:'Kurucu',firm:'Bridgewater Associates',ava:'🧠',sent:'bull',
-     acc:86,calls:['2008 kriz: ✓','2020 portföy: ✓','2022 enflasyon: ✓'],
-     quote:'"Borç krizi ve jeopolitik belirsizlik ortamında altın portföylerin vazgeçilmez bileşenidir. Her portföyde en az yüzde 10-15 altın olmalıdır."',target:'$3,500',date:'2026'},
-    {name:'Jeffrey Gundlach',role:'CEO',firm:'DoubleLine Capital',ava:'👔',sent:'bull',
-     acc:83,calls:['Faiz tahmini: ✓','Dolar zayıflama: ✓','Tahvil satışı: ✓'],
-     quote:'"Dolar\'ın uzun vadeli zayıflaması ve enflasyon beklentileri altını destekliyor. Portföylerin yüzde 15\'inin altın olmasını tavsiye ediyorum."',target:'$3,200',date:'2026 Q2'},
-  ],
-  usd:[
-    {name:'Ray Dalio',role:'Kurucu',firm:'Bridgewater',ava:'🧠',sent:'bear',
-     acc:86,calls:['2008 kriz: ✓','Dolar rezerv: ✓','Borç krizi: ✓'],
-     quote:'"ABD\'nin yüksek borç yükü uzun vadede doların rezerv para statüsüne tehdit oluşturmaktadır. Dolar dışı varlıklara yönelmenin zamanı gelmiş olabilir."',target:'Zayıflama',date:'2026-2027'},
-    {name:'Mohamed El-Erian',role:'Baş Ekonomist',firm:'Allianz',ava:'👨‍🏫',sent:'neutral',
-     acc:84,calls:['Fed politika: ✓','Enflasyon: ✓','Resesyon: ✓'],
-     quote:'"Fed\'in politika belirsizliği dolar üzerinde baskı oluştursa da küresel rezerv para statüsü kısa vadede korunmaktadır. 2026 kritik bir yıl olacak."',target:'Nötr',date:'2026'},
-  ],
-  xrp:[
-    {name:'Egrag Crypto',role:'Teknik Analist',firm:'Bağımsız',ava:'📈',sent:'bull',
-     acc:82,calls:['XRP 2023: ✓','XRP dava: ✓','XRP 2024: ✓'],
-     quote:'"XRP\'nin yasal süreç tamamlandıktan sonra kurumsal kullanımı hızla artacak. Ripple\'ın banka ortaklıkları ve ODL kullanımı piyasa değerini destekleyecek."',target:'$5',date:'2026'},
-    {name:'Brad Garlinghouse',role:'CEO',firm:'Ripple',ava:'👨‍💼',sent:'bull',
-     acc:70,calls:['Dava zaferi: ✓','Ortaklıklar: ✓','CBDC entegr.: ~'],
-     quote:'"XRP Ledger küresel ödemelerin omurgası olmaya hazır. Her geçen gün daha fazla kurum XRP\'yi sınır ötesi ödemeler için tercih ediyor."',target:'$5',date:'2026'},
-  ],
-  silver:[
-    {name:'Keith Neumeyer',role:'CEO',firm:'First Majestic Silver',ava:'🥈',sent:'bull',
-     acc:79,calls:['Gümüş 2020: ✓','Güneş talebi: ✓','Endüstriyel: ✓'],
-     quote:'"Gümüş hem endüstriyel hem yatırım talebiyle destekleniyor. Güneş paneli patlaması ve EV endüstrisi gümüş talebini katlayacak. 50 dolar hedefim var."',target:'$50',date:'2026'},
-  ],
-  avax:[
-    {name:'Emin Gün Sirer',role:'Kurucu',firm:'Ava Labs',ava:'👨‍🔬',sent:'bull',
-     acc:72,calls:['Subnet büyüme: ✓','DeFi TVL: ✓','Kurumsal: ~'],
-     quote:'"Avalanche\'ın subnet yapısı kurumsal blockchain uygulamalarında devrim yaratıyor. Geleneksel finans ile DeFi\'yi birleştiren köprü Avalanche olacak."',target:'$50',date:'2026'},
-  ],
-  link:[
-    {name:'Sergey Nazarov',role:'Kurucu',firm:'Chainlink',ava:'🔗',sent:'bull',
-     acc:81,calls:['CCIP büyüme: ✓','DeFi oracle: ✓','Kurum entegr.: ✓'],
-     quote:'"Chainlink, blockchain ekosisteminin gerçek dünya verilerine bağlanmasını sağlayan kritik altyapıdır. CCIP ile zincirler arası likidite devrim yaratacak."',target:'$25',date:'2026'},
-  ],
+btc:[
+{name:‘PlanB’,role:‘Quant Analist & Yaratıcı’,firm:‘S2F Modeli’,ava:‘📐’,sent:‘bull’,acc:91,calls:[‘BTC 2020: $60K ✓’,‘BTC 2021: $100K ~‘,‘BTC 2024: $150K ▲’],quote:’“Stock-to-Flow modeli Bitcoin'in kıtlık temelli değerini tutarlı şekilde öngörüyor. Halving döngüleri ve kurumsal talep göz önüne alındığında 150.000 dolar hedefi makul görünmektedir.”’,target:’$150,000’,date:‘2026 Q4’},
+{name:‘Willy Woo’,role:‘On-Chain Analist’,firm:‘Bağımsız’,ava:‘📊’,sent:‘bull’,acc:88,calls:[‘2020 boğa: ✓’,‘2022 ayı: ✓’,‘2024 ATH: ✓’],quote:’“On-chain verileri kurumsal birikimin devam ettiğini gösteriyor. HODL dalgaları uzun vadeli yatırımcı hakimiyetine işaret ediyor.”’,target:’$120,000’,date:‘2026 Q3’},
+{name:‘Michael Saylor’,role:‘Yönetim Kurulu Başkanı’,firm:‘MicroStrategy’,ava:‘👨‍💼’,sent:‘bull’,acc:78,calls:[‘2020 alım ✓’,‘2022 kayıp ✗’,‘2024 kâr ✓’],quote:’“Bitcoin, insanlık tarihinin en üstün para biçimidir. Her düzeltme kurumsal yatırımcılar için alım fırsatıdır.”’,target:’$500,000’,date:‘2030’},
+{name:‘Peter Schiff’,role:‘Baş Ekonomist’,firm:‘Euro Pacific Capital’,ava:‘🧔’,sent:‘bear’,acc:22,calls:[‘2017 düşüş ✗’,‘2020 düşüş ✗’,‘2022 düşüş ✓’],quote:’“Bitcoin'in gerçek bir içsel değeri yoktur. Spekülatif bir balon olan bu varlığın değer kaybetmesi kaçınılmazdır.”’,target:’$10,000’,date:‘2026’},
+],
+eth:[
+{name:‘Benjamin Cowen’,role:‘Kripto Analist’,firm:‘ITC Crypto’,ava:‘📉’,sent:‘bull’,acc:85,calls:[‘2021 ETH $4K: ✓’,‘2022 düşüş: ✓’,‘2024 yükseliş: ✓’],quote:’“Ethereum'un makro döngüsü 2026'da 4.000-5.000 dolar bandını destekliyor.”’,target:’$5,000’,date:‘2026 Q3’},
+{name:‘Vitalik Buterin’,role:‘Kurucu’,firm:‘Ethereum Foundation’,ava:‘👨‍💻’,sent:‘bull’,acc:80,calls:[‘PoS geçişi ✓’,‘Layer-2 büyüme ✓’,‘Ölçekleme ✓’],quote:’“Ethereum'un Layer-2 ekosistemi ağın değerini katlanarak artırmaktadır.”’,target:’$5,000’,date:‘2026 Q3’},
+],
+sol:[
+{name:‘Ansem’,role:‘Kripto Trader’,firm:‘Bağımsız’,ava:‘🐸’,sent:‘bull’,acc:87,calls:[‘SOL 2023 dip: ✓’,‘SOL 2024 yükseliş: ✓’,‘SOL ATH: ✓’],quote:’“Solana ekosistemi kullanıcı sayısı ve işlem hacminde büyümeye devam ediyor.”’,target:’$300’,date:‘2026 Q4’},
+],
+gold:[
+{name:‘Jim Rogers’,role:‘Yatırımcı & Yazar’,firm:‘Rogers Holdings’,ava:‘🎩’,sent:‘bull’,acc:89,calls:[‘2008 altın: ✓’,‘2020 altın: ✓’,‘2022 gerileme: ✓’],quote:’“Merkez bankaları rekor altın alımına devam ediyor. Jeopolitik belirsizlik ortamında altın 4.000 dolara yürüyecek.”’,target:’$4,000’,date:‘2026’},
+{name:‘Ray Dalio’,role:‘Kurucu’,firm:‘Bridgewater Associates’,ava:‘🧠’,sent:‘bull’,acc:86,calls:[‘2008 kriz: ✓’,‘2020 portföy: ✓’,‘2022 enflasyon: ✓’],quote:’“Borç krizi ve jeopolitik belirsizlik ortamında altın portföylerin vazgeçilmez bileşenidir.”’,target:’$3,500’,date:‘2026’},
+],
+usd:[
+{name:‘Ray Dalio’,role:‘Kurucu’,firm:‘Bridgewater’,ava:‘🧠’,sent:‘bear’,acc:86,calls:[‘2008 kriz: ✓’,‘Dolar rezerv: ✓’,‘Borç krizi: ✓’],quote:’“ABD'nin yüksek borç yükü uzun vadede doların rezerv para statüsüne tehdit oluşturmaktadır.”’,target:‘Zayıflama’,date:‘2026-2027’},
+],
+xrp:[
+{name:‘Egrag Crypto’,role:‘Teknik Analist’,firm:‘Bağımsız’,ava:‘📈’,sent:‘bull’,acc:82,calls:[‘XRP 2023: ✓’,‘XRP dava: ✓’,‘XRP 2024: ✓’],quote:’“XRP'nin yasal süreç tamamlandıktan sonra kurumsal kullanımı hızla artacak.”’,target:’$5’,date:‘2026’},
+],
+silver:[
+{name:‘Keith Neumeyer’,role:‘CEO’,firm:‘First Majestic Silver’,ava:‘🥈’,sent:‘bull’,acc:79,calls:[‘Gümüş 2020: ✓’,‘Güneş talebi: ✓’,‘Endüstriyel: ✓’],quote:’“Gümüş hem endüstriyel hem yatırım talebiyle destekleniyor. 50 dolar hedefim var.”’,target:’$50’,date:‘2026’},
+],
+avax:[
+{name:‘Emin Gün Sirer’,role:‘Kurucu’,firm:‘Ava Labs’,ava:‘👨‍🔬’,sent:‘bull’,acc:72,calls:[‘Subnet büyüme: ✓’,‘DeFi TVL: ✓’,‘Kurumsal: ~‘],quote:’“Avalanche'ın subnet yapısı kurumsal blockchain uygulamalarında devrim yaratıyor.”’,target:’$50’,date:‘2026’},
+],
+link:[
+{name:‘Sergey Nazarov’,role:‘Kurucu’,firm:‘Chainlink’,ava:‘🔗’,sent:‘bull’,acc:81,calls:[‘CCIP büyüme: ✓’,‘DeFi oracle: ✓’,‘Kurum entegr.: ✓’],quote:’“Chainlink blockchain ekosisteminin gerçek dünya verilerine bağlanmasını sağlayan kritik altyapıdır.”’,target:’$25’,date:‘2026’},
+],
 };
 function getAN(k){return ANALYSTS[k]||[ANALYSTS.btc[0]];}
 
-// ── MODAL
+// MODAL
 function openModal(key){
-  var a=ALL[key],d=D[key]||{};
-  document.getElementById('m-ico').textContent=a.ico;
-  document.getElementById('m-name').textContent=a.name;
-  document.getElementById('m-sym').textContent=a.sym;
-  document.getElementById('m-price').textContent=d.price!=null?pStr(key):'—';
-  var ce=document.getElementById('m-chg');
-  if(d.chg!=null){ce.className='m-bigchg '+(d.chg>=0?'up':'dn');ce.textContent=fPct(d.chg)+' (24s)';}
-  else{ce.className='m-bigchg';ce.textContent='Canlı';}
-
-  // TradingView
-  var box=document.getElementById('tvBox');box.innerHTML='';
-  var cid='tv'+Date.now();
-  var wrap=document.createElement('div');wrap.style.height='330px';
-  var inner=document.createElement('div');inner.id=cid;inner.style.height='330px';
-  wrap.appendChild(inner);box.appendChild(wrap);
-  function doTV(){
-    if(window.TradingView&&window.TradingView.widget){
-      new TradingView.widget({autosize:false,width:'100%',height:330,symbol:a.tvSym,interval:'60',timezone:'Europe/Istanbul',theme:'dark',style:'1',locale:'tr',toolbar_bg:'#16161f',enable_publishing:false,allow_symbol_change:true,container_id:cid,save_image:false,backgroundColor:'rgba(15,15,24,1)',gridColor:'rgba(37,37,53,0.8)',studies:['Volume@tv-basicstudies']});
-    }else{
-      box.innerHTML='';var fr=document.createElement('iframe');
-      fr.src='https://s.tradingview.com/widgetembed/?symbol='+encodeURIComponent(a.tvSym)+'&interval=60&theme=dark&style=1&locale=tr&toolbar_bg=%2316161f&timezone=Europe%2FIstanbul';
-      fr.width='100%';fr.height='330';fr.frameBorder='0';fr.allowFullscreen=true;box.style.overflow='hidden';box.appendChild(fr);
-    }
-  }
-  if(!window.TradingView){var sc=document.createElement('script');sc.src='https://s3.tradingview.com/tv.js';sc.onload=function(){setTimeout(doTV,100);};document.head.appendChild(sc);}
-  else{setTimeout(doTV,50);}
-
-  // Analysts
-  var al=document.getElementById('analystList');al.innerHTML='';
-  var analysts=getAN(key).sort(function(a,b){return b.acc-a.acc;});
-  analysts.forEach(function(an){
-    var sm={bull:'📈 Yükseliş',bear:'📉 Düşüş',neutral:'⚖️ Nötr'};
-    var c=document.createElement('div');c.className='an-card';
-    var callsHtml=an.calls.map(function(cl){
-      var hit=cl.indexOf('✓')>-1;return'<span class="an-call '+(hit?'hit':'miss')+'">'+cl+'</span>';
-    }).join('');
-    var accColor=an.acc>=85?'var(--up)':an.acc>=70?'var(--gold)':'var(--dn)';
-    c.innerHTML=
-      '<div class="an-top"><div class="an-ava">'+an.ava+'</div>'
-      +'<div class="an-info"><div class="an-name">'+an.name+'</div>'
-      +'<div class="an-role">'+an.role+'</div><div class="an-firm">'+an.firm+'</div>'
-      +'<div class="an-badges"><span class="an-sent '+an.sent+'">'+sm[an.sent]+'</span></div></div></div>'
-      +'<div class="an-acc"><span class="an-acc-lbl">İsabet Oranı</span>'
-      +'<div class="an-acc-bar"><div class="an-acc-fill" style="width:'+an.acc+'%;background:linear-gradient(to right,var(--blue),'+accColor+')"></div></div>'
-      +'<span class="an-acc-pct" style="color:'+accColor+'">%'+an.acc+'</span></div>'
-      +'<div class="an-record">'+callsHtml+'</div>'
-      +'<div class="an-quote">'+an.quote+'</div>'
-      +'<div class="an-target"><span class="an-tlbl">Hedef:</span><span class="an-tval">'+an.target+'</span><span class="an-tdate">· '+an.date+'</span></div>';
-    al.appendChild(c);
-  });
-
-  // Stats
-  document.getElementById('m-stats').innerHTML=[
-    ['Güncel Fiyat',d.price!=null?pStr(key):'—'],
-    ['24s Değişim',d.chg!=null?fPct(d.chg):'—'],
-    ['Tür',a.cat==='forex'?'Döviz':a.cat==='crypto'?'Kripto':'Emtia'],
-    ['Sembol',a.sym],
-  ].map(function(r){return'<div class="mstat"><div class="mstat-l">'+r[0]+'</div><div class="mstat-v">'+r[1]+'</div></div>';}).join('');
-
-  // Actions
-  var ae=document.getElementById('m-actions');ae.innerHTML='';
-  if(a.cmc){var lc=document.createElement('a');lc.className='act-btn';lc.target='_blank';lc.rel='noopener';lc.href='https://coinmarketcap.com/currencies/'+a.cmc+'/';lc.textContent='📊 CoinMarketCap';ae.appendChild(lc);}
-  var lt=document.createElement('a');lt.className='act-btn';lt.target='_blank';lt.rel='noopener';lt.href='https://www.tradingview.com/chart/?symbol='+encodeURIComponent(a.tvSym);lt.textContent='📈 TradingView';ae.appendChild(lt);
-
-  document.getElementById('overlay').classList.add('open');
-  document.body.style.overflow='hidden';
-  document.getElementById('modal').scrollTop=0;
+var a=ALL[key],d=D[key]||{};
+document.getElementById(‘m-ico’).textContent=a.ico;
+document.getElementById(‘m-name’).textContent=a.name;
+document.getElementById(‘m-sym’).textContent=a.sym;
+document.getElementById(‘m-price’).textContent=d.price!=null?pStr(key):’—’;
+var ce=document.getElementById(‘m-chg’);
+if(d.chg!=null){ce.className=‘m-bigchg ‘+(d.chg>=0?‘up’:‘dn’);ce.textContent=fPct(d.chg)+’ (24s)’;}
+else{ce.className=‘m-bigchg’;ce.textContent=‘Canlı’;}
+var box=document.getElementById(‘tvBox’);box.innerHTML=’’;
+var cid=‘tv’+Date.now();
+var wrap=document.createElement(‘div’);wrap.style.height=‘330px’;
+var inner=document.createElement(‘div’);inner.id=cid;inner.style.height=‘330px’;
+wrap.appendChild(inner);box.appendChild(wrap);
+function doTV(){
+if(window.TradingView&&window.TradingView.widget){
+new TradingView.widget({autosize:false,width:‘100%’,height:330,symbol:a.tvSym,interval:‘60’,timezone:‘Europe/Istanbul’,theme:‘dark’,style:‘1’,locale:‘tr’,toolbar_bg:’#16161f’,enable_publishing:false,allow_symbol_change:true,container_id:cid,save_image:false,backgroundColor:‘rgba(15,15,24,1)’,gridColor:‘rgba(37,37,53,0.8)’,studies:[‘Volume@tv-basicstudies’]});
+}else{
+box.innerHTML=’’;var fr=document.createElement(‘iframe’);
+fr.src=‘https://s.tradingview.com/widgetembed/?symbol=’+encodeURIComponent(a.tvSym)+’&interval=60&theme=dark&style=1&locale=tr&toolbar_bg=%2316161f&timezone=Europe%2FIstanbul’;
+fr.width=‘100%’;fr.height=‘330’;fr.frameBorder=‘0’;fr.allowFullscreen=true;box.style.overflow=‘hidden’;box.appendChild(fr);
 }
-function closeModal(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';setTimeout(function(){document.getElementById('tvBox').innerHTML='';},350);}
-function handleOv(e){if(e.target===document.getElementById('overlay'))closeModal();}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+}
+if(!window.TradingView){var sc=document.createElement(‘script’);sc.src=‘https://s3.tradingview.com/tv.js’;sc.onload=function(){setTimeout(doTV,100);};document.head.appendChild(sc);}
+else{setTimeout(doTV,50);}
+var al=document.getElementById(‘analystList’);al.innerHTML=’’;
+var analysts=getAN(key).sort(function(a,b){return b.acc-a.acc;});
+analysts.forEach(function(an){
+var sm={bull:‘📈 Yükseliş’,bear:‘📉 Düşüş’,neutral:‘⚖️ Nötr’};
+var c=document.createElement(‘div’);c.className=‘an-card’;
+var callsHtml=an.calls.map(function(cl){var hit=cl.indexOf(‘✓’)>-1;return’<span class="an-call '+(hit?'hit':'miss')+'">’+cl+’</span>’;}).join(’’);
+var accColor=an.acc>=85?‘var(–up)’:an.acc>=70?‘var(–gold)’:‘var(–dn)’;
+c.innerHTML=’<div class="an-top"><div class="an-ava">’+an.ava+’</div><div class="an-info"><div class="an-name">’+an.name+’</div><div class="an-role">’+an.role+’</div><div class="an-firm">’+an.firm+’</div><div class="an-badges"><span class="an-sent '+an.sent+'">’+sm[an.sent]+’</span></div></div></div>’
++’<div class="an-acc"><span class="an-acc-lbl">İsabet Oranı</span><div class="an-acc-bar"><div class="an-acc-fill" style="width:'+an.acc+'%;background:linear-gradient(to right,var(--blue),'+accColor+')"></div></div><span class="an-acc-pct" style="color:'+accColor+'">%’+an.acc+’</span></div>’
++’<div class="an-record">’+callsHtml+’</div>’
++’<div class="an-quote">’+an.quote+’</div>’
++’<div class="an-target"><span class="an-tlbl">Hedef:</span><span class="an-tval">’+an.target+’</span><span class="an-tdate">· ‘+an.date+’</span></div>’;
+al.appendChild(c);
+});
+document.getElementById(‘m-stats’).innerHTML=[[‘Güncel Fiyat’,d.price!=null?pStr(key):’—’],[‘24s Değişim’,d.chg!=null?fPct(d.chg):’—’],[‘Tür’,a.cat===‘forex’?‘Döviz’:a.cat===‘crypto’?‘Kripto’:‘Emtia’],[‘Sembol’,a.sym],].map(function(r){return’<div class="mstat"><div class="mstat-l">’+r[0]+’</div><div class="mstat-v">’+r[1]+’</div></div>’;}).join(’’);
+var ae=document.getElementById(‘m-actions’);ae.innerHTML=’’;
+if(a.cmc){var lc=document.createElement(‘a’);lc.className=‘act-btn’;lc.target=’_blank’;lc.rel=‘noopener’;lc.href=‘https://coinmarketcap.com/currencies/’+a.cmc+’/’;lc.textContent=‘📊 CoinMarketCap’;ae.appendChild(lc);}
+var lt=document.createElement(‘a’);lt.className=‘act-btn’;lt.target=’_blank’;lt.rel=‘noopener’;lt.href=‘https://www.tradingview.com/chart/?symbol=’+encodeURIComponent(a.tvSym);lt.textContent=‘📈 TradingView’;ae.appendChild(lt);
+document.getElementById(‘overlay’).classList.add(‘open’);document.body.style.overflow=‘hidden’;document.getElementById(‘modal’).scrollTop=0;
+}
+function closeModal(){document.getElementById(‘overlay’).classList.remove(‘open’);document.body.style.overflow=’’;setTimeout(function(){document.getElementById(‘tvBox’).innerHTML=’’;},350);}
+function handleOv(e){if(e.target===document.getElementById(‘overlay’))closeModal();}
+document.addEventListener(‘keydown’,function(e){if(e.key===‘Escape’)closeModal();});
 </script>
 
 <script>
-let liveInterval; 
-
-function calculateInvest() {
-    const miktar = document.getElementById('calcAmount').value;
-    const oran = document.getElementById('calcRate').value;
-    const hedef = document.getElementById('calcGoal').value;
-    const sonucKutusu = document.getElementById('calcResultBox');
-    const sonucDegeri = document.getElementById('calcResultValue');
-    const liveStatus = document.getElementById('liveStatus');
-    
-    const progressBar = document.getElementById('goalProgressBar');
-    const progressText = document.getElementById('goalPercentText');
-    const progressContainer = document.getElementById('goalProgressContainer');
-
-    if(miktar && oran) {
-        // Eğer önceden çalışan bir canlı akış varsa durdur
-        if(liveInterval) clearInterval(liveInterval); 
-
-        let temelSonuc = parseFloat(miktar) + (parseFloat(miktar) * (parseFloat(oran) / 100));
-        
-        // İlk gösterim
-        sonucDegeri.innerText = "$" + temelSonuc.toLocaleString('en-US', {minimumFractionDigits: 2});
-        sonucKutusu.style.display = 'block';
-        liveStatus.style.display = 'flex';
-
-        // Hedef Çubuğu Güncelleme
-        if(hedef && hedef > 0) {
-            let yuzde = Math.min((temelSonuc / parseFloat(hedef)) * 100, 100);
-            progressContainer.style.display = 'block';
-            setTimeout(() => {
-                progressBar.style.width = yuzde + "%";
-                progressText.innerText = Math.round(yuzde) + "%";
-            }, 100);
-        } else {
-            progressContainer.style.display = 'none';
-        }
-
-        // --- CANLI SİMÜLASYON ---
-        // Her 2 saniyede bir rakamı çok küçük (cent seviyesinde) oynatır
-        liveInterval = setInterval(() => {
-            let dalgalanma = (Math.random() - 0.5) * 0.04; // Minik bir yukarı/aşağı hareket
-            temelSonuc += dalgalanma;
-            sonucDegeri.innerText = "$" + temelSonuc.toLocaleString('en-US', {minimumFractionDigits: 2});
-        }, 2000);
-
-    } else {
-        alert("Lütfen gerekli alanları doldurun.");
-    }
+let liveInterval;
+function calculateInvest(){
+  const miktar=document.getElementById('calcAmount').value;
+  const oran=document.getElementById('calcRate').value;
+  const hedef=document.getElementById('calcGoal').value;
+  const sonucKutusu=document.getElementById('calcResultBox');
+  const sonucDegeri=document.getElementById('calcResultValue');
+  const liveStatus=document.getElementById('liveStatus');
+  const progressBar=document.getElementById('goalProgressBar');
+  const progressText=document.getElementById('goalPercentText');
+  const progressContainer=document.getElementById('goalProgressContainer');
+  if(miktar&&oran){
+    if(liveInterval)clearInterval(liveInterval);
+    let temelSonuc=parseFloat(miktar)+(parseFloat(miktar)*(parseFloat(oran)/100));
+    sonucDegeri.innerText='$'+temelSonuc.toLocaleString('en-US',{minimumFractionDigits:2});
+    sonucKutusu.style.display='block';liveStatus.style.display='flex';
+    if(hedef&&hedef>0){
+      let yuzde=Math.min((temelSonuc/parseFloat(hedef))*100,100);
+      progressContainer.style.display='block';
+      setTimeout(()=>{progressBar.style.width=yuzde+'%';progressText.innerText=Math.round(yuzde)+'%';},100);
+    }else{progressContainer.style.display='none';}
+    liveInterval=setInterval(()=>{let dalgalanma=(Math.random()-0.5)*0.04;temelSonuc+=dalgalanma;sonucDegeri.innerText='$'+temelSonuc.toLocaleString('en-US',{minimumFractionDigits:2});},2000);
+  }else{alert('Lütfen gerekli alanları doldurun.');}
 }
 </script>
-<div style="margin-top: 50px; padding: 20px; text-align: center; border-top: 1px solid #111;">
-    <h2 style="color: #333; font-size: 13px; letter-spacing: 1px; font-weight: normal;">MARS FINANCE TERMINAL</h2>
-    <p style="color: #555; font-size: 11px; max-width: 600px; margin: 10px auto; line-height: 1.7;">
-        Mars Finance; canlı kripto para verileri, küresel varlık analizleri ve kullanıcı dostu yatırım hesaplama araçları sunan dijital bir finans platformudur. Bitcoin ve piyasa trendlerini buradan takip edebilirsiniz.
-    </p>
-</div>
 
-<style>@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap');
 #yansima-widget{position:fixed;bottom:28px;right:28px;z-index:99999;font-family:'Outfit',sans-serif;}
 #y-trigger{width:62px;height:62px;border-radius:50%;background:#000;border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,0.7),0 0 0 1px rgba(0,230,118,0.25);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);position:relative;}
 #y-trigger:hover{transform:scale(1.1);}
@@ -1361,7 +1045,8 @@ function calculateInvest() {
 .y-inp::placeholder{color:#2a2a2a;}
 .y-send{width:36px;height:36px;flex-shrink:0;background:#efefef;border:none;border-radius:50%;font-size:16px;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
 .y-send:hover{background:#00e676;transform:scale(1.05);}
-.y-footer{padding:5px 16px 9px;text-align:center;font-size:9px;color:#1e1e1e;font-family:'DM Mono',monospace;letter-spacing:0.5px;}</style>
+.y-footer{padding:5px 16px 9px;text-align:center;font-size:9px;color:#1e1e1e;font-family:'DM Mono',monospace;letter-spacing:0.5px;}
+</style>
 
 <div id="yansima-widget">
   <div id="y-panel">
@@ -1410,8 +1095,7 @@ const Y_COINS={BTC:'bitcoin',ETH:'ethereum',SOL:'solana',BNB:'binancecoin',AVAX:
 let yMarket={},yChatHistory=[],yOpen=false,yLoaded=false;
 document.getElementById('yInitTime').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
 function yToggle(){
-  const panel=document.getElementById('y-panel');
-  const btn=document.getElementById('y-trigger');
+  const panel=document.getElementById('y-panel');const btn=document.getElementById('y-trigger');
   if(!yOpen){yOpen=true;panel.style.display='flex';panel.classList.remove('closing');requestAnimationFrame(()=>panel.classList.add('visible'));btn.classList.add('open');if(!yLoaded){yFetchMarket();yLoaded=true;}}
   else{yOpen=false;panel.classList.add('closing');btn.classList.remove('open');setTimeout(()=>{panel.style.display='none';panel.classList.remove('visible','closing');},200);}
 }
@@ -1465,14 +1149,21 @@ async function ySend(){
 }
 function yqSend(btn){document.getElementById('yInp').value=btn.textContent;ySend();}
 setInterval(()=>{if(yOpen)yFetchMarket();},60000);
-  setTimeout(function(){
+setTimeout(function(){
   if(!yOpen){
     yToggle();
     setTimeout(function(){
-      yAddBubble('Merhabalar! 👋 Bugünün piyasa bültenine göz attınız mı? Yatırım Hesaplayıcı ile Dünya Haberleri arasında 📰 <strong>Günlük Piyasa Bülteni</strong> kartı sizi bekliyor!', 'ai');
-    }, 800);
+      yAddBubble('Merhabalar! 👋 Bugünün piyasa bültenine göz attınız mı? Yatırım Hesaplayıcı ile Dünya Haberleri arasında 📰 <strong>Günlük Piyasa Bülteni</strong> kartı sizi bekliyor!','ai');
+    },800);
   }
-}, 3000);
+},3000);
 </script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js');});
+}
+</script>
+
 </body>
 </html>
