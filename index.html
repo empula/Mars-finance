@@ -1465,6 +1465,14 @@ async function ySend(){
 }
 function yqSend(btn){document.getElementById('yInp').value=btn.textContent;ySend();}
 setInterval(()=>{if(yOpen)yFetchMarket();},60000);
+  setTimeout(function(){
+  if(!yOpen){
+    yToggle();
+    setTimeout(function(){
+      yAddBubble('Merhabalar! 👋 Bugünün piyasa bültenine göz attınız mı? Yatırım Hesaplayıcı ile Dünya Haberleri arasında 📰 <strong>Günlük Piyasa Bülteni</strong> kartı sizi bekliyor!', 'ai');
+    }, 800);
+  }
+}, 3000);
 </script>
 </body>
 </html>
