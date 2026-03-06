@@ -404,6 +404,100 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
   </div>
 </div>
 
+<!-- GÜNLÜK BÜLTEN -->
+<div style="margin-bottom:14px;">
+  <div onclick="toggleBulletin()" style="background:linear-gradient(135deg,#0d0d18,#12121e);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 20px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(240,160,32,0.08),transparent 70%);pointer-events:none;"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#1a1200,#3a2800);border:1px solid rgba(240,160,32,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📰</div>
+        <div>
+          <div style="font-size:14px;font-weight:800;color:#eee;letter-spacing:-0.3px;">Günlük Piyasa Bülteni</div>
+          <div style="font-size:11px;color:#555;margin-top:2px;font-family:'DM Mono',monospace;" id="bulletinDateLabel"></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="background:rgba(240,160,32,0.12);border:1px solid rgba(240,160,32,0.2);border-radius:50px;padding:3px 10px;font-size:10px;font-weight:700;color:#f0a020;letter-spacing:0.5px;">YENİ</div>
+        <div id="bulletinArrow" style="color:#444;font-size:18px;transition:transform 0.3s;">▾</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="bulletinBody" style="display:none;background:#0a0a0f;border:1px solid rgba(255,255,255,0.06);border-top:none;border-radius:0 0 20px 20px;padding:20px;margin-top:-8px;">
+    <div style="font-size:13.5px;line-height:1.9;color:#888;">
+
+      <div style="color:#eee;font-weight:700;font-size:15px;margin-bottom:12px;">☀️ Güzel bir sabahtan herkese günaydın!</div>
+      <p style="margin-bottom:16px;">Haftanın son işlem gününde küresel piyasalar baskı altında seyrediyor. Bitcoin kâr satışlarıyla 70.600 dolara gerilerken Korku & Açgözlülük Endeksi 18 ile aşırı korku bölgesinde. Bugünün odak noktası 16.30'daki ABD istihdam raporu.</p>
+
+      <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+      <div style="color:#f0a020;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">💰 KRİPTO PARALAR</div>
+      <p style="margin-bottom:10px;">Bitcoin 74.000 dolardan geri çekildi, 70.600 dolara geriledi. Son 5 günlük %16'lık yükselişin ardından kâr satışları ve kaldıraçlı pozisyon tasfiyeleri etkili oldu.</p>
+      <p style="margin-bottom:10px;">Son 24 saatte 252 milyon dolarlık tasfiye gerçekleşti — bunun 167,5 milyon doları long pozisyonlardan oluştu.</p>
+      <p style="margin-bottom:10px;">Altcoinlerin %38'i tüm zamanların en düşük seviyelerinin yakınında işlem görüyor — FTX çöküşünden bu yana en derin düşüş.</p>
+      <p style="margin-bottom:10px;">SEC, Justin Sun ve Tron bağlantılı şirketlerle 10 milyon dolarlık uzlaşmaya vardı.</p>
+      <p style="margin-bottom:10px;">NYSE'nin ana şirketi ICE, blokzincir tabanlı hisse senedi ticaretine geçiş yapan OKX'e yaklaşık 25 milyar dolar değerleme üzerinden yatırım yaptı.</p>
+
+      <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+      <div style="color:#4f8ef7;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🏦 FED & MAKRO GÜNDEM</div>
+      <p style="margin-bottom:10px;">Fed'in Mart toplantısında faiz sabit kalacak — piyasanın %95,6'sı değişiklik beklemiyor. Bu yıl için fiyatlanan toplam indirim yalnızca 40 bp seviyesinde.</p>
+      <p style="margin-bottom:10px;">Fed Başkanı Powell'ın görevi Mayıs'ta sona eriyor. Daha güvercin bir ismin göreve gelmesi olası; bu durum altın ve kripto için potansiyel katalizör olarak izleniyor.</p>
+      <p style="margin-bottom:10px;">Bugün 16.30'da ABD Tarım Dışı İstihdam (NFP) ve İşsizlik Oranı verileri açıklanacak.</p>
+
+      <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+      <div style="color:#22d45e;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">📈 BORSALAR & ŞİRKET HABERLERİ</div>
+      <p style="margin-bottom:10px;">S&P 500 bugün 6.831 seviyesinde, -%0,56 ile baskı altında. VIX 23,75'e yükseldi.</p>
+      <p style="margin-bottom:10px;">Nvidia ve AMD'nin tüm ülkelere yaptığı sevkiyatlar için ABD hükümeti onayı zorunlu hale geliyor.</p>
+      <p style="margin-bottom:10px;">Arthur Hayes, ABD-İran geriliminin Fed'i zorunlu faiz indirimine itebileceğini öne sürerek yıl sonu Bitcoin hedefini 500.000-750.000 dolar olarak açıkladı.</p>
+
+      <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+      <div style="color:#f0a020;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🥇 ALTIN & GÜMÜŞ</div>
+      <p style="margin-bottom:10px;">Ons altın 5.079 dolara geriledi. Deutsche Bank, UBS ve Wells Fargo yıl sonu hedeflerini 6.000-6.300 dolar aralığında koruyor.</p>
+      <p style="margin-bottom:10px;">Dünya Altın Konseyi: Şubat ayında küresel altın ETF'lerine 5,3 milyar dolar giriş — üst üste dokuzuncu ay pozitif akış.</p>
+
+      <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+      <div style="color:#f86030;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">⚡ ENERJİ</div>
+      <p style="margin-bottom:10px;">Brent petrol bugün 84,38 dolar seviyesinde, -%1,21 ile hafif gerilemekte. WTI 79,88 dolarda seyrediyor.</p>
+      <p style="margin-bottom:10px;">Hürmüz Boğazı endişeleri petrolde risk primini canlı tutuyor. ABD askeri uyarı yayımladı: Amerikan bayraklı gemiler İran sularından geçmesin.</p>
+      <p style="margin-bottom:10px;">Avrupa doğalgaz fiyatları Hürmüz kaynaklı şokla yüksek seyrediyor.</p>
+
+      <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+      <div style="color:#22d45e;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🇹🇷 TÜRKİYE GÜNDEMİ</div>
+      <p style="margin-bottom:10px;">Dolar/TL bugün 43,99 seviyesinde. Türk lirası son 12 ayda dolara karşı %20,91 değer kaybetti.</p>
+      <p style="margin-bottom:10px;">Şubat enflasyonu %31,53 olarak açıklandı — Ocak'taki %30,65'ten yükseliş. Merkez Bankası politika faizini Ocak toplantısında %37'ye indirdi.</p>
+      <p style="margin-bottom:10px;">Türkiye ekonomisi 2025'i yaklaşık %3,3 büyümeyle kapattı. 2026 hedefi %3,8.</p>
+
+      <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+      <div style="color:#f04040;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🌍 JEOPOLİTİK</div>
+      <p style="margin-bottom:10px;">ABD-İran gerilimi sürerken müzakereler Umman üzerinden devam ediyor. Trump görüşmeleri "çok iyi" olarak nitelendirdi, ancak İran nükleer zenginleştirmeden vazgeçmiyor.</p>
+      <p style="margin-bottom:10px;">Hürmüz'de tanker trafiği keskin biçimde azaldı; 200'den fazla gemi bölgede bekliyor.</p>
+
+      <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
+      <div style="color:#b060f8;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">📅 EKONOMİK TAKVİM</div>
+      <div style="background:#0f0f18;border:1px solid rgba(176,96,248,0.15);border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">16.30</span><span style="color:#ccc;font-size:13px;">ABD Tarım Dışı İstihdam (NFP) — Şubat</span></div>
+        <div style="display:flex;align-items:center;gap:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">16.30</span><span style="color:#ccc;font-size:13px;">ABD İşsizlik Oranı — Şubat</span></div>
+      </div>
+
+      <div style="margin-top:16px;text-align:center;font-size:10px;color:#2a2a2a;font-family:'DM Mono',monospace;">Mars Finance · Günlük Piyasa Bülteni</div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('bulletinDateLabel').textContent = new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function toggleBulletin(){
+  const body = document.getElementById('bulletinBody');
+  const arrow = document.getElementById('bulletinArrow');
+  if(body.style.display === 'none'){
+    body.style.display = 'block';
+    arrow.style.transform = 'rotate(180deg)';
+  } else {
+    body.style.display = 'none';
+    arrow.style.transform = 'rotate(0deg)';
+  }
+}
+</script>
+
 <!-- ══ DÜNYA VARLIK SIRALAMASI ══ -->
 
 <div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Dünya Varlık Sıralaması</div></div>
