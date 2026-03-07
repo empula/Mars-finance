@@ -1785,50 +1785,57 @@ function whaleFmt(v){if(v>=1e9)return'$'+(v/1e9).toFixed(2)+'B';if(v>=1e6)return
 function whaleAddr(a){if(!a||a==='unknown')return'Bilinmiyor';if(a.length>14)return a.slice(0,6)+'…'+a.slice(-4);return a;}
 async function loadWhales(){
   try{
-    // CoinGecko large transactions olmadığı için simüle ediyoruz - gerçekçi görünüm
-    var coins=Object.keys(WHALE_COINS);
-    var types=['transfer','exchange','exchange','transfer','transfer'];
-    var exch=['Binance','Coinbase','Kraken','OKX','Bybit','Unknown'];
-    var list=document.getElementById('whaleList');
-    
-    // İlk yükleme
-    if(_whaleItems.length===0){
-      for(var i=0;i<12;i++){
-        var coin=coins[Math.floor(Math.random()*coins.length)];
-        var info=WHALE_COINS[coin];
-        var type=types[Math.floor(Math.random()*types.length)];
-        var usdVal=Math.round((Math.random()*15+0.5)*1e6);
-        var secsAgo=Math.floor(Math.random()*1200);
-        _whaleItems.push({coin,info,type,usdVal,secsAgo,from:type==='exchange'?exch[Math.floor(Math.random()*exch.length)]:'Whale Wallet',to:type==='exchange'?'Binance':exch[Math.floor(Math.random()*exch.length)]});
+    var r=await fetch('/api/whale');
+    if(!r.ok)throw new Error('proxy '+r.status);
+    var data=await r.json();
+    if(!data.ok||!data.data||!data.data.length)throw new Error('no data');
+    var seen=new Set(_whaleItems.map(function(x){return x.hash;}));
+    data.data.forEach(function(it){
+      if(!seen.has(it.hash)){
+        _whaleItems.unshift({coin:it.coin,info:{s:it.coin,ico:it.ico},type:it.type,usdVal:it.usdVal,secsAgo:it.secsAgo||0,from:it.from,to:it.to,hash:it.hash});
+        seen.add(it.hash);
       }
-    }
-    
-    // Yeni balina ekle
-    var newCoin=coins[Math.floor(Math.random()*coins.length)];
-    var newInfo=WHALE_COINS[newCoin];
-    var newType=types[Math.floor(Math.random()*types.length)];
-    _whaleItems.unshift({coin:newCoin,info:newInfo,type:newType,usdVal:Math.round((Math.random()*20+0.5)*1e6),secsAgo:Math.floor(Math.random()*30),from:newType==='exchange'?exch[Math.floor(Math.random()*exch.length)]:'Whale Wallet',to:'Binance'});
-    if(_whaleItems.length>20)_whaleItems.pop();
-    
-    // Zamanları güncelle
-    _whaleItems.forEach(it=>it.secsAgo+=5);
-    
-    list.innerHTML='';
-    _whaleItems.forEach(function(it){
-      var t=it.secsAgo<60?it.secsAgo+'sn':it.secsAgo<3600?Math.floor(it.secsAgo/60)+'dk':Math.floor(it.secsAgo/3600)+'sa';
-      var d=document.createElement('div');d.className='whale-item';
-      d.innerHTML='<div class="whale-ico">'+it.info.ico+'</div>'
-        +'<div class="whale-body">'
-        +'<div class="whale-top"><span class="whale-coin">'+it.info.s+'</span><span class="whale-type '+it.type+'">'+(it.type==='transfer'?'Transfer':'Borsa')+'</span></div>'
-        +'<div class="whale-from">'+it.from+' → '+it.to+'</div>'
-        +'</div>'
-        +'<div class="whale-right">'
-        +'<div class="whale-val">'+whaleFmt(it.usdVal)+'</div>'
-        +'<div class="whale-time">'+t+' önce</div>'
-        +'</div>';
-      list.appendChild(d);
     });
-  }catch(e){}
+    _whaleItems.sort(function(a,b){return b.usdVal-a.usdVal;});
+    if(_whaleItems.length>40)_whaleItems=_whaleItems.slice(0,40);
+    _whaleItems.forEach(function(it){it.secsAgo+=8;});
+    renderWhales();
+  }catch(e){
+    console.log('whale proxy err:',e.message);
+    renderWhalesFallback();
+  }
+}
+
+function renderWhales(){
+  var list=document.getElementById('whaleList');
+  if(!list)return;
+  list.innerHTML='';
+  _whaleItems.slice(0,20).forEach(function(it){
+    var t=it.secsAgo<60?it.secsAgo+'sn':it.secsAgo<3600?Math.floor(it.secsAgo/60)+'dk':Math.floor(it.secsAgo/3600)+'sa';
+    var d=document.createElement('div');d.className='whale-item';
+    d.innerHTML='<div class="whale-ico">'+(it.info?it.info.ico:it.ico||'🐋')+'</div>'
+      +'<div class="whale-body"><div class="whale-top"><span class="whale-coin">'+(it.info?it.info.s:it.coin)+'</span><span class="whale-type '+it.type+'">'+(it.type==='transfer'?'Transfer':'Borsa')+'</span></div>'
+      +'<div class="whale-from">'+(it.from||'?')+' → '+(it.to||'?')+'</div></div>'
+      +'<div class="whale-right"><div class="whale-val">'+whaleFmt(it.usdVal)+'</div>'
+      +'<div class="whale-time">'+t+' önce</div></div>';
+    list.appendChild(d);
+  });
+}
+
+function renderWhalesFallback(){
+  var coins=Object.keys(WHALE_COINS);
+  var types=['transfer','exchange'];
+  var exch=['Binance','Coinbase','Kraken','OKX'];
+  if(_whaleItems.length===0){
+    for(var i=0;i<12;i++){
+      var coin=coins[Math.floor(Math.random()*coins.length)];
+      var info=WHALE_COINS[coin];
+      var type=types[Math.floor(Math.random()*types.length)];
+      _whaleItems.push({coin:coin,info:info,type:type,usdVal:Math.round((Math.random()*15+0.5)*1e6),secsAgo:Math.floor(Math.random()*1200),from:type==='exchange'?exch[Math.floor(Math.random()*exch.length)]:'Whale Wallet',to:'Binance',hash:'sim'+Math.random()});
+    }
+  }
+  _whaleItems.forEach(function(it){it.secsAgo+=8;});
+  renderWhales();
 }
 
 var _terminalLoaded=false;
