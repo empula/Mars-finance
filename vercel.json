@@ -1,16 +1,14 @@
 {
   "version": 2,
   "functions": {
-    "api/market.js": {
-      "maxDuration": 30
-    },
-    "api/chat.js": {
-      "maxDuration": 30
-    }
+    "api/market.js": { "maxDuration": 30 },
+    "api/chat.js": { "maxDuration": 30 },
+    "api/whale.js": { "maxDuration": 30 }
   },
   "routes": [
     { "src": "/api/market", "dest": "/api/market.js" },
     { "src": "/api/chat", "dest": "/api/chat.js" },
+    { "src": "/api/whale", "dest": "/api/whale.js" },
     { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
