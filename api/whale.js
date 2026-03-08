@@ -1,3 +1,4 @@
+// api/whale.js v2
 const ETHERSCAN_KEY = ‘DDAQFVQ45K1R3IZ2TACITJGA79IZCHH3R2’;
 
 const KNOWN = {
