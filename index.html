@@ -474,7 +474,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
 }
 </style>
 
-
+```
      <div id="calcResultValue" style="font-size: 22px; font-weight: 800; color: #fff;">$0.00</div>
     </div>
           <div id="goalProgressContainer" style="display:none; margin-top: 15px; text-align: left;">
@@ -487,7 +487,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
         </div>
     </div>
 </div>
-  
+```
 
 </div>
 
@@ -514,7 +514,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
   <div id="bulletinBody" style="display:none;background:#0a0a0f;border:1px solid rgba(255,255,255,0.06);border-top:none;border-radius:0 0 20px 20px;padding:20px;margin-top:-8px;">
     <div style="font-size:13.5px;line-height:1.9;color:#888;">
 
-
+```
   <div style="color:#eee;font-weight:700;font-size:15px;margin-bottom:12px;">☀️ Güzel bir sabahtan herkese günaydın!</div>
   <p style="margin-bottom:16px;">Bu hafta piyasaların iki kritik odak noktası var: Çarşamba'daki ABD TÜFE verisi ve Perşembe'deki TCMB faiz kararı. Geçen Cuma zayıf gelen NFP verisi FED'in elini güçlendirirken Dolar Endeksi geriledi ve altın ile kripto varlıklar atağa kalktı. Orta Doğu'daki gerilim ise tüm teknik beklentileri geçersiz kılabilecek "siyah kuğu" riski olarak izleniyor.</p>
 
@@ -566,7 +566,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
 
   <div style="margin-top:16px;text-align:center;font-size:10px;color:#2a2a2a;font-family:'DM Mono',monospace;">Mars Finance · Günlük Piyasa Bülteni</div>
 </div>
-
+```
 
   </div>
 </div>
@@ -1031,48 +1031,39 @@ showRank('all',document.querySelector('.rtab.on'));
 
 // ── NEWS
 var NEWS=[
-// KRİPTO
-  {cat:'crypto',ico:'₿',title:'Bitcoin 65.000 dolar seviyesinde; İran savaşının ardından toparlanma sürüyor',source:'CoinDesk',url:'https://coindesk.com',time:'2 sa'},
-  {cat:'crypto',ico:'📉',title:'Altcoinlerin %38\'i tarihi dip seviyelerinde — FTX çöküşünden derin düşüş',source:'CoinPedia',url:'https://coinpedia.org',time:'3 sa'},
-  {cat:'crypto',ico:'Ξ',title:'Ethereum staking rekoru: 37.1 milyon ETH kilitlendi, borsa arzı azalıyor',source:'CoinPedia',url:'https://coinpedia.org',time:'4 sa'},
-  {cat:'crypto',ico:'◎',title:'Solana 83 dolar seviyesinde; güçlü geliştirici aktivitesi ile direnç gösteriyor',source:'CryptoNews',url:'https://cryptonews.com',time:'5 sa'},
-  {cat:'crypto',ico:'✕',title:'XRP 1.35 dolar; kripto ETF girişleri 3 ardışık günde 1 milyar dolar aştı',source:'CryptoNews',url:'https://cryptonews.com',time:'6 sa'},
-  {cat:'crypto',ico:'⚖️',title:'ABD Senatosu konut tasarısına CBDC yasağı ekledi — Fed dijital para çıkaramayacak',source:'CoinDesk',url:'https://coindesk.com',time:'8 sa'},
-  {cat:'crypto',ico:'🔗',title:'Vitalik Buterin, Ethereum blok üreticisi merkezileşmesine karşı plan açıkladı',source:'CoinDesk',url:'https://coindesk.com',time:'10 sa'},
-  {cat:'crypto',ico:'🏦',title:'Morgan Stanley ulusal kripto saklama ve staking hizmetleri için başvuru yaptı',source:'CryptoNews',url:'https://cryptonews.com',time:'12 sa'},
-
-  // PİYASALAR
-  {cat:'markets',ico:'📉',title:'S&P 500 futures %1.6 düştü; İran\'da yeni saldırılar borsaları sarstı',source:'Bloomberg',url:'https://bloomberg.com',time:'1 sa'},
-  {cat:'markets',ico:'🥇',title:'Altın 5.317 doları aştı; yatırımcılar güvenli limanlara akın ediyor',source:'Bloomberg',url:'https://bloomberg.com',time:'2 sa'},
-  {cat:'markets',ico:'📊',title:'Nasdaq %1.8 geriledi; Nvidia +2.9% ve Microsoft +1.5% ile dip alımı yapıldı',source:'CNBC',url:'https://cnbc.com',time:'3 sa'},
-  {cat:'markets',ico:'🛡️',title:'Savunma hisseleri fırladı: Northrop Grumman +5%, Palantir +5.8%',source:'CNBC',url:'https://cnbc.com',time:'4 sa'},
-  {cat:'markets',ico:'✈️',title:'Havacılık hisseleri çöktü: United Airlines -6%, American -5%, Delta -5%',source:'CNBC',url:'https://cnbc.com',time:'5 sa'},
-  {cat:'markets',ico:'🇩🇪',title:'Asya ve Avrupa borsaları son 2 günün en sert düşüşünü yaşıyor',source:'Bloomberg',url:'https://bloomberg.com',time:'6 sa'},
-  {cat:'markets',ico:'🏦',title:'VIX korku endeksi %18 fırladı; piyasalarda volatilite tırmanıyor',source:'CNBC',url:'https://cnbc.com',time:'7 sa'},
-
-  // EKONOMİ
-  {cat:'eco',ico:'🏦',title:'Fed Mart toplantısında faiz sabit kalacak — İran savaşı enflasyon riskini artırdı',source:'CNBC',url:'https://cnbc.com',time:'2 sa'},
-  {cat:'eco',ico:'📊',title:'ABD ISM imalat fiyatları Haziran 2022\'den bu yana en yüksek seviyede: 70.5',source:'Reuters',url:'https://reuters.com',time:'4 sa'},
-  {cat:'eco',ico:'🇪🇺',title:'Eurozone imalat PMI 44 ayın zirvesinde: 50.8 — Almanya 4 yıl sonra büyüme bölgesine girdi',source:'Reuters',url:'https://reuters.com',time:'5 sa'},
-  {cat:'eco',ico:'💱',title:'Dolar güçleniyor; Avrupa para birimleri jeopolitik şoktan en çok etkilenen kesim',source:'Bloomberg',url:'https://bloomberg.com',time:'6 sa'},
-  {cat:'eco',ico:'🇹🇷',title:'Türkiye enflasyonla mücadelede kararlı; Merkez Bankası sıkı para politikasını koruyor',source:'Bloomberg HT',url:'https://bloomberght.com',time:'8 sa'},
-  {cat:'eco',ico:'📈',title:'JP Morgan: Yıl sonu S&P 500 hedefi 7.500 — Wells Fargo da aynı görüşte',source:'CNBC',url:'https://cnbc.com',time:'10 sa'},
-
-  // JEOPOLİTİK
-  {cat:'geo',ico:'💥',title:'ABD-İsrail İran\'a yeni saldırılar başlattı; Trump savaşın haftalarca süreceğini açıkladı',source:'Al Jazeera',url:'https://aljazeera.com',time:'30 dk'},
-  {cat:'geo',ico:'🌊',title:'İran Hürmüz Boğazı\'nı kapattı: 150 tanker mahsur, küresel petrol ticareti durdu',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
-  {cat:'geo',ico:'🇮🇷',title:'İran\'ın Dini Lideri Hamaney öldürüldü — Devrim Muhafızları bölgeye saldırı başlattı',source:'Reuters',url:'https://reuters.com',time:'2 sa'},
-  {cat:'geo',ico:'🇸🇦',title:'Riyad\'daki ABD Büyükelçiliği insansız hava aracıyla vuruldu; Suudi Arabistan\'da yangın',source:'OPB',url:'https://opb.org',time:'3 sa'},
-  {cat:'geo',ico:'🇶🇦',title:'Katar LNG tesisleri İran insansız hava araçlarıyla vuruldu; üretim durduruldu',source:'Al Jazeera',url:'https://aljazeera.com',time:'4 sa'},
-  {cat:'geo',ico:'✈️',title:'Dubai ve Körfez havalimanları kapandı; yüz binlerce yolcu mahsur kaldı',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
-
-  // ENERJİ
-  {cat:'energy',ico:'🛢️',title:'Brent petrol 85 doları aştı — Hürmüz Boğazı\'nın kapanmasıyla fiyatlar tırmanıyor',source:'Bloomberg',url:'https://bloomberg.com',time:'1 sa'},
-  {cat:'energy',ico:'🔥',title:'Avrupa doğalgaz fiyatları %85 fırladı; Katar LNG ihracatı durdu',source:'Bloomberg',url:'https://bloomberg.com',time:'2 sa'},
-  {cat:'energy',ico:'⛽',title:'ABD benzin fiyatları yükseliyor — GasBuddy: 1-2 hafta içinde litre başına 10-30 sent artış',source:'CNBC',url:'https://cnbc.com',time:'3 sa'},
-  {cat:'energy',ico:'🚢',title:'Küresel petrolün %20\'si geçen Hürmüz\'de tanker trafiği %80 düştü',source:'NPR',url:'https://npr.org',time:'4 sa'},
-  {cat:'energy',ico:'💡',title:'OPEC üretimi artıracağını duyurdu ancak piyasayı sakinleştirmeye yetmedi',source:'Reuters',url:'https://reuters.com',time:'5 sa'},
-  {cat:'energy',ico:'☀️',title:'Analistler: Çatışma uzarsa petrol 100 doları aşabilir — en kötü senaryo masada',source:'CNBC',url:'https://cnbc.com',time:'6 sa'},
+  {cat:'crypto',ico:'₿',title:'Bitcoin 67.000 dolar civarinda; Iran savasi baskisina ragmen Wall Street ile seyrediyor',source:'CoinDesk',url:'https://coindesk.com',time:'6 sa'},
+  {cat:'crypto',ico:'Ξ',title:'Bitcoin ayi piyasasinda yuzde 30 daha dusebilir diyor analist',source:'CoinDesk',url:'https://coindesk.com',time:'2 gun'},
+  {cat:'crypto',ico:'◎',title:'Bitcoin 110 milyar dolarlik kayipla haftayi kapatti',source:'CoinDesk',url:'https://coindesk.com',time:'3 gun'},
+  {cat:'crypto',ico:'★',title:'Morgan Stanley BNY Mellon ile Bitcoin ETF saklama anlasmasi yapti',source:'CoinDesk',url:'https://coindesk.com',time:'3 gun'},
+  {cat:'crypto',ico:'✕',title:'Kraken Federal Rezerv odeme sistemine erisim sagladi',source:'CoinDesk',url:'https://coindesk.com',time:'3 gun'},
+  {cat:'crypto',ico:'☉',title:'ICE yani NYSE sahibi OKX borsasina 25 milyar dolar degerlemesiyle yatirim yapti',source:'CoinDesk',url:'https://coindesk.com',time:'3 gun'},
+  {cat:'crypto',ico:'▲',title:'Bitcoin spot ETF haftada 700 milyon dolar net giris gordu',source:'CoinDesk',url:'https://coindesk.com',time:'3 gun'},
+  {cat:'crypto',ico:'■',title:'Binance kaldirac orani Nisan 2025ten bu yana en dusuk seviyede',source:'CoinDesk',url:'https://coindesk.com',time:'4 gun'},
+  {cat:'markets',ico:'▼',title:'Asya borsalari sert dustu: Nikkei yuzde 7 Guney Kore KOSPI yuzde 8 geriledi',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
+  {cat:'markets',ico:'□',title:'S&P 500 futures yuzde 1.7 Nasdaq yuzde 1.9 dustu',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
+  {cat:'markets',ico:'●',title:'Dow futures 800 puan dustu; petrol artisi enflasyon korkularini tetikledi',source:'CNN',url:'https://cnn.com',time:'8 sa'},
+  {cat:'markets',ico:'✶',title:'Altin 5.265 dolar - jeopolitik belirsizlik guvenli liman talebini artiriyor',source:'Bloomberg',url:'https://bloomberg.com',time:'1 gun'},
+  {cat:'markets',ico:'▽',title:'Kuresel piyasalar geriledi: Japonya Guney Kore Hong Kong hepsi kirmizida acildi',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
+  {cat:'markets',ico:'♠',title:'JP Morgan: Altin fiyati 2026 son ceyreginde 5.055 dolara ulasacak',source:'JP Morgan',url:'https://jpmorgan.com',time:'2 gun'},
+  {cat:'markets',ico:'♣',title:'Dolar endeksi gucluyor; ABD net petrol ihracatcisi konumu piyasalari destekliyor',source:'CNBC',url:'https://cnbc.com',time:'6 sa'},
+  {cat:'eco',ico:'◆',title:'Fed 18 Mart toplantisinda faizi sabit tutacak - Mart faiz indirimi gundemden dustu',source:'CNBC',url:'https://cnbc.com',time:'2 sa'},
+  {cat:'eco',ico:'⚠',title:'Iran savasi ABD tuketicisini vuruyor: Benzin haftada 43 sent artarak 3.45 dolara cikti',source:'Al Jazeera',url:'https://aljazeera.com',time:'17 sa'},
+  {cat:'eco',ico:'⚐',title:'Trump petrol artisini kucumsedi: Nukleer tehdidi ortadan kaldirmanin bedeli dedi',source:'CNN',url:'https://cnn.com',time:'8 sa'},
+  {cat:'eco',ico:'⚔',title:'Eurozone imalat PMI 44 ayin zirvesinde 50.8 - Almanya 4 yil sonra buyume bolgesinde',source:'Reuters',url:'https://reuters.com',time:'3 gun'},
+  {cat:'eco',ico:'⚓',title:'Irak ve Kuveyt petrol uretimini kisiyor - depolama tesisleri dolmak uzere',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
+  {cat:'eco',ico:'♥',title:'ABD imalat PMI Subatta 52.4 ile genisleme bolgesinde',source:'CNBC',url:'https://cnbc.com',time:'1 hafta'},
+  {cat:'geo',ico:'✴',title:'ABD-Israel Iran savasi 9. gununde - Nukleer tesisler ve kritik altyapi hedef aliniyor',source:'Fortune',url:'https://fortune.com',time:'4 sa'},
+  {cat:'geo',ico:'❂',title:'Iran Hurmuz Bogazini kapatti - kuresel petrol arzinin yuzde 20si etkilendi',source:'Axios',url:'https://axios.com',time:'3 sa'},
+  {cat:'geo',ico:'❖',title:'Israel Hamaney sonrasi lideri de hedef aldigi acikladi - savas genisliyor',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
+  {cat:'geo',ico:'✹',title:'BAE depolama tesisi vuruldu Katar LNG ihracati kesildi - Korfeze yayilma riski artiyor',source:'Bloomberg',url:'https://bloomberg.com',time:'22 dk'},
+  {cat:'geo',ico:'✈',title:'G7 ulkeleri Pazartesi stratejik petrol rezervlerini birlikte serbest birakmayi gorusecek',source:'Bloomberg',url:'https://bloomberg.com',time:'22 dk'},
+  {cat:'geo',ico:'✒',title:'Demokrat Schumer: Trump rezervleri hemen acmali aileler bu savasin bedelini oduyor',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
+  {cat:'energy',ico:'⛽',title:'Brent petrol 107 dolarda - Iran savasindan bu yana yuzde 50 artis',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
+  {cat:'energy',ico:'△',title:'WTI 107 dolara firladi - analist kisa vadede 120-130 dolar hedefliyor',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
+  {cat:'energy',ico:'⚡',title:'Kpler analisti: Hurmuz acilmazsa petrol Mart sonunda 150 dolari asabilir',source:'CNN',url:'https://cnn.com',time:'8 sa'},
+  {cat:'energy',ico:'♨',title:'Iran savasi enerji piyasalarinda haftalarca hatta aylarca etkisini surdurebilir',source:'Al Jazeera',url:'https://aljazeera.com',time:'17 sa'},
+  {cat:'energy',ico:'⛂',title:'ABD benzin 3.45 dolara cikti - bir haftada 43 sent artis yasandi',source:'Al Jazeera',url:'https://aljazeera.com',time:'17 sa'},
+  {cat:'energy',ico:'⛋',title:'Irak ve Kuveyt uretim kisiyor - Suudi Arabistan ve BAE de kesmek zorunda kalabilir',source:'Axios',url:'https://axios.com',time:'3 sa'},
 ];
 // ── GERÇEK HABERLER (API'den)
 function loadRealNews(newsArr){
