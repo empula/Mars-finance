@@ -1,154 +1,79 @@
-import https from ‘https’;
-
-function httpGet(url, ms = 5000) {
-return new Promise((resolve, reject) => {
-try {
-const req = https.get(url, { headers: { ‘User-Agent’: ‘Mozilla/5.0’ } }, (res) => {
-if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-httpGet(res.headers.location, ms).then(resolve).catch(reject);
-return;
-}
-let data = ‘’;
-res.on(‘data’, (c) => { data += c; });
-res.on(‘end’, () => { try { resolve(JSON.parse(data)); } catch(e) { reject(e); } });
-res.on(‘error’, reject);
-});
-req.setTimeout(ms, () => { req.destroy(); reject(new Error(‘timeout’)); });
-req.on(‘error’, reject);
-} catch(e) { reject(e); }
-});
-}
-
-function ago(ts) {
-if (!ts) return ‘’;
-const s = (Date.now() / 1000) - ts;
-if (s < 3600) return Math.round(s / 60) + ’ dk’;
-if (s < 86400) return Math.round(s / 3600) + ’ sa’;
-return Math.round(s / 86400) + ’ gun’;
-}
-
-function agoDate(str) {
-try {
-const s = (Date.now() - new Date(str).getTime()) / 1000;
-if (s < 3600) return Math.round(s / 60) + ’ dk’;
-if (s < 86400) return Math.round(s / 3600) + ’ sa’;
-return Math.round(s / 86400) + ’ gun’;
-} catch(e) { return ‘’; }
-}
-
 export default async function handler(req, res) {
-res.setHeader(‘Access-Control-Allow-Origin’, ‘*’);
-res.setHeader(‘Cache-Control’, ‘s-maxage=120, stale-while-revalidate=60’);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
 
-const ER_KEY = process.env.EXCHANGERATE_KEY || ‘’;
-const GNEWS_KEY = process.env.GNEWS_KEY || ‘’;
+  const safe = async (url) => {
+    try {
+      const r = await fetch(url);
+      return await r.json();
+    } catch(e) { return null; }
+  };
 
-let forex = {};
-let crypto = {};
-let cryptoRank = [];
-const metals = { gold:{price:5265}, silver:{price:94}, platinum:{price:1042}, copper:{price:4.38} };
-let fearIndex = null;
-let news = [];
+  const [fx, cg, cgTop, fear] = await Promise.all([
+    safe('https://api.exchangerate-api.com/v4/latest/USD'),
+    safe('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'),
+    safe('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h'),
+    safe('https://api.alternative.me/fng/?limit=30'),
+  ]);
 
-await Promise.all([
+ let forex = {};
+if(fx?.rates) {
+  const r = fx.rates;
+  const u = r.TRY;
+  forex = {
+    usd: {price: parseFloat(u.toFixed(2))},
+    eur: {price: parseFloat((u/r.EUR).toFixed(2))},
+    gbp: {price: parseFloat((u/r.GBP).toFixed(2))},
+    jpy: {price: parseFloat((u/r.JPY).toFixed(2))},
+    chf: {price: parseFloat((u/r.CHF).toFixed(2))},
+    cad: {price: parseFloat((u/r.CAD).toFixed(2))},
+    aud: {price: parseFloat((u/r.AUD).toFixed(2))},
+    sar: {price: parseFloat((u/r.SAR).toFixed(2))},
+  };
+}
 
-```
-// FOREX
-httpGet('https://v6.exchangerate-api.com/v6/' + ER_KEY + '/latest/USD')
-.then((d) => {
-  if (d.conversion_rates) {
-    const TRY = d.conversion_rates.TRY || 1;
-    forex.usd = { price: TRY };
-    ['EUR','GBP','JPY','CHF','CAD','AUD','SAR'].forEach((c) => {
-      if (d.conversion_rates[c]) forex[c.toLowerCase()] = { price: TRY / d.conversion_rates[c] };
-    });
-  }
-}).catch(() => {}),
-
-// CRYPTO
-httpGet('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,ripple,avalanche-2,chainlink&order=market_cap_desc&per_page=10&sparkline=false&price_change_percentage=24h')
-.then((d) => {
-  const keyMap = { bitcoin:'btc', ethereum:'eth', solana:'sol', ripple:'xrp', 'avalanche-2':'avax', chainlink:'link' };
-  d.forEach((c) => {
-    const k = keyMap[c.id];
-    if (k) crypto[k] = { price: c.current_price, chg: c.price_change_percentage_24h };
-    cryptoRank.push({ id: c.id, name: c.name, symbol: (c.symbol||'').toUpperCase(), mcap: c.market_cap, chg24: c.price_change_percentage_24h });
-  });
-}).catch(() => {}),
-
-// FEAR & GREED
-httpGet('https://api.alternative.me/fng/?limit=30', 4000)
-.then((d) => {
-  if (d.data && d.data.length) {
-    fearIndex = {
-      value: parseInt(d.data[0].value),
-      label: d.data[0].value_classification,
-      history: d.data.slice(1,5).map((x) => ({ value: parseInt(x.value), label: x.value_classification }))
+  let crypto = {};
+  if(cg) {
+    crypto = {
+      btc:{price:cg.bitcoin?.usd, chg:cg.bitcoin?.usd_24h_change, mcap:cg.bitcoin?.usd_market_cap},
+      eth:{price:cg.ethereum?.usd, chg:cg.ethereum?.usd_24h_change, mcap:cg.ethereum?.usd_market_cap},
+      sol:{price:cg.solana?.usd, chg:cg.solana?.usd_24h_change, mcap:cg.solana?.usd_market_cap},
+      xrp:{price:cg.ripple?.usd, chg:cg.ripple?.usd_24h_change, mcap:cg.ripple?.usd_market_cap},
+      avax:{price:cg['avalanche-2']?.usd, chg:cg['avalanche-2']?.usd_24h_change, mcap:cg['avalanche-2']?.usd_market_cap},
+      link:{price:cg.chainlink?.usd, chg:cg.chainlink?.usd_24h_change, mcap:cg.chainlink?.usd_market_cap},
     };
   }
-}).catch(() => {}),
 
-// NEWS - CoinGecko
-httpGet('https://api.coingecko.com/api/v3/news?per_page=20')
-.then((d) => {
-  const items = Array.isArray(d) ? d : (d.data || []);
-  items.slice(0, 15).forEach((a) => {
-    if (!a.title || !a.url) return;
-    news.push({
-      cat: 'crypto', ico: 'B',
-      title: a.title,
-      source: a.news_site || a.author || 'CoinGecko',
-      url: a.url,
-      time: ago(a.updated_at || a.created_at)
-    });
+  const metals = {
+    gold:{price:5265}, silver:{price:94},
+    platinum:{price:2010}, copper:{price:4.38},
+  };
+
+  const fngData = fear?.data || [];
+  const fearIndex = {
+    value: parseInt(fngData[0]?.value||50),
+    label: fngData[0]?.value_classification||'Nötr',
+    timestamp: fngData[0]?.timestamp,
+    history: fngData.slice(0,30).map(d=>({
+      value:parseInt(d.value),
+      label:d.value_classification,
+      timestamp:d.timestamp
+    })),
+  };
+
+  const cryptoRank = (cgTop||[]).map((coin,i)=>({
+    rank:coin.market_cap_rank||i+1,
+    id:coin.id,
+    symbol:coin.symbol?.toUpperCase(),
+    name:coin.name,
+    price:coin.current_price,
+    mcap:coin.market_cap,
+    chg24:coin.price_change_percentage_24h,
+  }));
+
+  return res.status(200).json({
+    ok:true,
+    ts:new Date().toISOString(),
+    forex, crypto, metals, fearIndex, cryptoRank, news:[]
   });
-}).catch(() => {}),
-
-// NEWS - CryptoPanic
-httpGet('https://cryptopanic.com/api/free/v1/posts/?auth_token=free&public=true&kind=news&filter=hot', 6000)
-.then((d) => {
-  (d.results || []).slice(0, 12).forEach((a) => {
-    if (!a.title) return;
-    const url = a.url || ('https://cryptopanic.com/news/' + a.id + '/click/');
-    const isMacro = !a.currencies || a.currencies.length === 0;
-    news.push({
-      cat: isMacro ? 'markets' : 'crypto',
-      ico: isMacro ? '$' : 'C',
-      title: a.title,
-      source: (a.source && a.source.title) || 'CryptoPanic',
-      url: url,
-      time: agoDate(a.published_at)
-    });
-  });
-}).catch(() => {}),
-```
-
-]);
-
-// GNews (opsiyonel)
-if (GNEWS_KEY) {
-const queries = [
-{ q: ‘economy+markets+finance+Fed’, cat: ‘eco’, max: 8 },
-{ q: ‘geopolitics+war+oil+Middle+East’, cat: ‘geo’, max: 6 },
-{ q: ‘oil+energy+OPEC+crude’, cat: ‘energy’, max: 5 },
-];
-for (const { q, cat, max } of queries) {
-await httpGet(‘https://gnews.io/api/v4/search?q=’ + q + ‘&lang=en&max=’ + max + ‘&token=’ + GNEWS_KEY)
-.then((d) => {
-(d.articles || []).forEach((a) => {
-news.push({ cat, ico: ‘$’, title: a.title, source: (a.source && a.source.name) || ‘GNews’, url: a.url, time: agoDate(a.publishedAt) });
-});
-}).catch(() => {});
-}
-}
-
-res.json({
-ok: true,
-forex,
-crypto,
-metals,
-fearIndex,
-cryptoRank: cryptoRank.slice(0, 15),
-news: news.length >= 5 ? news : []
-});
 }
