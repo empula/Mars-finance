@@ -26,7 +26,7 @@ const l = addr.toLowerCase();
 return KNOWN[l] || (addr.slice(0, 6) + ‘…’ + addr.slice(-4));
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
 res.setHeader(‘Access-Control-Allow-Origin’, ‘*’);
 res.setHeader(‘Cache-Control’, ‘s-maxage=30’);
 
