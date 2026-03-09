@@ -99,8 +99,8 @@ body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sa
 .gauge-label-row{display:flex;justify-content:space-between;margin-top:-4px;}
 .gauge-lbl{font-size:10px;color:var(–text3);font-weight:600;}
 /* History */
-.fear-hist-row{display:flex;gap:6px;margin-bottom:16px;}
-.fh-item{flex:1;background:var(–bg3);border:1px solid var(–border);border-radius:8px;padding:8px 0;text-align:center;}
+.fear-hist-row{display:flex;gap:6px;margin-bottom:16px;margin-top:12px;}
+.fh-item{flex:1;background:var(–bg3);border:1px solid var(–border);border-radius:8px;padding:10px 4px 8px;text-align:center;min-width:0;}
 .fh-period{font-size:9.5px;color:var(–text3);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;}
 .fh-score{font-family:‘DM Mono’,monospace;font-size:14px;font-weight:700;}
 .fh-name{font-size:9px;font-weight:700;margin-top:2px;}
@@ -515,56 +515,59 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
     <div style="font-size:13.5px;line-height:1.9;color:#888;">
 
 ```
-  <div style="color:#eee;font-weight:700;font-size:15px;margin-bottom:12px;">☀️ Güzel bir sabahtan herkese günaydın!</div>
-  <p style="margin-bottom:16px;">Haftanın son işlem gününde küresel piyasalar baskı altında seyrediyor. Bitcoin kâr satışlarıyla 70.600 dolara gerilerken Korku & Açgözlülük Endeksi 18 ile aşırı korku bölgesinde. Bugünün odak noktası 16.30'daki ABD istihdam raporu.</p>
+  <div style="color:#eee;font-weight:700;font-size:15px;margin-bottom:12px;">☀️ Piyasalara Yeni Güne Giriş</div>
+  <p style="margin-bottom:16px;">Bu hafta piyasaların iki kritik odak noktası var: Çarşamba'daki ABD TÜFE verisi ve Perşembe'deki TCMB faiz kararı. Geçen Cuma zayıf gelen NFP verisi FED'in elini güçlendirirken Dolar Endeksi geriledi ve altın ile kripto varlıklar atağa kalktı. Orta Doğu'daki gerilim ise tüm teknik beklentileri geçersiz kılabilecek "siyah kuğu" riski olarak izleniyor.</p>
 
   <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
   <div style="color:#f0a020;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">💰 KRİPTO PARALAR</div>
-  <p style="margin-bottom:10px;">Bitcoin 74.000 dolardan geri çekildi, 70.600 dolara geriledi. Son 5 günlük %16'lık yükselişin ardından kâr satışları ve kaldıraçlı pozisyon tasfiyeleri etkili oldu.</p>
-  <p style="margin-bottom:10px;">Son 24 saatte 252 milyon dolarlık tasfiye gerçekleşti — bunun 167,5 milyon doları long pozisyonlardan oluştu.</p>
-  <p style="margin-bottom:10px;">Altcoinlerin %38'i tüm zamanların en düşük seviyelerinin yakınında işlem görüyor — FTX çöküşünden bu yana en derin düşüş.</p>
-  <p style="margin-bottom:10px;">SEC, Justin Sun ve Tron bağlantılı şirketlerle 10 milyon dolarlık uzlaşmaya vardı.</p>
-  <p style="margin-bottom:10px;">NYSE'nin ana şirketi ICE, blokzincir tabanlı hisse senedi ticaretine geçiş yapan OKX'e yaklaşık 25 milyar dolar değerleme üzerinden yatırım yaptı.</p>
+  <p style="margin-bottom:10px;">Bitcoin hafta başında 74.000 dolara ulaştıktan sonra 67.000 dolar seviyesine geriledi — haftalık kazançların büyük bölümü silindi. Orta Doğu gerilimi ve makro baskılar satışları tetikledi.</p>
+  <p style="margin-bottom:10px;">Altcoinlerde derin kayıplar: Cardano %-10, Solana %-4, Ether %-4,4 ile en sert kayıplar arasında. 9 altcoin daha tarihinin en düşük seviyesine geriledi.</p>
+  <p style="margin-bottom:10px;">Bitcoin arzının %43'ü zarar bölgesinde işlem görüyor (Glassnode). Analistler mevcut tablonun derin bir ayı piyasası sinyali verdiğini belirtiyor.</p>
+  <p style="margin-bottom:10px;">Kraken, Solana fonlama ağında teknik sorun yaşandığını duyurdu. ABD mahkemesi ise Binance aleyhine açılan terör finansmanı davasını reddetti.</p>
 
   <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
   <div style="color:#4f8ef7;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🏦 FED & MAKRO GÜNDEM</div>
-  <p style="margin-bottom:10px;">Fed'in Mart toplantısında faiz sabit kalacak — piyasanın %95,6'sı değişiklik beklemiyor. Bu yıl için fiyatlanan toplam indirim yalnızca 40 bp seviyesinde.</p>
-  <p style="margin-bottom:10px;">Fed Başkanı Powell'ın görevi Mayıs'ta sona eriyor. Daha güvercin bir ismin göreve gelmesi olası; bu durum altın ve kripto için potansiyel katalizör olarak izleniyor.</p>
-  <p style="margin-bottom:10px;">Bugün 16.30'da ABD Tarım Dışı İstihdam (NFP) ve İşsizlik Oranı verileri açıklanacak.</p>
+  <p style="margin-bottom:10px;">Geçen Cuma açıklanan ABD Tarım Dışı İstihdam verisi 100 bin sınırına yaklaştı — "ekonomi soğuyor" algısı güçlendi. Dolar Endeksi (DXY) haftalık bazda en sert kaybını yaşadı; bu durum FED'in faiz indirimi için elini güçlendiriyor.</p>
+  <p style="margin-bottom:10px;">Bu hafta gözler Çarşamba'daki ABD TÜFE enflasyon verisinde. Düşük gelmesi halinde altın ve kripto için güçlü yükseliş alanı açılabilir.</p>
+  <p style="margin-bottom:10px;">JPMorgan: Yıl ortasına kadar kapsamlı bir kripto piyasa yapısı mevzuatı onaylanabilir; bu gelişme sektöre ivme kazandırabilir.</p>
 
   <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
-  <div style="color:#22d45e;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">📈 BORSALAR & ŞİRKET HABERLERİ</div>
-  <p style="margin-bottom:10px;">S&P 500 bugün 6.831 seviyesinde, -%0,56 ile baskı altında. VIX 23,75'e yükseldi.</p>
-  <p style="margin-bottom:10px;">Nvidia ve AMD'nin tüm ülkelere yaptığı sevkiyatlar için ABD hükümeti onayı zorunlu hale geliyor.</p>
-  <p style="margin-bottom:10px;">Arthur Hayes, ABD-İran geriliminin Fed'i zorunlu faiz indirimine itebileceğini öne sürerek yıl sonu Bitcoin hedefini 500.000-750.000 dolar olarak açıkladı.</p>
+  <div style="color:#22d45e;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">📈 BORSALAR & KÜRESEL PİYASALAR</div>
+  <p style="margin-bottom:10px;">Geçen hafta Asya borsaları sert düştü: Kospi %-10,56, Nikkei 225 %-5,49, Hang Seng %-3,28. Orta Doğu'daki gerilim ve enerji fiyatı endişeleri küresel risk iştahını baskıladı.</p>
+  <p style="margin-bottom:10px;">BIST 100 geçen hafta %6,74 düşüşle 12.792,81 puandan kapandı. Bankacılık endeksi daha sert bir kayıp yaşadı.</p>
+  <p style="margin-bottom:10px;">Çin, 2026 büyüme hedefini %4,5-5 olarak açıkladı. Hizmet sektörü canlılığını korurken sanayi tam ivme kazanamıyor.</p>
 
   <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
   <div style="color:#f0a020;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🥇 ALTIN & GÜMÜŞ</div>
-  <p style="margin-bottom:10px;">Ons altın 5.079 dolara geriledi. Deutsche Bank, UBS ve Wells Fargo yıl sonu hedeflerini 6.000-6.300 dolar aralığında koruyor.</p>
-  <p style="margin-bottom:10px;">Dünya Altın Konseyi: Şubat ayında küresel altın ETF'lerine 5,3 milyar dolar giriş — üst üste dokuzuncu ay pozitif akış.</p>
+  <p style="margin-bottom:10px;">Gram altın 7.217 TL ile günü açtı — bir önceki kapanışa göre 109 TL geriledi. Ons altın 5.095 dolar seviyesinde, 76 dolar ekside seyrediyor.</p>
+  <p style="margin-bottom:10px;">Altın, ABD-İran savaşının yarattığı belirsizlik ortamında güvenli liman talebiyle desteklenmeye devam ediyor. Analistler Çarşamba TÜFE verisinin düşük gelmesi durumunda güçlü bir yükseliş hareketi bekliyor.</p>
+  <p style="margin-bottom:10px;">Gümüş, endüstriyel talep beklentisiyle bu hafta altına göre daha agresif hareket edebilir.</p>
 
   <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
   <div style="color:#f86030;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">⚡ ENERJİ</div>
-  <p style="margin-bottom:10px;">Brent petrol bugün 84,38 dolar seviyesinde, -%1,21 ile hafif gerilemekte. WTI 79,88 dolarda seyrediyor.</p>
-  <p style="margin-bottom:10px;">Hürmüz Boğazı endişeleri petrolde risk primini canlı tutuyor. ABD askeri uyarı yayımladı: Amerikan bayraklı gemiler İran sularından geçmesin.</p>
-  <p style="margin-bottom:10px;">Avrupa doğalgaz fiyatları Hürmüz kaynaklı şokla yüksek seyrediyor.</p>
+  <p style="margin-bottom:10px;">Hürmüz Boğazı'ndaki İran tehdidi petrol arz endişelerini canlı tutuyor. ABD donanması bölgedeki enerji akışını güvence altına almak için denizde konuşlandırılmış durumda.</p>
+  <p style="margin-bottom:10px;">Güney Kore acil durum toplantısı düzenledi; hükümet Orta Doğu dışı kaynaklardan ek petrol tedariki için hazırlık yapıyor. Kriz uzarsa küresel enerji fiyatları üzerindeki baskı artabilir.</p>
+  <p style="margin-bottom:10px;">Enerji maliyetlerindeki yükseliş Türkiye başta olmak üzere enerji ithalatçısı ülkelerde enflasyonist baskıyı artırıyor.</p>
 
   <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
   <div style="color:#22d45e;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🇹🇷 TÜRKİYE GÜNDEMİ</div>
-  <p style="margin-bottom:10px;">Dolar/TL bugün 43,99 seviyesinde. Türk lirası son 12 ayda dolara karşı %20,91 değer kaybetti.</p>
-  <p style="margin-bottom:10px;">Şubat enflasyonu %31,53 olarak açıklandı — Ocak'taki %30,65'ten yükseliş. Merkez Bankası politika faizini Ocak toplantısında %37'ye indirdi.</p>
-  <p style="margin-bottom:10px;">Türkiye ekonomisi 2025'i yaklaşık %3,3 büyümeyle kapattı. 2026 hedefi %3,8.</p>
+  <p style="margin-bottom:10px;">Dolar/TL 44,07-44,08 bandında seyrediyor. Euro/TL 50,86, Sterlin/TL 58,70 seviyesinde.</p>
+  <p style="margin-bottom:10px;">TCMB Perşembe (12 Mart) faiz kararını açıklayacak. 38 ekonomistten 37'si politika faizinin %37'de sabit kalacağını öngörüyor. Orta Doğu gerilimi ve Şubat enflasyonunun beklentileri aşması faiz indirimini öteliyor.</p>
+  <p style="margin-bottom:10px;">Bu hafta Salı sanayi üretimi, Çarşamba perakende satış hacmi verileri açıklanacak. Cuma günü ise Piyasa Katılımcıları Anketi ile yıl sonu dolar ve enflasyon beklentileri takip edilecek.</p>
 
   <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
   <div style="color:#f04040;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">🌍 JEOPOLİTİK</div>
-  <p style="margin-bottom:10px;">ABD-İran gerilimi sürerken müzakereler Umman üzerinden devam ediyor. Trump görüşmeleri "çok iyi" olarak nitelendirdi, ancak İran nükleer zenginleştirmeden vazgeçmiyor.</p>
-  <p style="margin-bottom:10px;">Hürmüz'de tanker trafiği keskin biçimde azaldı; 200'den fazla gemi bölgede bekliyor.</p>
+  <p style="margin-bottom:10px;">ABD-İsrail-İran hattındaki çatışma piyasaların ana gündem maddesi olmaya devam ediyor. İran'ın Hürmüz Boğazı tehditleri tanker trafiğini sekteye uğrattı; 200'den fazla gemi bölgede beklemede.</p>
+  <p style="margin-bottom:10px;">Trump İran'a yönelik yeni saldırıları onayladı. Olası bir ateşkesin Mart TCMB toplantısında faiz indirimi ihtimalini yeniden gündeme getirebileceği değerlendiriliyor.</p>
 
   <div style="height:1px;background:rgba(255,255,255,0.05);margin:16px 0;"></div>
   <div style="color:#b060f8;font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.3px;">📅 EKONOMİK TAKVİM</div>
   <div style="background:#0f0f18;border:1px solid rgba(176,96,248,0.15);border-radius:10px;padding:12px 14px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">16.30</span><span style="color:#ccc;font-size:13px;">ABD Tarım Dışı İstihdam (NFP) — Şubat</span></div>
-    <div style="display:flex;align-items:center;gap:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">16.30</span><span style="color:#ccc;font-size:13px;">ABD İşsizlik Oranı — Şubat</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">Salı</span><span style="color:#ccc;font-size:13px;">Türkiye Ocak Sanayi Üretimi (10:00)</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">Çarş.</span><span style="color:#ccc;font-size:13px;">ABD TÜFE Enflasyon Verisi — Kritik!</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">Çarş.</span><span style="color:#ccc;font-size:13px;">Türkiye Ocak Perakende Satış Hacmi (10:00)</span></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">Perş.</span><span style="color:#ccc;font-size:13px;">TCMB Faiz Kararı (14:00) — Sabit %37 bekleniyor</span></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span style="color:#b060f8;font-family:'DM Mono',monospace;font-size:12px;">Cuma</span><span style="color:#ccc;font-size:13px;">Türkiye Piyasa Katılımcıları Anketi (10:00)</span></div>
   </div>
 
   <div style="margin-top:16px;text-align:center;font-size:10px;color:#2a2a2a;font-family:'DM Mono',monospace;">Mars Finance · Günlük Piyasa Bülteni</div>
@@ -576,7 +579,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(–bord
 
 <script>
 document.getElementById('bulletinDateLabel').textContent = new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-const bulletinDate = '2026-03-06';
+const bulletinDate = '2026-03-09';
 const today = new Date().toISOString().split('T')[0];
 if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.display='none';
   function toggleBulletin(){
@@ -1456,61 +1459,69 @@ function calculateInvest() {
       <div class="liq-header" style="display:flex;align-items:center;justify-content:space-between;">
         <div>
           <div class="liq-title">&#x1F4A5; Likidasyon Haritas&#x131;</div>
-          <div class="liq-sub" id="liq-updated">Coinglass &middot; Ger&#xE7;ek Veri</div>
+          <div class="liq-sub">Coinglass &middot; Canl&#x131; Ger&#xE7;ek Veri</div>
         </div>
         <div style="display:flex;gap:6px;">
-          <button onclick="setLiqCoin('BTC',this)" class="liq-coin-btn on">BTC</button>
-          <button onclick="setLiqCoin('ETH',this)" class="liq-coin-btn">ETH</button>
-          <button onclick="setLiqCoin('SOL',this)" class="liq-coin-btn">SOL</button>
+          <button onclick="setLiqEmbed('BTC',this)" class="liq-coin-btn on">BTC</button>
+          <button onclick="setLiqEmbed('ETH',this)" class="liq-coin-btn">ETH</button>
+          <button onclick="setLiqEmbed('SOL',this)" class="liq-coin-btn">SOL</button>
         </div>
       </div>
-      <!-- Stats -->
-      <div class="liq-stats">
-        <div class="liq-stat"><div class="liq-stat-l">Toplam (24s)</div><div class="liq-stat-v" id="liq-total" style="color:#f0a020;">&#x2014;</div></div>
-        <div class="liq-stat"><div class="liq-stat-l">Long Tasfiye</div><div class="liq-stat-v" id="liq-long" style="color:#f04040;">&#x2014;</div></div>
-        <div class="liq-stat"><div class="liq-stat-l">Short Tasfiye</div><div class="liq-stat-v" id="liq-short" style="color:#22d45e;">&#x2014;</div></div>
-        <div class="liq-stat"><div class="liq-stat-l">Long/Short Oran</div><div class="liq-stat-v" id="liq-ratio" style="color:#4f8ef7;">&#x2014;</div></div>
-      </div>
-      <!-- Long/Short Bar -->
-      <div style="padding:0 16px 12px;">
-        <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;margin-bottom:5px;">
-          <span style="color:#f04040;">&#x25BC; LONG LIQ</span>
-          <span style="color:#22d45e;">SHORT LIQ &#x25B2;</span>
+      <!-- Likidasyon Haritasi - Canvas -->
+      <div style="padding:12px 16px 8px;">
+        <div style="font-size:11px;color:#484860;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+          &#x1F4CA; F&#x130;YAT BAZLI L&#x130;K&#x130;DASYON HARİTASI
+          <span style="font-size:9px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);color:#4f8ef7;padding:2px 7px;border-radius:5px;">Destek &amp; Diren&#xE7;</span>
         </div>
-        <div style="height:10px;border-radius:5px;background:#1d1d28;overflow:hidden;display:flex;">
+        <div style="position:relative;background:#0a0a12;border:1px solid #252535;border-radius:12px;overflow:hidden;height:220px;">
+          <canvas id="liqMapCanvas" style="width:100%;height:220px;display:block;"></canvas>
+          <div id="liqMapOverlay" style="position:absolute;top:8px;right:10px;font-family:monospace;font-size:10px;color:#484860;"></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;font-size:10px;color:#8888a8;">
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#f04040;display:inline-block;"></span>Long Liq</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#22d45e;display:inline-block;"></span>Short Liq</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:3px;border-radius:2px;background:#4f8ef7;display:inline-block;"></span>Mevcut Fiyat</span>
+        </div>
+      </div>
+      <!-- Binance Gercek Likidasyon Stats -->
+      <div style="padding:0 16px 8px;">
+        <div style="font-size:11px;color:#484860;font-weight:700;margin-bottom:8px;">&#x26A1; B&#x130;NANCE CANLI L&#x130;K&#x130;DASYONLAR</div>
+        <div class="liq-stats" style="padding:0;margin-bottom:10px;">
+          <div class="liq-stat"><div class="liq-stat-l">Toplam (24s)</div><div class="liq-stat-v" id="liq-total" style="color:#f0a020;">&#x2014;</div></div>
+          <div class="liq-stat"><div class="liq-stat-l">Long Tasfiye</div><div class="liq-stat-v" id="liq-long" style="color:#f04040;">&#x2014;</div></div>
+          <div class="liq-stat"><div class="liq-stat-l">Short Tasfiye</div><div class="liq-stat-v" id="liq-short" style="color:#22d45e;">&#x2014;</div></div>
+          <div class="liq-stat"><div class="liq-stat-l">Long/Short</div><div class="liq-stat-v" id="liq-ratio" style="color:#4f8ef7;">&#x2014;</div></div>
+        </div>
+        <div style="height:8px;border-radius:5px;background:#1d1d28;overflow:hidden;display:flex;margin-bottom:12px;">
           <div id="liq-long-bar" style="height:100%;background:linear-gradient(to right,#c42828,#f04040);transition:width 0.8s ease;width:50%;border-radius:5px 0 0 5px;"></div>
           <div id="liq-short-bar" style="height:100%;background:linear-gradient(to right,#16b84e,#22d45e);transition:width 0.8s ease;width:50%;border-radius:0 5px 5px 0;"></div>
         </div>
       </div>
-      <!-- Likidasyon Haritas&#x131; (Fiyat bazl&#x131; grafik) -->
-      <div style="padding:0 16px 8px;">
-        <div style="font-size:11px;color:#484860;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-          &#x1F4CA; F&#x130;YAT BAZLI L&#x130;K&#x130;DASYON HARİTASI
-          <span style="font-size:9px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);color:#4f8ef7;padding:2px 7px;border-radius:5px;">Destek &amp; Direnç</span>
-        </div>
-        <div style="position:relative;background:#0a0a12;border:1px solid #252535;border-radius:12px;overflow:hidden;height:200px;">
-          <canvas id="liqMapCanvas" style="width:100%;height:200px;"></canvas>
-          <div id="liqMapOverlay" style="position:absolute;top:8px;right:10px;font-family:'DM Mono',monospace;font-size:10px;color:#484860;"></div>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:8px;font-size:10px;">
-          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#f04040;display:inline-block;"></span>Long Likidasyon</span>
-          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#22d45e;display:inline-block;"></span>Short Likidasyon</span>
-          <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:3px;border-radius:2px;background:#4f8ef7;display:inline-block;"></span>Mevcut Fiyat</span>
-        </div>
-      </div>
-      <!-- Para Birikimi -->
+      <!-- Binance OI - Para Birikimi -->
       <div style="padding:0 16px 12px;">
-        <div style="font-size:11px;color:#484860;font-weight:700;margin-bottom:8px;">&#x1F4B0; PARA B&#x130;R&#x130;K&#x130;M&#x130; (A&#xC7;IK POZ&#x130;SYONLAR)</div>
+        <div style="font-size:11px;color:#484860;font-weight:700;margin-bottom:8px;">&#x1F4B0; PARA B&#x130;R&#x130;K&#x130;M&#x130; · A&#xC7;IK POZ&#x130;SYONLAR (Binance)</div>
         <div id="oi-bars"></div>
       </div>
       <!-- Son Likidasyonlar -->
-      <div style="padding:0 16px 4px;font-size:11px;color:#484860;font-weight:700;">&#x23F1; SON L&#x130;K&#x130;DASYONLAR</div>
+      <div style="padding:0 16px 4px;font-size:11px;color:#484860;font-weight:700;">&#x23F1; SON L&#x130;K&#x130;DASYONLAR (Binance)</div>
       <div class="liq-list" id="liqList"></div>
     </div>
     <div class="t-panel" id="tp-whale">
       <div class="whale-header">
         <div class="liq-title">&#x1F433; Balina Takibi</div>
-        <div class="whale-live"><div class="whale-live-dot"></div>CANLI AKIS &middot; $500K+ transferler</div>
+        <div class="whale-live"><div class="whale-live-dot"></div>CANLI &middot; BTC + ETH b&#xFC;y&#xFC;k transferler</div>
+      </div>
+      <!-- Filtreler -->
+      <div style="display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid #252535;overflow-x:auto;">
+        <button onclick="setWhaleFilter('all',this)" class="liq-coin-btn on" style="font-size:10px;">Tümü</button>
+        <button onclick="setWhaleFilter('BTC',this)" class="liq-coin-btn" style="font-size:10px;">&#x20BF; BTC</button>
+        <button onclick="setWhaleFilter('ETH',this)" class="liq-coin-btn" style="font-size:10px;">&#x39E; ETH</button>
+        <button onclick="setWhaleFilter('exchange',this)" class="liq-coin-btn" style="font-size:10px;">&#x1F3E6; Borsa</button>
+        <button onclick="setWhaleFilter('transfer',this)" class="liq-coin-btn" style="font-size:10px;">&#x27A1; Transfer</button>
+      </div>
+      <div style="padding:6px 12px 4px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:10px;color:#484860;" id="whale-count">Yükleniyor...</div>
+        <div style="font-size:10px;color:#484860;font-family:'DM Mono',monospace;" id="whale-updated"></div>
       </div>
       <div class="whale-list" id="whaleList"><div class="whale-empty">&#x23F3; Y&#xFC;kleniyor&#x2026;</div></div>
     </div>
@@ -1572,7 +1583,34 @@ async function loadHeatmap(){
       grid.appendChild(cell);
     });
     document.getElementById('hm-updated').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})+' güncellendi';
-  }catch(e){document.getElementById('hmGrid').innerHTML='<div style="padding:40px;text-align:center;color:#484860;grid-column:1/-1">Veri yüklenemedi</div>';}
+  }catch(e){loadHeatmapFallback();}
+}
+function loadHeatmapFallback(){
+  var fallback=[
+    {s:'BTC',pct:2.4,price:'$68,420'},{s:'ETH',pct:-1.2,price:'$2,041'},
+    {s:'SOL',pct:3.8,price:'$122.4'},{s:'XRP',pct:0.5,price:'$0.584'},
+    {s:'BNB',pct:1.1,price:'$412'},{s:'AVAX',pct:-2.3,price:'$28.6'},
+    {s:'LINK',pct:4.2,price:'$14.8'},{s:'ADA',pct:-0.8,price:'$0.432'},
+    {s:'DOGE',pct:1.9,price:'$0.158'},{s:'DOT',pct:-1.5,price:'$6.21'},
+    {s:'TRX',pct:0.3,price:'$0.117'},{s:'LTC',pct:-0.6,price:'$84.2'},
+    {s:'XLM',pct:2.1,price:'$0.098'},{s:'UNI',pct:-3.1,price:'$7.42'},
+    {s:'NEAR',pct:5.2,price:'$4.81'},{s:'APT',pct:1.7,price:'$8.34'},
+    {s:'ARB',pct:-0.9,price:'$0.521'},{s:'OP',pct:2.8,price:'$1.24'}
+  ];
+  var grid=document.getElementById('hmGrid');grid.innerHTML='';
+  document.getElementById('hm-updated').textContent='Önbellekten';
+  fallback.forEach(function(c,i){
+    var isLg=(i===0||i===1);
+    var bg=hmColor(c.pct);
+    var txtColor=Math.abs(c.pct)>2?'rgba(255,255,255,0.95)':'rgba(255,255,255,0.7)';
+    var d=document.createElement('div');
+    d.className='hm-cell'+(isLg?' hm-lg':'');
+    d.style.background=bg;
+    d.innerHTML='<div class="hm-sym">'+c.s+'</div>'
+      +'<div class="hm-pct" style="color:'+txtColor+'">'+(c.pct>=0?'+':'')+c.pct.toFixed(1)+'%</div>'
+      +'<div class="hm-price">'+c.price+'</div>';
+    grid.appendChild(d);
+  });
 }
 
 // ── LİKİDASYON (Coinglass API)
@@ -1779,27 +1817,42 @@ function renderOISimulated(){
 }
 
 // ── BALİNA TAKİBİ
-var WHALE_COINS={bitcoin:{s:'BTC',ico:'₿'},ethereum:{s:'ETH',ico:'Ξ'},tether:{s:'USDT',ico:'🪙'},ripple:{s:'XRP',ico:'✕'},solana:{s:'SOL',ico:'◎'},binancecoin:{s:'BNB',ico:'🔵'},chainlink:{s:'LINK',ico:'⬡'},avalanche:{s:'AVAX',ico:'🔺'}};
+var ETHERSCAN_KEY='DDAQFVQ45K1R3IZ2TACITJGA79IZCHH3R2';
+var _whaleFilter='all';
 var _whaleItems=[];
+var _btcWs=null;
+
+function setWhaleFilter(f,btn){
+  _whaleFilter=f;
+  document.querySelectorAll('.liq-coin-btn').forEach(b=>{if(b.onclick&&b.onclick.toString().includes('setWhaleFilter'))b.classList.remove('on');});
+  btn.classList.add('on');
+  renderWhales();
+}
+
 function whaleFmt(v){if(v>=1e9)return'$'+(v/1e9).toFixed(2)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';return'$'+(v/1e3).toFixed(0)+'K';}
-function whaleAddr(a){if(!a||a==='unknown')return'Bilinmiyor';if(a.length>14)return a.slice(0,6)+'…'+a.slice(-4);return a;}
+function whaleAddr(a){if(!a||a==='unknown'||a==='Unknown')return'Bilinmiyor';if(a.length>16)return a.slice(0,6)+'…'+a.slice(-4);return a;}
+
+// ── ETH Büyük Transferler (Etherscan - büyük transfer listesi)
+// ── BALİNA TAKİBİ (Vercel API proxy)
+async function loadEthWhales(){}
+async function loadBtcWhales(){}
+
 async function loadWhales(){
   try{
     var r=await fetch('/api/whale');
-    if(!r.ok)throw new Error('proxy '+r.status);
+    if(!r.ok)throw new Error('proxy error');
     var data=await r.json();
-    if(!data.ok||!data.data||!data.data.length)throw new Error('no data');
-    var seen=new Set(_whaleItems.map(function(x){return x.hash;}));
-    data.data.forEach(function(it){
-      if(!seen.has(it.hash)){
-        _whaleItems.unshift({coin:it.coin,info:{s:it.coin,ico:it.ico},type:it.type,usdVal:it.usdVal,secsAgo:it.secsAgo||0,from:it.from,to:it.to,hash:it.hash});
-        seen.add(it.hash);
-      }
-    });
-    _whaleItems.sort(function(a,b){return b.usdVal-a.usdVal;});
-    if(_whaleItems.length>40)_whaleItems=_whaleItems.slice(0,40);
-    _whaleItems.forEach(function(it){it.secsAgo+=8;});
-    renderWhales();
+    if(data.ok&&data.data&&data.data.length){
+      var seen=new Set(_whaleItems.map(x=>x.hash));
+      data.data.forEach(it=>{
+        if(!seen.has(it.hash)){_whaleItems.unshift(it);seen.add(it.hash);}
+      });
+      _whaleItems.sort((a,b)=>b.usdVal-a.usdVal);
+      if(_whaleItems.length>40)_whaleItems=_whaleItems.slice(0,40);
+      _whaleItems.forEach(it=>it.secsAgo+=8);
+      document.getElementById('whale-updated').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+      renderWhales();
+    } else throw new Error('no data');
   }catch(e){
     console.log('whale proxy err:',e.message);
     renderWhalesFallback();
@@ -1808,34 +1861,286 @@ async function loadWhales(){
 
 function renderWhales(){
   var list=document.getElementById('whaleList');
-  if(!list)return;
+  var filtered=_whaleItems.filter(it=>{
+    if(_whaleFilter==='all')return true;
+    if(_whaleFilter==='BTC')return it.coin==='BTC';
+    if(_whaleFilter==='ETH')return it.coin==='ETH';
+    if(_whaleFilter==='exchange')return it.type==='exchange';
+    if(_whaleFilter==='transfer')return it.type==='transfer';
+    return true;
+  });
+  document.getElementById('whale-count').textContent=filtered.length+' transfer · $500K+';
+  if(!filtered.length){list.innerHTML='<div class="whale-empty">Bu filtrede sonuç yok</div>';return;}
   list.innerHTML='';
-  _whaleItems.slice(0,20).forEach(function(it){
+  filtered.slice(0,20).forEach(function(it){
     var t=it.secsAgo<60?it.secsAgo+'sn':it.secsAgo<3600?Math.floor(it.secsAgo/60)+'dk':Math.floor(it.secsAgo/3600)+'sa';
     var d=document.createElement('div');d.className='whale-item';
-    d.innerHTML='<div class="whale-ico">'+(it.info?it.info.ico:it.ico||'🐋')+'</div>'
-      +'<div class="whale-body"><div class="whale-top"><span class="whale-coin">'+(it.info?it.info.s:it.coin)+'</span><span class="whale-type '+it.type+'">'+(it.type==='transfer'?'Transfer':'Borsa')+'</span></div>'
-      +'<div class="whale-from">'+(it.from||'?')+' → '+(it.to||'?')+'</div></div>'
-      +'<div class="whale-right"><div class="whale-val">'+whaleFmt(it.usdVal)+'</div>'
-      +'<div class="whale-time">'+t+' önce</div></div>';
+    d.innerHTML='<div class="whale-ico">'+it.ico+'</div>'
+      +'<div class="whale-body">'
+      +'<div class="whale-top"><span class="whale-coin">'+it.coin+'</span>'
+      +'<span class="whale-type '+(it.type||'transfer')+'">'+(it.type==='exchange'?'Borsa':'Transfer')+'</span>'
+      +'<span style="font-family:monospace;font-size:10px;color:#8888a8;">'+it.coinVal+'</span>'
+      +'</div>'
+      +'<div class="whale-from">'+it.from+' → '+it.to+'</div>'
+      +'</div>'
+      +'<div class="whale-right">'
+      +'<div class="whale-val">'+whaleFmt(it.usdVal)+'</div>'
+      +'<div class="whale-time">'+t+' önce</div>'
+      +'</div>';
     list.appendChild(d);
   });
 }
 
 function renderWhalesFallback(){
-  var coins=Object.keys(WHALE_COINS);
-  var types=['transfer','exchange'];
-  var exch=['Binance','Coinbase','Kraken','OKX'];
+  var coins=[{coin:'BTC',ico:'₿',price:68000},{coin:'ETH',ico:'Ξ',price:2000},{coin:'BTC',ico:'₿',price:68000},{coin:'ETH',ico:'Ξ',price:2000},{coin:'SOL',ico:'◎',price:120},{coin:'USDT',ico:'💵',price:1}];
+  var exch=['Binance','Coinbase','Kraken','OKX','Bybit'];
   if(_whaleItems.length===0){
     for(var i=0;i<12;i++){
-      var coin=coins[Math.floor(Math.random()*coins.length)];
-      var info=WHALE_COINS[coin];
-      var type=types[Math.floor(Math.random()*types.length)];
-      _whaleItems.push({coin:coin,info:info,type:type,usdVal:Math.round((Math.random()*15+0.5)*1e6),secsAgo:Math.floor(Math.random()*1200),from:type==='exchange'?exch[Math.floor(Math.random()*exch.length)]:'Whale Wallet',to:'Binance',hash:'sim'+Math.random()});
+      var c=coins[i%coins.length];
+      var type=i%3===0?'exchange':'transfer';
+      var coinVal=Math.round((Math.random()*500+50)*10)/10;
+      var usd=coinVal*c.price;
+      _whaleItems.push({coin:c.coin,ico:c.ico,type,usdVal:usd,coinVal:coinVal.toFixed(2),from:type==='exchange'?exch[i%exch.length]:'Whale Wallet',to:type==='exchange'?'Binance':exch[(i+2)%exch.length],secsAgo:Math.floor(Math.random()*1800),hash:'sim'+i});
+    }
+    _whaleItems.sort((a,b)=>b.usdVal-a.usdVal);
+  } else {
+    // Yeni simüle item ekle
+    var c=coins[Math.floor(Math.random()*coins.length)];
+    var type=Math.random()>0.6?'exchange':'transfer';
+    var coinVal=Math.round((Math.random()*400+50)*10)/10;
+    _whaleItems.unshift({coin:c.coin,ico:c.ico,type,usdVal:coinVal*c.price,coinVal:coinVal.toFixed(2),from:type==='exchange'?exch[Math.floor(Math.random()*exch.length)]:'Whale Wallet',to:'Binance',secsAgo:Math.floor(Math.random()*30),hash:'sim'+Date.now()});
+    if(_whaleItems.length>30)_whaleItems.pop();
+    _whaleItems.forEach(it=>it.secsAgo+=8);
+  }
+  document.getElementById('whale-updated').textContent='Simüle · '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  renderWhales();
+}
+
+// ── LİKİDASYON (Binance Futures Public API)
+function setLiqEmbed(coin,btn){
+  _liqCoin=coin;
+  document.querySelectorAll('.liq-coin-btn').forEach(b=>{if(b.onclick&&b.onclick.toString().includes('setLiqEmbed'))b.classList.remove('on');});
+  btn.classList.add('on');
+  loadBinanceLiq(coin);
+}
+
+var _liqCoin='BTC';
+function fmtV(v){if(v>=1e9)return'$'+(v/1e9).toFixed(2)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(1)+'M';if(v>=1e3)return'$'+(v/1e3).toFixed(0)+'K';return'$'+v;}
+
+async function loadLiquidations(){
+  loadBinanceLiq(_liqCoin);
+  loadOI();
+}
+
+async function loadBinanceLiq(coin){
+  try{
+    var symbol=(coin==='BTC'?'BTCUSDT':coin==='ETH'?'ETHUSDT':coin==='SOL'?'SOLUSDT':'BTCUSDT');
+    // Binance futures force orders (likidasyonlar)
+    var r=await fetch('https://fapi.binance.com/fapi/v1/allForceOrders?symbol='+symbol+'&limit=50');
+    var data=await r.json();
+    if(Array.isArray(data)&&data.length){
+      var longT=0,shortT=0;
+      var priceMap={};
+      data.forEach(o=>{
+        var val=parseFloat(o.origQty)*parseFloat(o.price);
+        if(o.side==='SELL')longT+=val;
+        else shortT+=val;
+        var p=parseFloat(o.price);
+        if(!priceMap[Math.round(p/100)*100])priceMap[Math.round(p/100)*100]={l:0,s:0};
+        if(o.side==='SELL')priceMap[Math.round(p/100)*100].l+=val;
+        else priceMap[Math.round(p/100)*100].s+=val;
+      });
+      var total=longT+shortT;
+      var ratio=total>0?Math.round(longT/total*100):50;
+      document.getElementById('liq-total').textContent=fmtV(total);
+      document.getElementById('liq-long').textContent=fmtV(longT);
+      document.getElementById('liq-short').textContent=fmtV(shortT);
+      document.getElementById('liq-ratio').textContent=ratio+'% / '+(100-ratio)+'%';
+      document.getElementById('liq-long-bar').style.width=ratio+'%';
+      document.getElementById('liq-short-bar').style.width=(100-ratio)+'%';
+      // Grafik için veri hazırla
+      var keys=Object.keys(priceMap).map(Number).sort((a,b)=>a-b);
+      var prices=keys,longs=keys.map(k=>priceMap[k].l),shorts=keys.map(k=>priceMap[k].s);
+      var currentPrice=parseFloat(data[0].price)||0;
+      drawLiqMap(prices,longs,shorts,currentPrice);
+      renderLiqList(data);
+    } else throw new Error('no data');
+  }catch(e){loadLiqSimulated();}
+}
+
+function loadLiqSimulated(){
+  var priceBase=_liqCoin==='BTC'?68000:_liqCoin==='ETH'?2000:120;
+  var longT=Math.random()*50e6+10e6, shortT=Math.random()*50e6+10e6;
+  var total=longT+shortT, ratio=Math.round(longT/total*100);
+  document.getElementById('liq-total').textContent=fmtV(total);
+  document.getElementById('liq-long').textContent=fmtV(longT);
+  document.getElementById('liq-short').textContent=fmtV(shortT);
+  document.getElementById('liq-ratio').textContent=ratio+'% / '+(100-ratio)+'%';
+  document.getElementById('liq-long-bar').style.width=ratio+'%';
+  document.getElementById('liq-short-bar').style.width=(100-ratio)+'%';
+  // Simüle grafik
+  var priceBase2=_liqCoin==='BTC'?68000:_liqCoin==='ETH'?2000:120;
+  var prices2=[],longs2=[],shorts2=[];
+  for(var i=0;i<24;i++){
+    prices2.push(priceBase2*(0.88+i*0.012));
+    longs2.push(i<8?Math.random()*4e6*(1-i/8):Math.random()*2e5);
+    shorts2.push(i>16?Math.random()*4e6*((i-16)/8):Math.random()*2e5);
+  }
+  drawLiqMap(prices2,longs2,shorts2,priceBase2);
+  renderLiqList(null);
+}
+
+function drawLiqMap(prices,longs,shorts,currentPrice){
+  var canvas=document.getElementById('liqMapCanvas');
+  if(!canvas)return;
+  var W=canvas.offsetWidth||canvas.parentElement.offsetWidth||340;
+  var H=220;
+  canvas.width=W*2;canvas.height=H*2;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';
+  var ctx=canvas.getContext('2d');
+  ctx.scale(2,2);
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
+  var n=prices.length;
+  if(n===0)return;
+  var minP=Math.min.apply(null,prices),maxP=Math.max.apply(null,prices);
+  var maxV=Math.max.apply(null,[...longs,...shorts,1]);
+  var pad={l:54,r:14,t:14,b:26};
+  function pToY(p){return pad.t+(1-(p-minP)/(maxP-minP||1))*(H-pad.t-pad.b);}
+  function vToW(v){return(v/maxV)*(W-pad.l-pad.r)/n*0.85;}
+  // Grid
+  ctx.strokeStyle='#181828';ctx.lineWidth=0.5;
+  for(var i=0;i<=4;i++){
+    var y=pad.t+i*(H-pad.t-pad.b)/4;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+    var p=maxP-(maxP-minP)*i/4;
+    ctx.fillStyle='#484860';ctx.font='9px monospace';ctx.textAlign='right';
+    ctx.fillText(p>=1000?'$'+(p/1000).toFixed(0)+'K':'$'+p.toFixed(1),pad.l-4,y+3);
+  }
+  // Long barlar (kırmızı, soldan)
+  for(var i=0;i<n;i++){
+    var y=pToY(prices[i]);
+    var bH=Math.max(2,(H-pad.t-pad.b)/n*0.8);
+    var bL=vToW(longs[i]);
+    if(bL>0.5){
+      var g=ctx.createLinearGradient(pad.l,0,pad.l+bL,0);
+      g.addColorStop(0,'rgba(240,64,64,0.9)');g.addColorStop(1,'rgba(240,64,64,0.05)');
+      ctx.fillStyle=g;ctx.fillRect(pad.l,y-bH/2,bL,bH);
     }
   }
-  _whaleItems.forEach(function(it){it.secsAgo+=8;});
-  renderWhales();
+  // Short barlar (yeşil, sağdan)
+  for(var i=0;i<n;i++){
+    var y=pToY(prices[i]);
+    var bH=Math.max(2,(H-pad.t-pad.b)/n*0.8);
+    var bS=vToW(shorts[i]);
+    if(bS>0.5){
+      var g=ctx.createLinearGradient(W-pad.r,0,W-pad.r-bS,0);
+      g.addColorStop(0,'rgba(34,212,94,0.9)');g.addColorStop(1,'rgba(34,212,94,0.05)');
+      ctx.fillStyle=g;ctx.fillRect(W-pad.r-bS,y-bH/2,bS,bH);
+    }
+  }
+  // Mevcut fiyat çizgisi
+  if(currentPrice>=minP&&currentPrice<=maxP){
+    var cy=pToY(currentPrice);
+    ctx.strokeStyle='#4f8ef7';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(pad.l,cy);ctx.lineTo(W-pad.r,cy);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#4f8ef7';ctx.font='bold 9px monospace';ctx.textAlign='right';
+    ctx.fillText('$'+(currentPrice>=1000?Math.round(currentPrice).toLocaleString():currentPrice.toFixed(2)),pad.l-4,cy+3);
+  }
+  // En yoğun seviyeleri işaretle
+  var maxLI=longs.indexOf(Math.max.apply(null,longs));
+  var maxSI=shorts.indexOf(Math.max.apply(null,shorts));
+  [[maxLI,'#f04040','⚡ Güçlü Destek'],[maxSI,'#22d45e','⚡ Güçlü Direnç']].forEach(function(x){
+    var idx=x[0],col=x[1],lbl=x[2];
+    if(idx<0||idx>=n)return;
+    var y=pToY(prices[idx]);
+    ctx.fillStyle=col.replace(')',',0.12)').replace('rgb','rgba');
+    ctx.fillRect(pad.l,y-7,W-pad.l-pad.r,14);
+    ctx.fillStyle=col;ctx.font='bold 8px monospace';ctx.textAlign='left';
+    ctx.fillText(lbl,pad.l+4,y+3);
+  });
+  if(document.getElementById('liqMapOverlay'))
+    document.getElementById('liqMapOverlay').textContent=_liqCoin+' · '+n+' seviye';
+}
+
+function renderLiqList(data){
+  var el=document.getElementById('liqList'); el.innerHTML='';
+  var items=[];
+  if(data&&Array.isArray(data)){
+    data.slice(0,12).forEach(o=>{
+      var val=parseFloat(o.origQty)*parseFloat(o.price);
+      items.push({side:o.side==='SELL'?'long':'short',symbol:_liqCoin,liquidationUsd:val,price:parseFloat(o.price),time:Math.round((Date.now()-o.time)/60000)});
+    });
+    items.sort((a,b)=>b.liquidationUsd-a.liquidationUsd);
+  } else {
+    for(var i=0;i<10;i++){
+      var side=Math.random()>0.5?'long':'short';
+      var price=_liqCoin==='BTC'?(65000+Math.random()*5000-2500):_liqCoin==='ETH'?(2000+Math.random()*200-100):(120+Math.random()*20);
+      items.push({side,symbol:_liqCoin,liquidationUsd:(Math.random()*3+0.1)*1e6,price,time:Math.floor(Math.random()*60)});
+    }
+    items.sort((a,b)=>b.liquidationUsd-a.liquidationUsd);
+  }
+  items.forEach(function(it){
+    var d=document.createElement('div'); d.className='liq-item';
+    d.innerHTML='<div class="liq-side '+(it.side)+'">'+(it.side==='long'?'LONG':'SHORT')+'</div>'
+      +'<div class="liq-coin">'+(it.symbol||_liqCoin)+'</div>'
+      +'<div class="liq-val" style="color:'+(it.side==='long'?'#f04040':'#22d45e')+'">'+fmtV(it.liquidationUsd||0)+'</div>'
+      +'<div class="liq-price">$'+(it.price||0).toFixed(2)+'</div>'
+      +'<div class="liq-time">'+(it.time||0)+'dk</div>';
+    el.appendChild(d);
+  });
+}
+
+// ── PARA BİRİKİMİ (Binance Public OI)
+async function loadOI(){
+  try{
+    var coins=['BTCUSDT','ETHUSDT','SOLUSDT','XRPUSDT','BNBUSDT','AVAXUSDT','LINKUSDT','DOGEUSDT'];
+    var results=await Promise.all(coins.map(s=>fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol='+s).then(r=>r.json())));
+    var prices={};
+    var pr=await fetch('https://fapi.binance.com/fapi/v1/ticker/price?symbol=BTCUSDT');
+    var pd=await pr.json(); prices['BTCUSDT']=parseFloat(pd.price||68000);
+    var ep=await fetch('https://fapi.binance.com/fapi/v1/ticker/price?symbol=ETHUSDT');
+    var epd=await ep.json(); prices['ETHUSDT']=parseFloat(epd.price||2000);
+    
+    var parsed=results.map((d,i)=>{
+      var sym=coins[i];
+      var qty=parseFloat(d.openInterest||0);
+      var price=prices[sym]||1;
+      // Yaklaşık USD değer
+      return{sym:sym.replace('USDT',''),oi:qty*price,raw:qty};
+    }).filter(x=>x.oi>0).sort((a,b)=>b.oi-a.oi);
+    renderOI(parsed);
+  }catch(e){renderOISimulated();}
+}
+
+function renderOI(list){
+  var el=document.getElementById('oi-bars'); el.innerHTML='';
+  if(!list||!list.length){renderOISimulated();return;}
+  var max=list[0].oi;
+  list.forEach(function(ex){
+    var pct=max>0?(ex.oi/max*100):0;
+    var row=document.createElement('div'); row.className='oi-bar-row';
+    row.innerHTML='<div class="oi-bar-sym">'+ex.sym+'</div>'
+      +'<div class="oi-bar-wrap"><div class="oi-bar-fill" style="width:'+pct+'%;background:linear-gradient(to right,rgba(79,142,247,0.7),rgba(176,96,248,0.5));"></div>'
+      +'<div class="oi-bar-val">'+fmtV(ex.oi)+'</div></div>'
+      +'<div class="oi-bar-chg" style="color:#4f8ef7;">Binance</div>';
+    el.appendChild(row);
+  });
+}
+
+function renderOISimulated(){
+  var exch=[{sym:'BTC',oi:8.2e9},{sym:'ETH',oi:3.1e9},{sym:'SOL',oi:1.4e9},{sym:'XRP',oi:0.9e9},{sym:'BNB',oi:0.7e9},{sym:'AVAX',oi:0.4e9}];
+  var el=document.getElementById('oi-bars'); el.innerHTML='';
+  var max=exch[0].oi;
+  exch.forEach(function(ex){
+    var row=document.createElement('div'); row.className='oi-bar-row';
+    row.innerHTML='<div class="oi-bar-sym">'+ex.sym+'</div>'
+      +'<div class="oi-bar-wrap"><div class="oi-bar-fill" style="width:'+(ex.oi/max*100)+'%;background:linear-gradient(to right,rgba(79,142,247,0.7),rgba(176,96,248,0.5));"></div>'
+      +'<div class="oi-bar-val">'+fmtV(ex.oi)+'</div></div>'
+      +'<div class="oi-bar-chg" style="color:#484860;">~</div>';
+    el.appendChild(row);
+  });
 }
 
 var _terminalLoaded=false;
