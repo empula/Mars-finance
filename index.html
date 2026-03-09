@@ -776,40 +776,46 @@ renderGrids();loadAll();
 setInterval(function(){simTick();updateCards();},3500);
 setInterval(loadAll,60000);
 
-// ── CRYPTOCOMPARE NEWS (otomatik, key yok)
+// ── CRYPTOCOMPARE NEWS
 async function loadCCNews(){
   try{
-    var cats = [
-      {q:'BTC,ETH,SOL,XRP', cat:'crypto', ico:'₿'},
-      {q:'MACRO', cat:'markets', ico:'▼'},
-      {q:'ICO', cat:'eco', ico:'◆'},
-    ];
+    var r = await fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN&limit=30&sortOrder=latest');
+    var d = await r.json();
+    if(!d.Data || !d.Data.length) return;
+
     var allNews = [];
-    for(var i=0;i<cats.length;i++){
-      try{
-        var r = await fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN&limit=8&categories='+cats[i].q);
-        var d = await r.json();
-        if(d.Data && d.Data.length){
-          d.Data.forEach(function(a){
-            allNews.push({
-              cat: cats[i].cat,
-              ico: cats[i].ico,
-              title: a.title,
-              source: a.source_info && a.source_info.name ? a.source_info.name : a.source,
-              url: a.url,
-              time: (function(){
-                var s=(Date.now()/1000)-a.published_on;
-                if(s<3600) return Math.round(s/60)+' dk';
-                if(s<86400) return Math.round(s/3600)+' sa';
-                return Math.round(s/86400)+' gun';
-              })()
-            });
-          });
-        }
-      }catch(e){}
+    var counts = {crypto:0, markets:0, eco:0, geo:0, energy:0};
+    var MAX_PER_CAT = 5;
+
+    // Kategori belirleme - başlık keywordlerine göre
+    function getcat(title, tags){
+      var t = (title + ' ' + (tags||'')).toLowerCase();
+      if(/oil|energy|opec|brent|wti|petrol|gas|fuel/.test(t)) return 'energy';
+      if(/war|geopolit|iran|ukraine|russia|china|taiwan|conflict|sanction/.test(t)) return 'geo';
+      if(/fed|inflation|gdp|economy|rate|interest|recession|employment|unemployment/.test(t)) return 'eco';
+      if(/stock|market|nasdaq|sp500|dow|equity|bond|yield|index/.test(t)) return 'markets';
+      return 'crypto'; // varsayılan
     }
-    if(allNews.length>=5){
-      _newsAll=allNews;
+
+    d.Data.forEach(function(a){
+      if(!a.title || !a.url) return;
+      var cat = getcat(a.title, a.tags);
+      if(counts[cat] >= MAX_PER_CAT) return;
+      counts[cat]++;
+      var s=(Date.now()/1000)-a.published_on;
+      var time = s<3600 ? Math.round(s/60)+' dk' : s<86400 ? Math.round(s/3600)+' sa' : Math.round(s/86400)+' gun';
+      allNews.push({
+        cat: cat,
+        ico: cat==='crypto'?'₿':cat==='markets'?'▼':cat==='eco'?'◆':cat==='geo'?'✴':'⛽',
+        title: a.title,
+        source: (a.source_info && a.source_info.name) ? a.source_info.name : a.source,
+        url: a.url,
+        time: time
+      });
+    });
+
+    if(allNews.length >= 3){
+      _newsAll = allNews;
       loadNews(curF);
     }
   }catch(e){}
@@ -1073,13 +1079,11 @@ showRank('all',document.querySelector('.rtab.on'));
 
 // ── NEWS
 var NEWS=[
-  {cat:'crypto',ico:'₿',title:'Bitcoin 67.000 dolar civarinda; Iran savasi baskisina ragmen Wall Street ile seyrediyor',source:'CoinDesk',url:'https://coindesk.com',time:'6 sa'},
-  {cat:'crypto',ico:'Ξ',title:'Bitcoin ayi piyasasinda yuzde 30 daha dusebilir diyor analist',source:'CoinDesk',url:'https://coindesk.com',time:'2 gun'},
-  {cat:'markets',ico:'▼',title:'Asya borsalari sert dustu: Nikkei yuzde 7 Guney Kore KOSPI yuzde 8 geriledi',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
-  {cat:'markets',ico:'□',title:'S&P 500 futures yuzde 1.7 Nasdaq yuzde 1.9 dustu',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
+  {cat:'crypto',ico:'₿',title:'Bitcoin 67.000 dolar - Iran savasi baskisina ragmen Wall Street ile seyrediyor',source:'CoinDesk',url:'https://coindesk.com',time:'6 sa'},
+  {cat:'markets',ico:'▼',title:'Asya borsalari sert dustu: Nikkei -7%, KOSPI -8%',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
   {cat:'eco',ico:'◆',title:'Fed 18 Mart toplantisinda faizi sabit tutacak',source:'CNBC',url:'https://cnbc.com',time:'2 sa'},
   {cat:'geo',ico:'✴',title:'ABD-Israel Iran savasi 9. gununde - Nukleer tesisler hedef aliniyor',source:'Fortune',url:'https://fortune.com',time:'4 sa'},
-  {cat:'energy',ico:'⛽',title:'Brent petrol 107 dolarda - Iran savasindan bu yana yuzde 50 artis',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
+  {cat:'energy',ico:'⛽',title:'Brent petrol 107 dolar - Iran savasindan bu yana %50 artis',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
 ];
 // ── GERÇEK HABERLER (API'den)
 function loadRealNews(newsArr){
