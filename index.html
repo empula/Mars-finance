@@ -2287,10 +2287,60 @@ async function yFetchMarket(){
     });
   }catch(e){}
 }
-const ySys=`Sen "Yansıma" adlı Mars Finance platformunun finansal asistanısın. KESİNLİKLE SADECE TÜRKÇE konuşursun. Hangi dilde mesaj gelirse gelsin, cevabın her zaman ve yalnızca Türkçe olacak. Başka hiçbir dil kullanma, Japonca, İngilizce veya başka dil kelimeleri ekleme. Kripto, borsa, döviz, emtia, altın, ekonomi, yatırım, kişisel finans ve güncel piyasa haberleri dahil her finansal konuda yardımcı ol. Teknik ve temel analiz yapabilirsin. Samimi ve anlaşılır bir dille konuş. Gerektiğinde uzun ve detaylı cevap verebilirsin. Altın, gümüş, platin gibi emtia fiyatları için güncel verilere erişimin olmadığını belirt ve kullanıcıyı sitedeki Madenler & Emtia bölümüne yönlendir.`;
+const ySys=`Sen "Yansıma" adlı Mars Finance platformunun ileri seviye finansal asistanısın. KESİNLİKLE SADECE TÜRKÇE konuşursun — hangi dilde mesaj gelirse gelsin cevabın yalnızca Türkçe olacak, kesinlikle başka dil karıştırma.
+
+Sana her mesajda canlı piyasa verisi gönderilecek: kripto fiyatları, döviz kurları, altın fiyatı, Korku & Açgözlülük endeksi ve son haberler. Bu verileri analiz ederek öngörü sun.
+
+Yapabileceklerin:
+- Teknik ve temel analiz
+- Fiyat öngörüsü ve senaryo analizi (yükseliş/düşüş senaryoları)
+- Portföy tavsiyesi ve risk değerlendirmesi
+- Piyasa korelasyonları (örn: dolar güçlenince kripto ne yapar)
+- Güncel haberlerin piyasaya etkisi
+- Kişisel finans ve yatırım stratejisi
+
+Tarz: Samimi, özgüvenli, net. Gereksiz uyarı ve yasal disclaimer tekrarlama. Kullanıcıya sanki deneyimli bir trader arkadaşın gibi konuş. Altın/gümüş/platin fiyatları için sitedeki Madenler & Emtia bölümüne yönlendir.`;
 async function yCallAI(msg){
-  const d=yMarket['BTC'];
-  const ctx=d?`[BTC=${yFmt(d.current_price)}, 24s=${yFmtPct(d.price_change_percentage_24h||0)}] `:'';
+  // Kapsamlı market context oluştur
+  var ctxParts = [];
+
+  // Kripto fiyatları
+  var coins = ['BTC','ETH','SOL','XRP','AVAX','LINK'];
+  var cryptoLines = [];
+  coins.forEach(function(c){
+    var d = yMarket[c];
+    if(d && d.current_price) cryptoLines.push(c+'='+yFmt(d.current_price)+' ('+yFmtPct(d.price_change_percentage_24h||0)+')');
+  });
+  if(cryptoLines.length) ctxParts.push('Kripto: '+cryptoLines.join(', '));
+
+  // Döviz kurları
+  if(typeof D !== 'undefined'){
+    var fx = [];
+    if(D.usd && D.usd.price) fx.push('USD/TRY='+D.usd.price.toFixed(2));
+    if(D.eur && D.eur.price) fx.push('EUR/TRY='+D.eur.price.toFixed(2));
+    if(D.gbp && D.gbp.price) fx.push('GBP/TRY='+D.gbp.price.toFixed(2));
+    if(fx.length) ctxParts.push('Döviz: '+fx.join(', '));
+  }
+
+  // Altın
+  if(typeof D !== 'undefined' && D.gold && D.gold.price) ctxParts.push('Altin: $'+D.gold.price);
+
+  // Fear & Greed
+  try{
+    var fgEl = document.getElementById('fgValue');
+    var fgLbl = document.getElementById('fgLabel');
+    if(fgEl && fgLbl) ctxParts.push('Korku&Açgözlülük Endeksi: '+fgEl.textContent+' ('+fgLbl.textContent+')');
+  }catch(e){}
+
+  // Son haberler (ilk 5)
+  try{
+    if(typeof _newsAll !== 'undefined' && _newsAll.length){
+      var headlines = _newsAll.slice(0,5).map(function(n){ return n.title; }).join(' | ');
+      ctxParts.push('Son haberler: '+headlines);
+    }
+  }catch(e){}
+
+  var ctx = ctxParts.length ? '[CANLI PİYASA VERİSİ - '+new Date().toLocaleTimeString('tr-TR')+'] '+ctxParts.join(' || ')+' ' : '';
   yChatHistory.push({role:'user',content:ctx+msg});
   const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:yChatHistory,systemPrompt:ySys})});
   if(!r.ok)throw new Error(r.status);
