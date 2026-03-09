@@ -37,7 +37,7 @@ module.exports = async function handler(req, res) {
       for (const tx of ed.result) {
         const eth = parseFloat(tx.value) / 1e18;
         const usd = eth * ethPrice;
-        if (usd < 100000) continue;
+        if (usd < 10000) continue;
         const from = label(tx.from);
         const to = label(tx.to);
         const isEx = from.includes('Binance') || from.includes('Kraken') || from.includes('Coinbase')
