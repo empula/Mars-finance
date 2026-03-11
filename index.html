@@ -1545,76 +1545,77 @@ function showTTab(id,btn){
 // ── ISI HARİTASI
 async function loadHeatmap() {
   var grid = document.getElementById('hmGrid');
-  var upd = document.getElementById('hm-updated');
+  var upd  = document.getElementById('hm-updated');
   if (!grid) return;
 
-  grid.innerHTML = '<div style="grid-column:span 4;text-align:center;padding:40px;color:#484860;font-size:12px;">Yükleniyor…</div>';
-  if (upd) upd.textContent = 'CoinGecko\'dan çekiliyor…';
+  if (upd) upd.textContent = 'Yükleniyor…';
 
   try {
-    var r = await fetch(
-      'https://api.coingecko.com/api/v3/coins/markets' +
-      '?vs_currency=usd&order=market_cap_desc&per_page=50&page=1' +
-      '&price_change_percentage=24h&sparkline=false'
-    );
-    if (!r.ok) throw new Error('status ' + r.status);
+    // /api/market zaten Vercel proxy — CORS yok, her zaman çalışır
+    var r = await fetch('/api/market');
+    if (!r.ok) throw new Error('market api ' + r.status);
     var data = await r.json();
-    if (!data || !data.length) throw new Error('empty');
+    if (!data.ok || !data.cryptoRank || !data.cryptoRank.length) throw new Error('no cryptoRank');
 
-    // yMarket'i de güncelle (Yansıma AI ve diğer widgetlar için)
-    data.forEach(function(d) {
-      var sym = d.symbol.toUpperCase();
-      yMarket[sym] = d;
+    var coins = data.cryptoRank; // Top 50, market cap sıralı
+
+    // yMarket'i güncelle (Yansıma AI için)
+    coins.forEach(function(c) {
+      if (c.symbol) yMarket[c.symbol] = {
+        current_price: c.price,
+        price_change_percentage_24h: c.chg24,
+        market_cap: c.mcap
+      };
     });
 
     // Grid'i çiz
     grid.innerHTML = '';
-    var maxMcap = data[0].market_cap || 1;
+    var maxMcap = coins[0].mcap || 1;
 
-    data.forEach(function(coin, i) {
-      var pct = coin.price_change_percentage_24h || 0;
+    coins.forEach(function(coin, i) {
+      var pct     = coin.chg24 || 0;
       var isLarge = i < 2; // BTC ve ETH büyük kart
+
+      var price = coin.price || 0;
+      var priceStr;
+      if      (price >= 1000) priceStr = '$' + Math.round(price).toLocaleString('tr-TR');
+      else if (price >= 1)    priceStr = '$' + price.toFixed(2);
+      else if (price >= 0.01) priceStr = '$' + price.toFixed(4);
+      else                    priceStr = '$' + price.toFixed(6);
+
+      var pctColor = pct >= 0 ? '#5eff9a' : '#ff6b6b';
+      var pctStr   = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
 
       var cell = document.createElement('div');
       cell.className = 'hm-cell' + (isLarge ? ' hm-lg' : '');
       cell.style.background = hmColor(pct);
-
-      var price = coin.current_price;
-      var priceStr;
-      if (price >= 1000) priceStr = '$' + Math.round(price).toLocaleString('tr-TR');
-      else if (price >= 1) priceStr = '$' + price.toFixed(2);
-      else if (price >= 0.01) priceStr = '$' + price.toFixed(4);
-      else priceStr = '$' + price.toFixed(6);
-
-      var pctColor = pct >= 0 ? '#5eff9a' : '#ff6b6b';
-      var pctStr = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
-
       cell.innerHTML =
-        '<div class="hm-sym">' + coin.symbol.toUpperCase() + '</div>' +
+        '<div class="hm-sym">'  + coin.symbol + '</div>' +
         '<div class="hm-pct" style="color:' + pctColor + '">' + pctStr + '</div>' +
         '<div class="hm-price">' + priceStr + '</div>';
 
-      // Tıklanınca modal aç (bilinen coinler için)
-      var modalKey = {
-        'bitcoin': 'btc', 'ethereum': 'eth', 'solana': 'sol',
-        'ripple': 'xrp', 'avalanche-2': 'avax', 'chainlink': 'link'
-      }[coin.id];
-      if (modalKey) {
+      // Tıklanınca modal aç (bilinen coinler)
+      var modalMap = {
+        'BTC':'btc','ETH':'eth','SOL':'sol',
+        'XRP':'xrp','AVAX':'avax','LINK':'link'
+      };
+      var mk = modalMap[coin.symbol];
+      if (mk) {
         cell.style.cursor = 'pointer';
         cell.onclick = (function(k) {
           return function() { closeTerminal(); openModal(k); };
-        })(modalKey);
+        })(mk);
       }
 
       grid.appendChild(cell);
     });
 
-    if (upd) upd.textContent = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }) + ' · Canlı';
+    if (upd) upd.textContent = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}) + ' · Canlı';
 
-  } catch (e) {
-    console.warn('CoinGecko hata:', e.message);
+  } catch(e) {
+    console.warn('loadHeatmap hata:', e.message);
     loadHeatmapFallback();
-    if (upd) upd.textContent = 'Önbellekten (API hatası)';
+    if (upd) upd.textContent = 'Önbellekten';
   }
 }
 // ── LİKİDASYON (Coinglass API)
