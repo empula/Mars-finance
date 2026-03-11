@@ -4,15 +4,22 @@ res.setHeader(‘Cache-Control’, ‘s-maxage=60, stale-while-revalidate=120’
 
 const safe = async (url) => {
 try {
-const r = await fetch(url);
+const r = await fetch(url, { headers: { ‘Accept’: ‘application/json’ } });
+if (!r.ok) return null;
 return await r.json();
 } catch(e) { return null; }
+};
+
+const fetchTop = async () => {
+const r50 = await safe(‘https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=24h’);
+if (r50 && r50.length) return r50;
+return await safe(‘https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h’) || [];
 };
 
 const [fx, cg, cgTop, fear] = await Promise.all([
 safe(‘https://api.exchangerate-api.com/v4/latest/USD’),
 safe(‘https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true’),
-safe(‘https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=24h’),
+fetchTop(),
 safe(‘https://api.alternative.me/fng/?limit=30’),
 ]);
 
