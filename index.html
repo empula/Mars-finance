@@ -1543,163 +1543,81 @@ function showTTab(id,btn){
 }
 
 // ── ISI HARİTASI
-function loadHeatmapFallback(){
-  var coins = [
-    // Büyük kartlar (span 2)
-    {s:'BTC', pct:2.4,  price:'$68,420', big:true},
-    {s:'ETH', pct:-1.2, price:'$2,041',  big:true},
-    // Normal kartlar
-    {s:'BNB',  pct:1.1,  price:'$412'},
-    {s:'SOL',  pct:3.8,  price:'$122.4'},
-    {s:'XRP',  pct:0.5,  price:'$0.584'},
-    {s:'DOGE', pct:1.9,  price:'$0.158'},
-    {s:'ADA',  pct:-0.8, price:'$0.432'},
-    {s:'AVAX', pct:-2.3, price:'$28.6'},
-    {s:'LINK', pct:4.2,  price:'$14.8'},
-    {s:'DOT',  pct:-1.5, price:'$6.21'},
-    {s:'TRX',  pct:0.3,  price:'$0.117'},
-    {s:'LTC',  pct:-0.6, price:'$84.2'},
-    {s:'XLM',  pct:2.1,  price:'$0.098'},
-    {s:'UNI',  pct:-3.1, price:'$7.42'},
-    {s:'NEAR', pct:5.2,  price:'$4.81'},
-    {s:'APT',  pct:1.7,  price:'$8.34'},
-    {s:'ARB',  pct:-0.9, price:'$0.521'},
-    {s:'OP',   pct:2.8,  price:'$1.24'},
-  ];
-
-  var grid = document.getElementById('hmGrid');
-  var upd  = document.getElementById('hm-updated');
-  grid.innerHTML = '';
-
-  // Grid ayarları — daha sık ve dolgun görünüm
-  grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
-  grid.style.gap = '3px';
-  grid.style.padding = '10px';
-
-  coins.forEach(function(c) {
-    var bg = hmColor(c.pct);
-    var pctColor = c.pct >= 0 ? '#5eff9a' : '#ff6b6b';
-    var pctStr = (c.pct >= 0 ? '+' : '') + c.pct.toFixed(1) + '%';
-
-    // Rengi biraz daha canlı yap
-    var brightness = Math.min(1 + Math.abs(c.pct) * 0.04, 1.35);
-
-    var cell = document.createElement('div');
-    cell.className = 'hm-cell' + (c.big ? ' hm-lg' : '');
-    cell.style.cssText = [
-      'background:' + bg,
-      'border-radius:10px',
-      'display:flex',
-      'flex-direction:column',
-      'align-items:center',
-      'justify-content:center',
-      'padding:' + (c.big ? '14px 10px' : '10px 6px'),
-      'min-height:' + (c.big ? '100px' : '72px'),
-      'cursor:default',
-      'transition:transform 0.15s, filter 0.15s',
-      'border:1px solid rgba(255,255,255,0.04)',
-      'filter:brightness(' + brightness + ')',
-    ].join(';');
-
-    cell.innerHTML =
-      '<div style="font-family:\'DM Mono\',monospace;font-size:' + (c.big?'15px':'11px') + ';font-weight:700;color:rgba(255,255,255,0.95);letter-spacing:-0.3px;line-height:1;">' + c.s + '</div>' +
-      '<div style="font-family:\'DM Mono\',monospace;font-size:' + (c.big?'18px':'13px') + ';font-weight:800;color:' + pctColor + ';margin-top:4px;line-height:1;">' + pctStr + '</div>' +
-      '<div style="font-size:' + (c.big?'11px':'9px') + ';color:rgba(255,255,255,0.45);margin-top:3px;font-family:\'DM Mono\',monospace;">' + c.price + '</div>';
-
-    // Hover efekti
-    cell.onmouseenter = function(){ this.style.transform='scale(1.04)'; this.style.filter='brightness('+(brightness*1.15)+') saturate(1.2)'; this.style.zIndex='2'; this.style.border='1px solid rgba(255,255,255,0.15)'; };
-    cell.onmouseleave = function(){ this.style.transform='scale(1)'; this.style.filter='brightness('+brightness+')'; this.style.zIndex=''; this.style.border='1px solid rgba(255,255,255,0.04)'; };
-
+var HM_COINS=[
+  {id:'bitcoin',s:'BTC',lg:true},{id:'ethereum',s:'ETH',lg:true},
+  {id:'solana',s:'SOL'},{id:'ripple',s:'XRP'},{id:'binancecoin',s:'BNB'},
+  {id:'avalanche-2',s:'AVAX'},{id:'chainlink',s:'LINK'},{id:'cardano',s:'ADA'},
+  {id:'dogecoin',s:'DOGE'},{id:'polkadot',s:'DOT'},{id:'tron',s:'TRX'},
+  {id:'litecoin',s:'LTC'},{id:'stellar',s:'XLM'},{id:'uniswap',s:'UNI'},
+  {id:'near',s:'NEAR'},{id:'aptos',s:'APT'},{id:'arbitrum',s:'ARB'},
+  {id:'optimism',s:'OP'}
+];
+function hmColor(pct){
+  var abs=Math.abs(pct);
+  if(pct>=10)return'#0a5e2a';
+  if(pct>=5)return'#0d7a35';
+  if(pct>=2)return'#129940';
+  if(pct>=0.5)return'#16b84e';
+  if(pct>=-0.5)return'#1d1d28';
+  if(pct>=-2)return'#8b1a1a';
+  if(pct>=-5)return'#a82020';
+  if(pct>=-10)return'#c42828';
+  return'#e03030';
+}
+function fmtHmPrice(p){if(p>=1000)return'$'+Math.round(p).toLocaleString('tr-TR');if(p>=1)return'$'+p.toFixed(2);return'$'+p.toFixed(4);}
+async function loadHeatmap(){
+  // yMarket'ten canlı veri kullan (CoinGecko zaten market.js'den çekiliyor)
+  var grid=document.getElementById('hmGrid');
+  grid.innerHTML='';
+  var hasData=false;
+  HM_COINS.forEach(function(coin){
+    var d=yMarket[coin.s];
+    if(!d||!d.current_price)return;
+    hasData=true;
+    var pct=d.price_change_percentage_24h||0;
+    var cell=document.createElement('div');
+    cell.className='hm-cell'+(coin.lg?' hm-lg':'');
+    cell.style.background=hmColor(pct);
+    cell.innerHTML='<div class="hm-sym">'+coin.s+'</div>'
+      +'<div class="hm-pct" style="color:'+(pct>=0?'#5eff9a':'#ff6b6b')+'">'+(pct>=0?'+':'')+pct.toFixed(2)+'%</div>'
+      +'<div class="hm-price">'+fmtHmPrice(d.current_price)+'</div>';
+    cell.onclick=function(){closeTerminal();openModal(coin.id==='bitcoin'?'btc':coin.id==='ethereum'?'eth':coin.id==='solana'?'sol':coin.id==='ripple'?'xrp':coin.id==='avalanche-2'?'avax':coin.id==='chainlink'?'link':'btc');};
     grid.appendChild(cell);
   });
-
-  if (upd) upd.textContent = 'Önbellekten';
-}
-
-// loadHeatmap() fonksiyonunu da güncelle — 
-// API başarısız olursa hemen fallback'e düş, yükleniyor'da takılı kalmasın:
-async function loadHeatmap() {
-  var grid = document.getElementById('hmGrid');
-  var upd  = document.getElementById('hm-updated');
-  if (!grid) return;
-
-  try {
-    var r = await fetch('/api/market');
-    if (!r.ok) throw new Error('api fail');
-    var data = await r.json();
-    if (!data.ok || !data.cryptoRank || !data.cryptoRank.length) throw new Error('no data');
-
-    var coins = data.cryptoRank;
-
-    // yMarket güncelle
-    coins.forEach(function(c) {
-      if (c.symbol) yMarket[c.symbol] = {
-        current_price: c.price,
-        price_change_percentage_24h: c.chg24,
-        market_cap: c.mcap
-      };
-    });
-
-    grid.innerHTML = '';
-    grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
-    grid.style.gap = '3px';
-    grid.style.padding = '10px';
-
-    coins.forEach(function(coin, i) {
-      var pct     = coin.chg24 || 0;
-      var isBig   = i < 2;
-      var price   = coin.price || 0;
-      var priceStr;
-      if      (price >= 1000) priceStr = '$' + Math.round(price).toLocaleString('tr-TR');
-      else if (price >= 1)    priceStr = '$' + price.toFixed(2);
-      else if (price >= 0.01) priceStr = '$' + price.toFixed(4);
-      else                    priceStr = '$' + price.toFixed(6);
-
-      var pctColor = pct >= 0 ? '#5eff9a' : '#ff6b6b';
-      var pctStr   = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
-      var brightness = Math.min(1 + Math.abs(pct) * 0.04, 1.35);
-
-      var cell = document.createElement('div');
-      cell.className = 'hm-cell' + (isBig ? ' hm-lg' : '');
-      cell.style.cssText = [
-        'background:' + hmColor(pct),
-        'border-radius:10px',
-        'display:flex',
-        'flex-direction:column',
-        'align-items:center',
-        'justify-content:center',
-        'padding:' + (isBig ? '14px 10px' : '10px 6px'),
-        'min-height:' + (isBig ? '100px' : '72px'),
-        'transition:transform 0.15s, filter 0.15s',
-        'border:1px solid rgba(255,255,255,0.04)',
-        'filter:brightness(' + brightness + ')',
-      ].join(';');
-
-      cell.innerHTML =
-        '<div style="font-family:\'DM Mono\',monospace;font-size:' + (isBig?'15px':'11px') + ';font-weight:700;color:rgba(255,255,255,0.95);letter-spacing:-0.3px;line-height:1;">' + coin.symbol + '</div>' +
-        '<div style="font-family:\'DM Mono\',monospace;font-size:' + (isBig?'18px':'13px') + ';font-weight:800;color:' + pctColor + ';margin-top:4px;line-height:1;">' + pctStr + '</div>' +
-        '<div style="font-size:' + (isBig?'11px':'9px') + ';color:rgba(255,255,255,0.45);margin-top:3px;font-family:\'DM Mono\',monospace;">' + priceStr + '</div>';
-
-      var modalMap = {BTC:'btc',ETH:'eth',SOL:'sol',XRP:'xrp',AVAX:'avax',LINK:'link'};
-      var mk = modalMap[coin.symbol];
-      if (mk) {
-        cell.style.cursor = 'pointer';
-        cell.onclick = (function(k){ return function(){ closeTerminal(); openModal(k); }; })(mk);
-      }
-
-      cell.onmouseenter = function(){ this.style.transform='scale(1.04)'; this.style.filter='brightness('+(brightness*1.15)+') saturate(1.2)'; this.style.zIndex='2'; this.style.border='1px solid rgba(255,255,255,0.15)'; };
-      cell.onmouseleave = function(){ this.style.transform='scale(1)'; this.style.filter='brightness('+brightness+')'; this.style.zIndex=''; this.style.border='1px solid rgba(255,255,255,0.04)'; };
-
-      grid.appendChild(cell);
-    });
-
-    if (upd) upd.textContent = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}) + ' · Canlı';
-
-  } catch(e) {
-    // API çalışmıyor — hemen fallback göster, "yükleniyor"da bekleme
+  if(hasData){
+    document.getElementById('hm-updated').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})+' canlı';
+  }else{
     loadHeatmapFallback();
   }
 }
+function loadHeatmapFallback(){
+  var fallback=[
+    {s:'BTC',pct:2.4,price:'$68,420'},{s:'ETH',pct:-1.2,price:'$2,041'},
+    {s:'SOL',pct:3.8,price:'$122.4'},{s:'XRP',pct:0.5,price:'$0.584'},
+    {s:'BNB',pct:1.1,price:'$412'},{s:'AVAX',pct:-2.3,price:'$28.6'},
+    {s:'LINK',pct:4.2,price:'$14.8'},{s:'ADA',pct:-0.8,price:'$0.432'},
+    {s:'DOGE',pct:1.9,price:'$0.158'},{s:'DOT',pct:-1.5,price:'$6.21'},
+    {s:'TRX',pct:0.3,price:'$0.117'},{s:'LTC',pct:-0.6,price:'$84.2'},
+    {s:'XLM',pct:2.1,price:'$0.098'},{s:'UNI',pct:-3.1,price:'$7.42'},
+    {s:'NEAR',pct:5.2,price:'$4.81'},{s:'APT',pct:1.7,price:'$8.34'},
+    {s:'ARB',pct:-0.9,price:'$0.521'},{s:'OP',pct:2.8,price:'$1.24'}
+  ];
+  var grid=document.getElementById('hmGrid');grid.innerHTML='';
+  document.getElementById('hm-updated').textContent='Önbellekten';
+  fallback.forEach(function(c,i){
+    var isLg=(i===0||i===1);
+    var bg=hmColor(c.pct);
+    var txtColor=Math.abs(c.pct)>2?'rgba(255,255,255,0.95)':'rgba(255,255,255,0.7)';
+    var d=document.createElement('div');
+    d.className='hm-cell'+(isLg?' hm-lg':'');
+    d.style.background=bg;
+    d.innerHTML='<div class="hm-sym">'+c.s+'</div>'
+      +'<div class="hm-pct" style="color:'+txtColor+'">'+(c.pct>=0?'+':'')+c.pct.toFixed(1)+'%</div>'
+      +'<div class="hm-price">'+c.price+'</div>';
+    grid.appendChild(d);
+  });
+}
+
 // ── LİKİDASYON (Coinglass API)
 var CG_KEY='e7e2da34df59432aaa1f9c336c60f0f2';
 var _liqCoin='BTC';
