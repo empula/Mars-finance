@@ -1565,27 +1565,32 @@ function hmColor(pct){
 }
 function fmtHmPrice(p){if(p>=1000)return'$'+Math.round(p).toLocaleString('tr-TR');if(p>=1)return'$'+p.toFixed(2);return'$'+p.toFixed(4);}
 async function loadHeatmap(){
-  // yMarket'ten canlı veri kullan (CoinGecko zaten market.js'den çekiliyor)
   var grid=document.getElementById('hmGrid');
-  grid.innerHTML='';
-  var hasData=false;
-  HM_COINS.forEach(function(coin){
-    var d=yMarket[coin.s];
-    if(!d||!d.current_price)return;
-    hasData=true;
-    var pct=d.price_change_percentage_24h||0;
-    var cell=document.createElement('div');
-    cell.className='hm-cell'+(coin.lg?' hm-lg':'');
-    cell.style.background=hmColor(pct);
-    cell.innerHTML='<div class="hm-sym">'+coin.s+'</div>'
-      +'<div class="hm-pct" style="color:'+(pct>=0?'#5eff9a':'#ff6b6b')+'">'+(pct>=0?'+':'')+pct.toFixed(2)+'%</div>'
-      +'<div class="hm-price">'+fmtHmPrice(d.current_price)+'</div>';
-    cell.onclick=function(){closeTerminal();openModal(coin.id==='bitcoin'?'btc':coin.id==='ethereum'?'eth':coin.id==='solana'?'sol':coin.id==='ripple'?'xrp':coin.id==='avalanche-2'?'avax':coin.id==='chainlink'?'link':'btc');};
-    grid.appendChild(cell);
-  });
-  if(hasData){
-    document.getElementById('hm-updated').textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})+' canlı';
-  }else{
+  var upd=document.getElementById('hm-updated');
+  if(!grid)return;
+  try{
+    var r=await fetch('/api/market');
+    if(!r.ok)throw new Error();
+    var data=await r.json();
+    if(!data.ok||!data.cryptoRank||!data.cryptoRank.length)throw new Error();
+    grid.innerHTML='';
+    data.cryptoRank.forEach(function(coin,i){
+      var pct=coin.chg24||0;
+      var isLg=i<2;
+      var price=coin.price||0;
+      var ps=price>=1000?'$'+Math.round(price).toLocaleString('tr-TR'):price>=1?'$'+price.toFixed(2):price>=0.01?'$'+price.toFixed(4):'$'+price.toFixed(6);
+      var d=document.createElement('div');
+      d.className='hm-cell'+(isLg?' hm-lg':'');
+      d.style.background=hmColor(pct);
+      d.innerHTML='<div class="hm-sym">'+coin.symbol+'</div>'
+        +'<div class="hm-pct" style="color:'+(pct>=0?'#5eff9a':'#ff6b6b')+'">'+(pct>=0?'+':'')+pct.toFixed(1)+'%</div>'
+        +'<div class="hm-price">'+ps+'</div>';
+      var mk={BTC:'btc',ETH:'eth',SOL:'sol',XRP:'xrp',AVAX:'avax',LINK:'link'}[coin.symbol];
+      if(mk){d.style.cursor='pointer';d.onclick=(function(k){return function(){closeTerminal();openModal(k);};})(mk);}
+      grid.appendChild(d);
+    });
+    if(upd)upd.textContent=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})+' · Canlı';
+  }catch(e){
     loadHeatmapFallback();
   }
 }
