@@ -586,6 +586,53 @@ if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.dis
 }
 </script>
 
+     <div id="mars-intelligence-panel" style="display:none; margin-bottom: 20px;">
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #07070e 100%); border: 1px solid #333; border-radius: 12px; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin:0; color:#00ff88; font-size:1.4rem;">🚀 Mars AI Intelligence</h2>
+            <div style="font-size: 10px; color: #aaa;">TARAMA: 24+ VARLIK | AKTİF</div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid #444; border-radius: 10px; padding: 15px; border-top: 4px solid #00ff88;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-weight: bold; color:#fff;">BTC/USDT</span>
+                    <span style="color:#00ff88; font-size: 12px; font-weight: bold;">GÜÇLÜ AL</span>
+                </div>
+                <div style="margin: 15px 0; font-size: 0.8rem; color: #ccc;">
+                    RSI 30'dan yukarı döndü. 15 dakikalık periyotta pozitif uyumsuzluk teyit edildi.
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px;">
+                    <span style="color:#888;">Giriş: $68.400</span>
+                    <span style="color:#00ff88;">Güven: %91</span>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid #444; border-radius: 10px; padding: 15px; border-top: 4px solid #ff4d4d;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-weight: bold; color:#fff;">ETH/USDT</span>
+                    <span style="color:#ff4d4d; font-size: 12px; font-weight: bold;">SATIŞ</span>
+                </div>
+                <div style="margin: 15px 0; font-size: 0.8rem; color: #ccc;">
+                    EMA 200 direnci kırılamadı. Hacimli satış baskısı gözleniyor.
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px;">
+                    <span style="color:#888;">Giriş: $2.450</span>
+                    <span style="color:#ff4d4d;">Güven: %84</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 20px; background: #000; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 11px; color: #00ff88; border: 1px solid #222;">
+            <div style="margin-bottom: 4px;">[14:45] AI: SOL/USDT anlık hacim artışı saptandı...</div>
+            <div style="margin-bottom: 4px;">[14:42] AI: Altın/USD 2400$ direnç testi başarısız...</div>
+            <div style="opacity: 0.5;">[14:40] AI: Market genel duyarlılığı 'Nötr'den 'Korku'ya geçti...</div>
+        </div>
+    </div>
+</div>
+
 <!-- ══ HABERLER ══ -->
 
 <div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Dünya Haberleri</div><div class="slabel-count" id="newsCount">—</div></div>
@@ -2421,7 +2468,36 @@ setInterval(()=>{if(yOpen)yFetchMarket();},60000);
 </script>
 
      <script>
-function ySwitchTab(type) {
+          function ySwitchTab(type) {
+  const pArea = document.getElementById('y-prices-area');
+  const aArea = document.getElementById('y-algo-area'); // Sağdaki küçük liste
+  const mainPanel = document.getElementById('mars-intelligence-panel'); // ORTA GENİŞ PANEL
+  const haberler = document.getElementById('yHaberler'); // Mevcut Haberler
+  
+  const bM = document.getElementById('y-btn-market');
+  const bA = document.getElementById('y-btn-algo');
+  const title = document.getElementById('y-market-title');
+
+  if(type === 'market') {
+    pArea.style.display = 'block';
+    aArea.style.display = 'none';
+    mainPanel.style.display = 'none';
+    haberler.style.display = 'block'; // Haberleri geri getir
+    bM.style.background = '#fff'; bM.style.color = '#000';
+    bA.style.background = 'transparent'; bA.style.color = '#888';
+    title.innerText = 'Döviz Kurları';
+  } else {
+    pArea.style.display = 'none';
+    aArea.style.display = 'block';
+    mainPanel.style.display = 'block'; // DEV PANELİ AÇ
+    haberler.style.display = 'none'; // Haberleri geçici gizle
+    bA.style.background = '#fff'; bA.style.color = '#000';
+    bM.style.background = 'transparent'; bM.style.color = '#888';
+    title.innerText = 'Mars Algo Terminal';
+  }
+}
+
+  function ySwitchTab(type) {
   const prices = document.getElementById('y-prices-area');
   const algo = document.getElementById('y-algo-area');
   const btnM = document.getElementById('y-btn-market');
