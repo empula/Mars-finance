@@ -586,53 +586,6 @@ if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.dis
 }
 </script>
 
-     <div id="mars-intelligence-panel" style="display:none; margin-bottom: 20px;">
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #07070e 100%); border: 1px solid #333; border-radius: 12px; padding: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="margin:0; color:#00ff88; font-size:1.4rem;">🚀 Mars AI Intelligence</h2>
-            <div style="font-size: 10px; color: #aaa;">TARAMA: 24+ VARLIK | AKTİF</div>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-            
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid #444; border-radius: 10px; padding: 15px; border-top: 4px solid #00ff88;">
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-weight: bold; color:#fff;">BTC/USDT</span>
-                    <span style="color:#00ff88; font-size: 12px; font-weight: bold;">GÜÇLÜ AL</span>
-                </div>
-                <div style="margin: 15px 0; font-size: 0.8rem; color: #ccc;">
-                    RSI 30'dan yukarı döndü. 15 dakikalık periyotta pozitif uyumsuzluk teyit edildi.
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px;">
-                    <span style="color:#888;">Giriş: $68.400</span>
-                    <span style="color:#00ff88;">Güven: %91</span>
-                </div>
-            </div>
-
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid #444; border-radius: 10px; padding: 15px; border-top: 4px solid #ff4d4d;">
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="font-weight: bold; color:#fff;">ETH/USDT</span>
-                    <span style="color:#ff4d4d; font-size: 12px; font-weight: bold;">SATIŞ</span>
-                </div>
-                <div style="margin: 15px 0; font-size: 0.8rem; color: #ccc;">
-                    EMA 200 direnci kırılamadı. Hacimli satış baskısı gözleniyor.
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px;">
-                    <span style="color:#888;">Giriş: $2.450</span>
-                    <span style="color:#ff4d4d;">Güven: %84</span>
-                </div>
-            </div>
-
-        </div>
-
-        <div style="margin-top: 20px; background: #000; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 11px; color: #00ff88; border: 1px solid #222;">
-            <div style="margin-bottom: 4px;">[14:45] AI: SOL/USDT anlık hacim artışı saptandı...</div>
-            <div style="margin-bottom: 4px;">[14:42] AI: Altın/USD 2400$ direnç testi başarısız...</div>
-            <div style="opacity: 0.5;">[14:40] AI: Market genel duyarlılığı 'Nötr'den 'Korku'ya geçti...</div>
-        </div>
-    </div>
-</div>
-
 <!-- ══ HABERLER ══ -->
 
 <div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Dünya Haberleri</div><div class="slabel-count" id="newsCount">—</div></div>
@@ -674,17 +627,6 @@ if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.dis
   <button class="qtag" onclick="openModal('platinum')">⬜ Platin</button>
 </div>
 
-     <div class="y-card">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px;">
-    <h2 id="y-market-title" style="margin:0; font-size:1rem; color:#fff;">Piyasa Takibi</h2>
-    <div style="display: flex; gap: 5px;">
-      <button onclick="ySwitchTab('market')" id="y-btn-market" style="background:#fff; color:#000; border:none; padding:4px 12px; border-radius:4px; font-size:10px; font-weight:bold; cursor:pointer;">Piyasa</button>
-      <button onclick="ySwitchTab('algo')" id="y-btn-algo" style="background:transparent; color:#888; border:1px solid #333; padding:4px 12px; border-radius:4px; font-size:10px; cursor:pointer;">🚀 Algo</button>
-    </div>
-  </div>
-
-  <div id="y-prices-area">
-
 <!-- DÖVİZ -->
 
 <div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Döviz Kurları</div></div>
@@ -694,35 +636,6 @@ if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.dis
 
 <div class="slabel"><div class="slabel-bar"></div><div class="slabel-txt">Kripto Paralar</div></div>
 <div class="g2" id="crypto-grid"></div>
-
-         </div> <div id="y-algo-area" style="display:none;">
-    <div style="background:rgba(0,255,136,0.05); border:1px solid rgba(0,255,136,0.1); border-radius:8px; padding:15px; margin-bottom:10px;">
-      <div style="display:flex; justify-content:space-between; color:#00ff88; font-weight:bold; font-size:13px;">
-        <span>BTC / USDT</span>
-        <span style="animation:yPulse 1.5s infinite;">● CANLI</span>
-      </div>
-      <div style="font-size:1.2rem; font-weight:bold; color:#fff; margin:8px 0;">GÜÇLÜ AL (LONG)</div>
-      <div style="display:flex; justify-content:space-between; font-size:11px; color:#888;">
-        <span>Hedef: $72.500</span>
-        <span style="color:#00ff88;">Başarı: %91</span>
-      </div>
-    </div>
-
-    <div style="background:rgba(255,77,77,0.05); border:1px solid rgba(255,77,77,0.1); border-radius:8px; padding:15px;">
-      <div style="display:flex; justify-content:space-between; color:#ff4d4d; font-weight:bold; font-size:13px;">
-        <span>ETH / USDT</span>
-        <span>● ANALİZ</span>
-      </div>
-      <div style="font-size:1.2rem; font-weight:bold; color:#fff; margin:8px 0;">SATIŞ (SHORT)</div>
-      <div style="display:flex; justify-content:space-between; font-size:11px; color:#888;">
-        <span>Hedef: $1.950</span>
-        <span style="color:#ff4d4d;">Başarı: %84</span>
-      </div>
-    </div>
-  </div>
-</div> <style>
-@keyframes yPulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-</style>
 
 <!-- MADENLER -->
 
@@ -2465,59 +2378,6 @@ setInterval(()=>{if(yOpen)yFetchMarket();},60000);
     }, 800);
   }
 }, 3000);
-</script>
-
-     <script>
-          function ySwitchTab(type) {
-  const pArea = document.getElementById('y-prices-area');
-  const aArea = document.getElementById('y-algo-area'); // Sağdaki küçük liste
-  const mainPanel = document.getElementById('mars-intelligence-panel'); // ORTA GENİŞ PANEL
-  const haberler = document.getElementById('yHaberler'); // Mevcut Haberler
-  
-  const bM = document.getElementById('y-btn-market');
-  const bA = document.getElementById('y-btn-algo');
-  const title = document.getElementById('y-market-title');
-
-  if(type === 'market') {
-    pArea.style.display = 'block';
-    aArea.style.display = 'none';
-    mainPanel.style.display = 'none';
-    haberler.style.display = 'block'; // Haberleri geri getir
-    bM.style.background = '#fff'; bM.style.color = '#000';
-    bA.style.background = 'transparent'; bA.style.color = '#888';
-    title.innerText = 'Döviz Kurları';
-  } else {
-    pArea.style.display = 'none';
-    aArea.style.display = 'block';
-    mainPanel.style.display = 'block'; // DEV PANELİ AÇ
-    haberler.style.display = 'none'; // Haberleri geçici gizle
-    bA.style.background = '#fff'; bA.style.color = '#000';
-    bM.style.background = 'transparent'; bM.style.color = '#888';
-    title.innerText = 'Mars Algo Terminal';
-  }
-}
-
-  function ySwitchTab(type) {
-  const prices = document.getElementById('y-prices-area');
-  const algo = document.getElementById('y-algo-area');
-  const btnM = document.getElementById('y-btn-market');
-  const btnA = document.getElementById('y-btn-algo');
-  const title = document.getElementById('y-market-title');
-
-  if(type === 'market') {
-    prices.style.display = 'block';
-    algo.style.display = 'none';
-    btnM.style.background = '#fff'; btnM.style.color = '#000';
-    btnA.style.background = 'transparent'; btnA.style.color = '#888';
-    title.innerText = 'Döviz Kurları';
-  } else {
-    prices.style.display = 'none';
-    algo.style.display = 'block';
-    btnA.style.background = '#fff'; btnA.style.color = '#000';
-    btnM.style.background = 'transparent'; btnM.style.color = '#888';
-    title.innerText = 'Mars Algo Terminal';
-  }
-}
 </script>
 
 </body>
