@@ -30,10 +30,8 @@ res.setHeader(‘Cache-Control’, ‘s-maxage=30’);
 
 try {
 // Fiyat çek
-const pr = await fetch(‘https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd’);
-const prices = await pr.json();
-const ethPrice = prices?.ethereum?.usd || 2000;
-const btcPrice = 68000; // sabit fallback
+const ethPrice = 2000;
+const btcPrice = 68000;
 
 ```
 const now = Math.floor(Date.now() / 1000);
