@@ -2410,11 +2410,6 @@ function closeAlgoModal() {
 }
 </script>
 
-   <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
-    <div style="width: 8px; height: 8px; background: #00ff88; border-radius: 50%; animation: blink 1s infinite;"></div>
-    <span style="color: #00ff88; font-size: 12px; font-weight: bold; letter-spacing: 1px;">ALGO-LOGIC SİSTEMİ ÇALIŞIYOR (GERÇEK ZAMANLI)</span>
-</div>
-
 <style>
 @keyframes blink {
     0% { opacity: 1; }
@@ -2427,7 +2422,11 @@ function closeAlgoModal() {
     <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px solid #1a1a2e; padding-bottom:20px; margin-bottom:30px;">
         <div>
             <h1 style="color:#00ff88; margin:0; font-size:1.6rem; letter-spacing:0.5px; font-weight: 700;">Algo-Logic: <span style="font-weight: 300; color: #fff;">Stratejik Analiz Merkezi</span></h1>
-            <p style="color:#666; margin:5px 0 0 0; font-size:11px; letter-spacing:1px; text-transform: uppercase;">Yapay Zeka Onaylı Gerçek Zamanlı Sinyal Akışı</p>
+          <div style="display: flex; align-items: center; gap: 8px; margin: 10px 0 20px 0;">
+    <div style="width: 8px; height: 8px; background: #00ff88; border-radius: 50%; animation: blink 1s infinite;"></div>
+    <span style="color: #00ff88; font-size: 12px; font-weight: bold; letter-spacing: 1px;">ALGO-LOGIC SİSTEMİ ÇALIŞIYOR (GERÇEK ZAMANLI)</span>
+</div>
+             <p style="color:#666; margin:5px 0 0 0; font-size:11px; letter-spacing:1px; text-transform: uppercase;">Yapay Zeka Onaylı Gerçek Zamanlı Sinyal Akışı</p>
         </div>
         <button onclick="closeAlgoModal()" style="background:#1a1a2e; color:#ff4d4d; border:1px solid #333; padding:8px 15px; border-radius:4px; cursor:pointer; font-weight:bold; font-size:11px;">KAPAT [X]</button>
     </div>
@@ -2497,6 +2496,5 @@ function closeAlgoModal() {
         </div>
     </div>
 </div>
-          
 </body>
 </html>
