@@ -55,7 +55,6 @@ export default async function handler(req, res) {
         seen.add(tx.hash);
         const eth = parseFloat(tx.value) / 1e18;
         const usd = eth * ethPrice;
-        if (usd < 50000) continue;
         const from = label(tx.from);
         const to = label(tx.to);
         const isEx = [from, to].some(x =>
