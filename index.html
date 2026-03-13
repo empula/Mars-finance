@@ -793,8 +793,9 @@ renderGrids();loadAll();
 setInterval(function(){simTick();updateCards();},3500);
 setInterval(loadAll,60000);
 
-        // ── HABERLER (Mars Finance API proxy)
-        async function loadCCNews(){
+   // ── HABERLER (Mars Finance API proxy)
+    
+     async function loadCCNews(){
           try{
             var r = await fetch('/api/news');
             if(!r.ok) throw new Error('HTTP ' + r.status);
@@ -2465,5 +2466,6 @@ function closeAlgoModal() {
         </div>
     </div>
 </div>
+
 </body>
 </html>
