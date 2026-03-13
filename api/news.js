@@ -1,153 +1,68 @@
-// api/news.js — Vercel Serverless Function
-// CoinDesk + CoinTelegraph RSS → JSON
-// Kategori tespiti başlık/açıklama keywordlerine göre yapılır
+module.exports = async function handler(req, res) {
+res.setHeader(‘Access-Control-Allow-Origin’, ‘*’);
+res.setHeader(‘Cache-Control’, ‘s-maxage=120, stale-while-revalidate=60’);
 
-export const config = { runtime: ‘nodejs’ };
-
-const FEEDS = [
-{
-url: ‘https://www.coindesk.com/arc/outboundfeeds/rss/’,
-source: ‘CoinDesk’,
-},
-{
-url: ‘https://cointelegraph.com/rss’,
-source: ‘CoinTelegraph’,
-},
+var feeds = [
+‘https://www.coindesk.com/arc/outboundfeeds/rss/’,
+‘https://cointelegraph.com/rss’
 ];
 
-// Kategori belirleme — öncelik sırası: energy > geo > eco > markets > crypto
-function getCategory(title = ‘’, desc = ‘’) {
-const t = (title + ’ ’ + desc).toLowerCase();
+var allNews = [];
 
-if (/oil|brent|wti|opec|natural gas|crude|energy|fuel|petroleum|lng/.test(t))
-return ‘energy’;
-
-if (/war|geopolit|iran|ukraine|russia|china|taiwan|conflict|sanction|military|nato|middle east|israel|hamas/.test(t))
-return ‘geo’;
-
-if (/fed|federal reserve|inflation|gdp|economy|interest rate|recession|employment|unemployment|cpi|ppi|ecb|imf|central bank|monetary/.test(t))
-return ‘eco’;
-
-if (/stock|equity|nasdaq|s&p|dow|nyse|bond|yield|market|index|ipo|earnings|wall street/.test(t))
-return ‘markets’;
-
-return ‘crypto’; // varsayılan
+function getcat(title) {
+var t = title.toLowerCase();
+if (/oil|energy|opec|brent|wti|petrol|gas|fuel/.test(t)) return ‘energy’;
+if (/war|geopolit|iran|ukraine|russia|china|taiwan|conflict|sanction/.test(t)) return ‘geo’;
+if (/fed|inflation|gdp|economy|rate|interest|recession|employment/.test(t)) return ‘eco’;
+if (/stock|market|nasdaq|sp500|dow|equity|bond|yield|index/.test(t)) return ‘markets’;
+return ‘crypto’;
 }
 
-// Basit XML/RSS parser (regex tabanlı, bağımlılık yok)
 function parseRSS(xml, sourceName) {
-const items = [];
-const itemRegex = /<item>([\s\S]*?)</item>/gi;
-let match;
-
-while ((match = itemRegex.exec(xml)) !== null) {
-const block = match[1];
-
-```
-const title = decodeEntities(extractTag(block, 'title'));
-const link  = extractTag(block, 'link') || extractCDATA(block, 'link');
-const desc  = decodeEntities(stripHtml(extractTag(block, 'description') || extractCDATA(block, 'description')));
-const pubDate = extractTag(block, 'pubDate');
-
-if (!title || !link) continue;
-
-const ts = pubDate ? Math.floor(new Date(pubDate).getTime() / 1000) : Math.floor(Date.now() / 1000);
-const cat = getCategory(title, desc);
-
-const CAT_ICO = { crypto: '₿', markets: '📊', eco: '🏦', geo: '🌐', energy: '⚡' };
-
-items.push({
-  cat,
-  ico: CAT_ICO[cat] || '📰',
-  title,
-  source: sourceName,
-  url: link.trim(),
-  ts,
-});
-```
-
+var items = [];
+var itemRe = /<item>([\s\S]*?)</item>/g;
+var match;
+while ((match = itemRe.exec(xml)) !== null) {
+var block = match[1];
+var titleM = block.match(/<title>(?:<![CDATA[)?([\s\S]*?)(?:]]>)?</title>/);
+var linkM = block.match(/<link>([\s\S]*?)</link>/) || block.match(/<guid[^>]*>([\s\S]*?)</guid>/);
+var dateM = block.match(/<pubDate>([\s\S]*?)</pubDate>/);
+if (!titleM || !linkM) continue;
+var title = titleM[1].trim();
+var url = linkM[1].trim();
+var ts = dateM ? Math.floor(new Date(dateM[1].trim()).getTime() / 1000) : Math.floor(Date.now() / 1000);
+var cat = getcat(title);
+var ico = cat === ‘crypto’ ? ‘₿’ : cat === ‘markets’ ? ‘📊’ : cat === ‘eco’ ? ‘🏦’ : cat === ‘geo’ ? ‘🌍’ : ‘⚡’;
+items.push({ cat: cat, ico: ico, title: title, source: sourceName, url: url, ts: ts });
 }
-
 return items;
 }
 
-function extractTag(xml, tag) {
-const m = xml.match(new RegExp(`<${tag}[^>]*>([^<]*)<\/${tag}>`, ‘i’));
-return m ? m[1].trim() : ‘’;
-}
-
-function extractCDATA(xml, tag) {
-const m = xml.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>`, ‘i’));
-return m ? m[1].trim() : ‘’;
-}
-
-function stripHtml(str) {
-return str.replace(/<[^>]+>/g, ‘’).trim();
-}
-
-function decodeEntities(str) {
-return str
-.replace(/&/g, ‘&’)
-.replace(/</g, ‘<’)
-.replace(/>/g, ‘>’)
-.replace(/"/g, ‘”’)
-.replace(/'/g, “’”)
-.replace(/ /g, ’ ’)
-.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(n));
-}
-
-export default async function handler(req, res) {
-// CORS
-res.setHeader(‘Access-Control-Allow-Origin’, ‘*’);
-res.setHeader(‘Access-Control-Allow-Methods’, ‘GET’);
-res.setHeader(‘Cache-Control’, ‘s-maxage=120, stale-while-revalidate=60’);
-
+for (var i = 0; i < feeds.length; i++) {
 try {
-// Her iki feed’i paralel çek
-const fetches = FEEDS.map(feed =>
-fetch(feed.url, {
-headers: {
-‘User-Agent’: ‘Mozilla/5.0 (compatible; MarsFinance/1.0)’,
-‘Accept’: ‘application/rss+xml, application/xml, text/xml, */*’,
-},
-signal: AbortSignal.timeout(8000),
-})
-.then(r => r.ok ? r.text() : Promise.reject(new Error(`${feed.source} HTTP ${r.status}`)))
-.then(xml => parseRSS(xml, feed.source))
-.catch(err => {
-console.warn(`[news] ${feed.source} error:`, err.message);
-return []; // bu feed başarısız olsa bile devam et
-})
-);
+var sourceName = i === 0 ? ‘CoinDesk’ : ‘CoinTelegraph’;
+var r = await fetch(feeds[i], { headers: { ‘User-Agent’: ‘Mozilla/5.0’ }, signal: AbortSignal.timeout(5000) });
+if (!r.ok) continue;
+var xml = await r.text();
+var parsed = parseRSS(xml, sourceName);
+allNews = allNews.concat(parsed);
+} catch (e) {
+// feed başarısız, devam et
+}
+}
 
-```
-const results = await Promise.all(fetches);
-let allNews = results.flat();
-
-// Tekrar eden başlıkları kaldır
-const seen = new Set();
-allNews = allNews.filter(n => {
-  const key = n.title.slice(0, 60).toLowerCase();
-  if (seen.has(key)) return false;
-  seen.add(key);
-  return true;
-});
-
-// Zaman sırasına göre sırala (en yeni önce)
-allNews.sort((a, b) => b.ts - a.ts);
-
-// Kategori başına max 8 haber
-const catCount = {};
-const filtered = allNews.filter(n => {
-  catCount[n.cat] = (catCount[n.cat] || 0) + 1;
-  return catCount[n.cat] <= 8;
-});
+// Kategoriye göre max 8, zaman sırasına göre sırala
+var counts = {};
+var filtered = [];
+allNews.sort(function(a, b) { return b.ts - a.ts; });
+for (var j = 0; j < allNews.length; j++) {
+var n = allNews[j];
+counts[n.cat] = (counts[n.cat] || 0);
+if (counts[n.cat] < 8) {
+filtered.push(n);
+counts[n.cat]++;
+}
+}
 
 res.status(200).json({ ok: true, count: filtered.length, news: filtered });
-```
-
-} catch (err) {
-console.error(’[news] fatal:’, err);
-res.status(500).json({ ok: false, error: err.message, news: [] });
-}
-}
+};
