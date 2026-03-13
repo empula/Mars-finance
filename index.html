@@ -794,42 +794,21 @@ setInterval(function(){simTick();updateCards();},3500);
 setInterval(loadAll,60000);
 
 // ── CRYPTOCOMPARE NEWS
+// —— HABERLER
 async function loadCCNews(){
   try{
-    var r = await fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN&limit=30&sortOrder=latest');
-    var d = await r.json();
-    if(!d.Data || !d.Data.length) return;
+    var r = await fetch('/api/news');
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    var data = await r.json();
+    if(!data.ok || !data.news || !data.news.length) throw new Error('Bos');
+    _newsAll = data.news;
+    loadNews(curF);
+  } catch(e){
+    console.warn('[news] hata:', e.message);
+    if(!_newsAll.length){ _newsAll = NEWS; loadNews(curF); }
+  }
+}
 
-    var allNews = [];
-    var counts = {crypto:0, markets:0, eco:0, geo:0, energy:0};
-    var MAX_PER_CAT = 5;
-
-    // Kategori belirleme - başlık keywordlerine göre
-    function getcat(title, tags){
-      var t = (title + ' ' + (tags||'')).toLowerCase();
-      if(/oil|energy|opec|brent|wti|petrol|gas|fuel/.test(t)) return 'energy';
-      if(/war|geopolit|iran|ukraine|russia|china|taiwan|conflict|sanction/.test(t)) return 'geo';
-      if(/fed|inflation|gdp|economy|rate|interest|recession|employment|unemployment/.test(t)) return 'eco';
-      if(/stock|market|nasdaq|sp500|dow|equity|bond|yield|index/.test(t)) return 'markets';
-      return 'crypto'; // varsayılan
-    }
-
-    d.Data.forEach(function(a){
-      if(!a.title || !a.url) return;
-      var cat = getcat(a.title, a.tags);
-      if(counts[cat] >= MAX_PER_CAT) return;
-      counts[cat]++;
-      var s=(Date.now()/1000)-a.published_on;
-      var time = s<3600 ? Math.round(s/60)+' dk' : s<86400 ? Math.round(s/3600)+' sa' : Math.round(s/86400)+' gun';
-      allNews.push({
-        cat: cat,
-        ico: cat==='crypto'?'₿':cat==='markets'?'▼':cat==='eco'?'◆':cat==='geo'?'✴':'⛽',
-        title: a.title,
-        source: (a.source_info && a.source_info.name) ? a.source_info.name : a.source,
-        url: a.url,
-        time: time
-      });
-    });
 
     if(allNews.length >= 3){
       _newsAll = allNews;
