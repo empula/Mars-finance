@@ -3,11 +3,9 @@ res.setHeader(‘Access-Control-Allow-Origin’, ‘*’);
 res.setHeader(‘Cache-Control’, ‘s-maxage=120, stale-while-revalidate=60’);
 
 var feeds = [
-‘https://www.coindesk.com/arc/outboundfeeds/rss/’,
-‘https://cointelegraph.com/rss’
+{ url: ‘https://www.coindesk.com/arc/outboundfeeds/rss/’, name: ‘CoinDesk’ },
+{ url: ‘https://cointelegraph.com/rss’, name: ‘CoinTelegraph’ }
 ];
-
-var allNews = [];
 
 function getcat(title) {
 var t = title.toLowerCase();
@@ -31,38 +29,42 @@ if (!titleM || !linkM) continue;
 var title = titleM[1].trim();
 var url = linkM[1].trim();
 var ts = dateM ? Math.floor(new Date(dateM[1].trim()).getTime() / 1000) : Math.floor(Date.now() / 1000);
+if (!title || !url) continue;
 var cat = getcat(title);
-var ico = cat === ‘crypto’ ? ‘₿’ : cat === ‘markets’ ? ‘📊’ : cat === ‘eco’ ? ‘🏦’ : cat === ‘geo’ ? ‘🌍’ : ‘⚡’;
+var ico = cat === ‘crypto’ ? ‘B’ : cat === ‘markets’ ? ‘M’ : cat === ‘eco’ ? ‘E’ : cat === ‘geo’ ? ‘G’ : ‘N’;
 items.push({ cat: cat, ico: ico, title: title, source: sourceName, url: url, ts: ts });
 }
 return items;
 }
 
+var allNews = [];
+
 for (var i = 0; i < feeds.length; i++) {
 try {
-var sourceName = i === 0 ? ‘CoinDesk’ : ‘CoinTelegraph’;
-var r = await fetch(feeds[i], { headers: { ‘User-Agent’: ‘Mozilla/5.0’ }, signal: AbortSignal.timeout(5000) });
+var r = await fetch(feeds[i].url, {
+headers: { ‘User-Agent’: ‘Mozilla/5.0’ }
+});
 if (!r.ok) continue;
 var xml = await r.text();
-var parsed = parseRSS(xml, sourceName);
+var parsed = parseRSS(xml, feeds[i].name);
 allNews = allNews.concat(parsed);
 } catch (e) {
-// feed başarısız, devam et
+// feed basarisiz
 }
 }
 
-// Kategoriye göre max 8, zaman sırasına göre sırala
+allNews.sort(function(a, b) { return b.ts - a.ts; });
+
 var counts = {};
 var filtered = [];
-allNews.sort(function(a, b) { return b.ts - a.ts; });
 for (var j = 0; j < allNews.length; j++) {
 var n = allNews[j];
-counts[n.cat] = (counts[n.cat] || 0);
+if (!counts[n.cat]) counts[n.cat] = 0;
 if (counts[n.cat] < 8) {
 filtered.push(n);
 counts[n.cat]++;
 }
 }
 
-res.status(200).json({ ok: true, count: filtered.length, news: filtered });
+return res.status(200).json({ ok: true, count: filtered.length, news: filtered });
 };
