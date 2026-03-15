@@ -727,12 +727,9 @@ async function tryReal(){
   }catch(e){return false;}
 }
 async function loadAll(){
-  var si=document.getElementById('si');si.classList.add('go');
   var ok=await tryReal();
   if(!ok)simTick();
   updateCards();
-  si.classList.remove('go');
-  document.getElementById('lastUp').textContent=new Date().toLocaleTimeString('tr-TR');
 }
 renderGrids();loadAll();
 setInterval(function(){simTick();updateCards();},3500);
@@ -991,14 +988,6 @@ function updateCryptoRank(arr){
 }
 showRank('all',document.querySelector('.rtab.on'));
 
-// ── NEWS
-var NEWS=[
-  {cat:'crypto',ico:'₿',title:'Bitcoin 67.000 dolar - Iran savasi baskisina ragmen Wall Street ile seyrediyor',source:'CoinDesk',url:'https://coindesk.com',time:'6 sa'},
-  {cat:'markets',ico:'▼',title:'Asya borsalari sert dustu: Nikkei -7%, KOSPI -8%',source:'Al Jazeera',url:'https://aljazeera.com',time:'1 sa'},
-  {cat:'eco',ico:'◆',title:'Fed 18 Mart toplantisinda faizi sabit tutacak',source:'CNBC',url:'https://cnbc.com',time:'2 sa'},
-  {cat:'geo',ico:'✴',title:'ABD-Israel Iran savasi 9. gununde - Nukleer tesisler hedef aliniyor',source:'Fortune',url:'https://fortune.com',time:'4 sa'},
-  {cat:'energy',ico:'⛽',title:'Brent petrol 107 dolar - Iran savasindan bu yana %50 artis',source:'Reuters',url:'https://reuters.com',time:'6 sa'},
-];
 // ── GERÇEK HABERLER (API'den)
 function loadRealNews(newsArr){
   _newsAll=newsArr;
