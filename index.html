@@ -1027,10 +1027,11 @@ function setF(f,btn){curF=f;document.querySelectorAll('.nfb').forEach(function(b
 var _newsAll=[];
 function loadNews(f){
   var list=document.getElementById('newsList');
+  if(!list) return;
   list.innerHTML='';
   var arr=_newsAll.length?_newsAll:NEWS;
   var filtered=f&&f!=='all'?arr.filter(function(n){return n.cat===f;}):arr;
-  document.getElementById('newsCount').textContent=filtered.length+' haber';
+  var nc=document.getElementById('newsCount');if(nc)nc.textContent=filtered.length+' haber';
   if(!filtered.length){list.innerHTML='<div class="news-load">Haber bulunamadı.</div>';return;}
   filtered.forEach(function(n){
     var ico=n.ico||'📰';
