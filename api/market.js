@@ -71,9 +71,24 @@ if(fx?.rates) {
     chg24:coin.price_change_percentage_24h,
   }));
 
-  return res.status(200).json({
-    ok:true,
-    ts:new Date().toISOString(),
-    forex, crypto, metals, fearIndex, cryptoRank, news:[]
+  let news = [];
+try {
+  const nr = await fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN&limit=30&sortOrder=latest');
+  const nd = await nr.json();
+  news = (nd.Data||[]).slice(0,20).map(a => ({
+    cat: /fed|inflation|economy|rate/.test((a.title||'').toLowerCase()) ? 'eco'
+       : /war|iran|russia|china|conflict/.test((a.title||'').toLowerCase()) ? 'geo'
+       : /oil|energy|brent|wti/.test((a.title||'').toLowerCase()) ? 'energy'
+       : /stock|nasdaq|dow|equity/.test((a.title||'').toLowerCase()) ? 'markets'
+       : 'crypto',
+    ico: '₿', title: a.title,
+    source: a.source_info?.name || a.source,
+    url: a.url, ts: a.published_on
+  }));
+} catch(e) {}
+
+return res.status(200).json({
+    ok:true, ts:new Date().toISOString(),
+    forex, crypto, metals, fearIndex, cryptoRank, news
   });
 }
