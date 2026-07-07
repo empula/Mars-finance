@@ -302,7 +302,7 @@ footer{text-align:center;padding:32px 18px 26px;border-top:1px solid var(--borde
     <div class="logo-t">Mars<b>.</b></div>
   </div>
   <div class="nav-r">
-    <button onclick="openTerminal()" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:7px;background:rgba(79,142,247,0.08);border:1px solid rgba(79,142,247,0.2);border-radius:10px;padding:7px 13px;color:#4f8ef7;font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;transition:all 0.2s;">
+    <button onclick="openTerminal()" style="display:none;background:none;border:none;cursor:pointer;align-items:center;gap:7px;background:rgba(79,142,247,0.08);border:1px solid rgba(79,142,247,0.2);border-radius:10px;padding:7px 13px;color:#4f8ef7;font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;transition:all 0.2s;">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
       Terminal
     </button>
@@ -780,123 +780,37 @@ var _fearReady=false;
 var _fearSim=50; // başlangıç nötr
 setTimeout(function(){if(!_fearReady)setFear(_fearSim,[50,50,50,50]);},800);
 
-// ── KRİPTO SIRALAMASINI GÜNCELLE (gerçek veriden)
-var _cryptoRankData=null;
-var _currentRankCat='all';
-// İkon haritası (CoinGecko id → emoji)
-var COIN_ICO={'bitcoin':'₿','ethereum':'Ξ','tether':'🪙','ripple':'✕','solana':'◎','binancecoin':'🔵','usd-coin':'🟡','staked-ether':'Ξ','cardano':'🔵','avalanche-2':'🔺','dogecoin':'🐕','shiba-inu':'🐕','chainlink':'⬡','polkadot':'⬤','tron':'🔴','litecoin':'🔘','wrapped-bitcoin':'₿','monero':'⚫','ethereum-classic':'Ξ','stellar':'⭐'};
-function coinIco(id){return COIN_ICO[id]||'🪙';}
-function fMcap(v){
-  if(!v)return'—';
-  if(v>=1e12)return'$'+(v/1e12).toFixed(2)+'T';
-  if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';
-  if(v>=1e6)return'$'+(v/1e6).toFixed(0)+'M';
-  return'$'+v;
-}
-function updateCryptoRank(arr){
-  _cryptoRankData=arr;
-  if(_currentRankCat==='crypto'){
-    renderCryptoRank(arr);
-  }
-  // All tab'ı da güncelle
-  if(_currentRankCat==='all'){
-    renderAllRank();
-  }
-}
-function renderCryptoRank(arr){
-  var list=document.getElementById('rankList');list.innerHTML='';
-  var max=arr[0]?arr[0].mcap:1;
-  arr.slice(0,15).forEach(function(coin,i){
-    var n=i+1;var nc=n===1?'top1':n===2?'top2':n===3?'top3':'';
-    var up=coin.chg24>=0;
-    var bar=max>0?(coin.mcap/max*100):0;
-    var div=document.createElement('div');div.className='rank-item';
-    div.innerHTML='<div class="rank-num '+nc+'">'+(nc?['🥇','🥈','🥉'][n-1]:n)+'</div>'
-      +'<div class="rank-ico">'+coinIco(coin.id)+'</div>'
-      +'<div class="rank-body"><div class="rank-name">'+coin.name+'</div>'
-      +'<div class="rank-sub">'+coin.symbol+' · Kripto</div>'
-      +'<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+Math.min(100,bar)+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>'
-      +'<div class="rank-right"><div class="rank-val">'+fMcap(coin.mcap)+'</div>'
-      +'<div class="rank-chg '+(up?'up':'dn')+'">'+(up?'▲ +':'▼ ')+Math.abs(coin.chg24||0).toFixed(2)+'%</div></div>';
-    list.appendChild(div);
-  });
-}
-function renderAllRank(){
-  // Karışık liste: sabit hisse + gerçek kripto top 5 + sabit madenler
-  var list=document.getElementById('rankList');list.innerHTML='';
-  var allItems=[];
-  // Sabit büyük hisseler + madenler
-  var STATIC=[
-    {cat:'metals',ico:'🥇',name:'Altın',sub:'XAU · Emtia',val:'$17.9T',chg:0.44,bar:100},
-    {cat:'stock',ico:'🏢',name:'Apple',sub:'AAPL · S&P500',val:'$3.4T',chg:0.82,bar:19},
-    {cat:'stock',ico:'🤖',name:'Microsoft',sub:'MSFT · S&P500',val:'$3.1T',chg:1.14,bar:17.3},
-    {cat:'stock',ico:'🔍',name:'NVIDIA',sub:'NVDA · S&P500',val:'$2.9T',chg:2.31,bar:16.2},
-    {cat:'stock',ico:'🛒',name:'Amazon',sub:'AMZN · S&P500',val:'$2.1T',chg:0.44,bar:11.7},
-  ];
-  STATIC.forEach(function(item,i){
-    var n=i+1;var nc=n===1?'top1':n===2?'top2':n===3?'top3':'';
-    var up=item.chg>=0;
-    var div=document.createElement('div');div.className='rank-item';
-    div.innerHTML='<div class="rank-num '+nc+'">'+(nc?['🥇','🥈','🥉'][n-1]:n)+'</div>'
-      +'<div class="rank-ico">'+item.ico+'</div>'
-      +'<div class="rank-body"><div class="rank-name">'+item.name+'</div><div class="rank-sub">'+item.sub+'</div>'
-      +'<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+item.bar+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>'
-      +'<div class="rank-right"><div class="rank-val">'+item.val+'</div>'
-      +'<div class="rank-chg '+(up?'up':'dn')+'">'+(up?'▲ +':'▼ ')+Math.abs(item.chg).toFixed(2)+'%</div></div>';
-    list.appendChild(div);
-  });
-  // Gerçek kripto (API'den) veya statik fallback
-  var cryptos=_cryptoRankData?_cryptoRankData.slice(0,5):RANKS_STATIC.crypto;
-  cryptos.forEach(function(coin,i){
-    var up=(coin.chg24||coin.chg||0)>=0;
-    var bar=_cryptoRankData?(coin.mcap/(_cryptoRankData[0].mcap)*9.6):coin.bar;
-    var name=coin.name;var sym=coin.symbol?coin.symbol.toUpperCase():coin.sub;
-    var val=coin.mcap?fMcap(coin.mcap):coin.val;
-    var ico=coin.id?coinIco(coin.id):coin.ico;
-    var chgVal=coin.chg24!=null?coin.chg24:(coin.chg||0);
-    var div=document.createElement('div');div.className='rank-item';
-    div.innerHTML='<div class="rank-num">'+(i+6)+'</div>'
-      +'<div class="rank-ico">'+ico+'</div>'
-      +'<div class="rank-body"><div class="rank-name">'+name+'</div><div class="rank-sub">'+sym+' · Kripto</div>'
-      +'<div class="rank-bar-row"><div class="rank-bar-fill" style="width:'+Math.min(100,bar)+'%;background:linear-gradient(to right,var(--blue),var(--purple))"></div></div></div>'
-      +'<div class="rank-right"><div class="rank-val">'+val+'</div>'
-      +'<div class="rank-chg '+(up?'up':'dn')+'">'+(up?'▲ +':'▼ ')+Math.abs(chgVal).toFixed(2)+'%</div></div>';
-    list.appendChild(div);
-  });
-}
-
-
 // ── WORLD ASSET RANKINGS
 // ── RANKS — statik fallback
 var RANKS_STATIC={
   stock:[
-    {ico:'🏢',name:'Apple',sub:'AAPL',val:'$3.4T',chg:0.82,bar:100},
-    {ico:'🤖',name:'Microsoft',sub:'MSFT',val:'$3.1T',chg:1.14,bar:91},
-    {ico:'🔍',name:'NVIDIA',sub:'NVDA',val:'$2.9T',chg:2.31,bar:85},
-    {ico:'🛒',name:'Amazon',sub:'AMZN',val:'$2.1T',chg:0.44,bar:62},
-    {ico:'🔎',name:'Alphabet',sub:'GOOGL',val:'$2.0T',chg:-0.22,bar:59},
-    {ico:'⚡',name:'Tesla',sub:'TSLA',val:'$890B',chg:-1.21,bar:26},
-    {ico:'💳',name:'Saudi Aramco',sub:'2222',val:'$1.76T',chg:0.11,bar:52},
-    {ico:'🏦',name:'Berkshire',sub:'BRK.A',val:'$1.08T',chg:0.33,bar:32},
-    {ico:'💊',name:'Eli Lilly',sub:'LLY',val:'$720B',chg:1.8,bar:21},
-    {ico:'💰',name:'JPMorgan',sub:'JPM',val:'$680B',chg:0.6,bar:20},
+    {ico:'🏢',name:'Apple',sub:'AAPL',val:'$4.1T',chg:0.82,bar:100},
+    {ico:'🤖',name:'Microsoft',sub:'MSFT',val:'$3.9T',chg:1.14,bar:95},
+    {ico:'🔍',name:'NVIDIA',sub:'NVDA',val:'$3.8T',chg:2.31,bar:93},
+    {ico:'🛒',name:'Amazon',sub:'AMZN',val:'$2.6T',chg:0.44,bar:63},
+    {ico:'🔎',name:'Alphabet',sub:'GOOGL',val:'$2.5T',chg:-0.22,bar:61},
+    {ico:'⚡',name:'Tesla',sub:'TSLA',val:'$1.4T',chg:-1.21,bar:34},
+    {ico:'💳',name:'Saudi Aramco',sub:'2222',val:'$1.9T',chg:0.11,bar:46},
+    {ico:'🏦',name:'Berkshire',sub:'BRK.A',val:'$1.2T',chg:0.33,bar:29},
+    {ico:'💊',name:'Eli Lilly',sub:'LLY',val:'$980B',chg:1.8,bar:24},
+    {ico:'💰',name:'JPMorgan',sub:'JPM',val:'$850B',chg:0.6,bar:21},
   ],
   cryptoFallback:[
-    {id:'bitcoin',ico:'₿',name:'Bitcoin',sub:'BTC',val:'$1.72T',chg24:1.42,mcap:1720000000000},
-    {id:'ethereum',ico:'Ξ',name:'Ethereum',sub:'ETH',val:'$257B',chg24:-0.87,mcap:257000000000},
-    {id:'ripple',ico:'✕',name:'XRP',sub:'XRP',val:'$128B',chg24:2.14,mcap:128000000000},
-    {id:'tether',ico:'🪙',name:'Tether',sub:'USDT',val:'$143B',chg24:0.01,mcap:143000000000},
-    {id:'solana',ico:'◎',name:'Solana',sub:'SOL',val:'$67B',chg24:3.21,mcap:67000000000},
-    {id:'binancecoin',ico:'🔵',name:'BNB',sub:'BNB',val:'$89B',chg24:0.55,mcap:89000000000},
-    {id:'avalanche-2',ico:'🔺',name:'Avalanche',sub:'AVAX',val:'$8.7B',chg24:-1.38,mcap:8700000000},
-    {id:'chainlink',ico:'⬡',name:'Chainlink',sub:'LINK',val:'$7.1B',chg24:0.75,mcap:7100000000},
+    {id:'bitcoin',ico:'₿',name:'Bitcoin',sub:'BTC',val:'$1.36T',chg24:1.42,mcap:1360000000000},
+    {id:'ethereum',ico:'Ξ',name:'Ethereum',sub:'ETH',val:'$242B',chg24:-0.87,mcap:242000000000},
+    {id:'ripple',ico:'✕',name:'XRP',sub:'XRP',val:'$121B',chg24:2.14,mcap:121000000000},
+    {id:'tether',ico:'🪙',name:'Tether',sub:'USDT',val:'$150B',chg24:0.01,mcap:150000000000},
+    {id:'solana',ico:'◎',name:'Solana',sub:'SOL',val:'$77B',chg24:3.21,mcap:77000000000},
+    {id:'binancecoin',ico:'🔵',name:'BNB',sub:'BNB',val:'$91B',chg24:0.55,mcap:91000000000},
+    {id:'avalanche-2',ico:'🔺',name:'Avalanche',sub:'AVAX',val:'$9.0B',chg24:-1.38,mcap:9000000000},
+    {id:'chainlink',ico:'⬡',name:'Chainlink',sub:'LINK',val:'$8.9B',chg24:0.75,mcap:8900000000},
   ],
   metals:[
-    {ico:'🥇',name:'Altın',sub:'XAU',val:'$17.9T',chg:0.44,bar:100},
-    {ico:'🥈',name:'Gümüş',sub:'XAG',val:'$1.8T',chg:-0.22,bar:10},
-    {ico:'⬜',name:'Platin',sub:'XPT',val:'$243B',chg:0.61,bar:1.4},
-    {ico:'⬛',name:'Paladyum',sub:'XPD',val:'$52B',chg:-0.8,bar:0.3},
-    {ico:'🟤',name:'Bakır',sub:'HG',val:'$220B',chg:-0.33,bar:1.2},
+    {ico:'🥇',name:'Altın',sub:'XAU',val:'$27.8T',chg:0.44,bar:100},
+    {ico:'🥈',name:'Gümüş',sub:'XAG',val:'$2.8T',chg:-0.22,bar:10},
+    {ico:'⬜',name:'Platin',sub:'XPT',val:'$377B',chg:0.61,bar:1.4},
+    {ico:'⬛',name:'Paladyum',sub:'XPD',val:'$81B',chg:-0.8,bar:0.3},
+    {ico:'🟤',name:'Bakır',sub:'HG',val:'$342B',chg:-0.33,bar:1.2},
   ],
   forex:[
     {ico:'🇺🇸',name:'Dolar',sub:'USD',val:'Referans',chg:0.18,bar:100},
@@ -945,11 +859,11 @@ function showRank(cat,btn){
   if(cat==='all'){
     // Statik satırlar (altın + hisseler)
     var topItems=[
-      {ico:'\ud83e\udd47',name:'Alt\u0131n',sub:'XAU \u00b7 Emtia',val:'$17.9T',chg:0.44,bar:100},
-      {ico:'\ud83c\udfe2',name:'Apple',sub:'AAPL \u00b7 S&P500',val:'$3.4T',chg:0.82,bar:19},
-      {ico:'\ud83e\udd16',name:'Microsoft',sub:'MSFT \u00b7 S&P500',val:'$3.1T',chg:1.14,bar:17.3},
-      {ico:'\ud83d\udd0d',name:'NVIDIA',sub:'NVDA \u00b7 S&P500',val:'$2.9T',chg:2.31,bar:16.2},
-      {ico:'\ud83d\uded2',name:'Amazon',sub:'AMZN \u00b7 S&P500',val:'$2.1T',chg:0.44,bar:11.7},
+      {ico:'\ud83e\udd47',name:'Alt\u0131n',sub:'XAU \u00b7 Emtia',val:'$27.8T',chg:0.44,bar:100},
+      {ico:'\ud83c\udfe2',name:'Apple',sub:'AAPL \u00b7 S&P500',val:'$4.1T',chg:0.82,bar:15},
+      {ico:'\ud83e\udd16',name:'Microsoft',sub:'MSFT \u00b7 S&P500',val:'$3.9T',chg:1.14,bar:14},
+      {ico:'\ud83d\udd0d',name:'NVIDIA',sub:'NVDA \u00b7 S&P500',val:'$3.8T',chg:2.31,bar:14},
+      {ico:'\ud83d\uded2',name:'Amazon',sub:'AMZN \u00b7 S&P500',val:'$2.6T',chg:0.44,bar:9},
     ];
     renderRankItems(topItems,list,false);
     var cryptos=_cryptoRankData||RANKS_STATIC.cryptoFallback;
