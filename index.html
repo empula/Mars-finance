@@ -949,7 +949,7 @@ function makeCard(a){
   return el;
 }
 function renderGrids(){['forex','crypto','metals'].forEach(function(c){var g=document.getElementById(c+'-grid');g.innerHTML='';ASSETS[c].forEach(function(a){g.appendChild(makeCard(a));});});}
-function updateCards(){for(var k in ALL){var p=document.getElementById('p-'+k),b=document.getElementById('b-'+k),s=document.getElementById('sp-'+k);if(!p)continue;var d=D[k]||{};p.textContent=d.price!=null?pStr(k):'—';var up=d.chg!=null&&d.chg>=0;if(b){b.className='cbadge '+(d.chg==null?'nt':up?'up':'dn');b.textContent=fPct(d.chg);}if(s)s.innerHTML=makeSpark(d.hist,up);}renderTicker();}
+function updateCards(){for(var k in ALL){try{var p=document.getElementById('p-'+k),b=document.getElementById('b-'+k),s=document.getElementById('sp-'+k);if(!p)continue;var d=D[k]||{};p.textContent=d.price!=null?pStr(k):'—';var up=d.chg!=null&&d.chg>=0;if(b){b.className='cbadge '+(d.chg==null?'nt':up?'up':'dn');b.textContent=fPct(d.chg);}if(s)s.innerHTML=makeSpark(d.hist,up);}catch(e){}}renderTicker();}
 
 // ── TICKER BAND (gerçek D verisinden — canlı fiyatlar)
 var TICKER_KEYS=['usd','eur','gbp','btc','eth','sol','gold','silver'];
@@ -957,11 +957,16 @@ function renderTicker(){
   var track=document.getElementById('tickerTrack');
   if(!track)return;
   var items=TICKER_KEYS.map(function(k){
-    var a=ALL[k],d=D[k];
-    if(!a||!d||d.price==null)return '';
-    var up=d.chg!=null&&d.chg>=0;
-    return '<div class="ticker-item"><b>'+a.name.toUpperCase()+'</b><span class="tk-p">'+pStr(k)+'</span><span class="'+(up?'pos':'neg')+'">'+(up?'▲':'▼')+' '+Math.abs(d.chg||0).toFixed(2)+'%</span></div>';
+    try{
+      var a=ALL[k],d=D[k];
+      if(!a||!d||d.price==null)return '';
+      var up=d.chg!=null&&d.chg>=0;
+      return '<div class="ticker-item"><b>'+a.name.toUpperCase()+'</b><span class="tk-p">'+pStr(k)+'</span><span class="'+(up?'pos':'neg')+'">'+(up?'▲':'▼')+' '+Math.abs(d.chg||0).toFixed(2)+'%</span></div>';
+    }catch(e){return '';}
   }).join('');
+  // Liste tamamen boş çıkarsa (D henüz hazır değilse vb.) eski içeriği
+  // koru - band'ı boşaltıp tamamen kaybolmasına sebep olma.
+  if(!items)return;
   track.innerHTML=items+items;
 }
 
