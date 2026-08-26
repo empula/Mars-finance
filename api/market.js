@@ -2,14 +2,33 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
 
+  try {
+    return await buildResponse(res);
+  } catch(e) {
+    // Beklenmeyen bir hata tüm endpoint'i çökertip frontend'i tamamen
+    // simülasyona düşürmesin diye ok:true + boş/varsayılan veriyle döneriz.
+    return res.status(200).json({
+      ok:true, ts:new Date().toISOString(),
+      forex:{}, crypto:{},
+      metals:{gold:{price:4670},silver:{price:69},platinum:{price:1867},copper:{price:6.75}},
+      fearIndex:{value:null,label:null,timestamp:null,history:[]},
+      cryptoRank:[], news:[],
+    });
+  }
+}
+
+async function buildResponse(res) {
+  // Tek bir dış çağrının patlaması ya da asılı kalması tüm endpoint'i
+  // 500'e düşürmesin diye safe() ASLA reject etmez, hep null döner.
   const safe = async (url, timeoutMs) => {
-    const ctrl = new AbortController();
-    const t = setTimeout(()=>ctrl.abort(), timeoutMs || 8000);
     try {
-      const r = await fetch(url, {signal: ctrl.signal});
-      return await r.json();
+      const ctrl = new AbortController();
+      const t = setTimeout(()=>ctrl.abort(), timeoutMs || 8000);
+      try {
+        const r = await fetch(url, {signal: ctrl.signal});
+        return await r.json();
+      } finally { clearTimeout(t); }
     } catch(e) { return null; }
-    finally { clearTimeout(t); }
   };
   // Bir kaynak sırayla dener, ilk geçerli (rates alanı dolu) yanıtı döner.
   const safeChain = async (urls) => {
@@ -34,21 +53,23 @@ export default async function handler(req, res) {
     safe('https://min-api.cryptocompare.com/data/v2/news/?lang=EN&limit=30&sortOrder=latest'),
   ]);
 
- let forex = {};
-if(fx?.rates) {
-  const r = fx.rates;
-  const u = r.TRY;
-  forex = {
-    usd: {price: parseFloat(u.toFixed(2))},
-    eur: {price: parseFloat((u/r.EUR).toFixed(2))},
-    gbp: {price: parseFloat((u/r.GBP).toFixed(2))},
-    jpy: {price: parseFloat((u/r.JPY).toFixed(2))},
-    chf: {price: parseFloat((u/r.CHF).toFixed(2))},
-    cad: {price: parseFloat((u/r.CAD).toFixed(2))},
-    aud: {price: parseFloat((u/r.AUD).toFixed(2))},
-    sar: {price: parseFloat((u/r.SAR).toFixed(2))},
-  };
-}
+  let forex = {};
+  try {
+    const r = fx?.rates;
+    const u = r?.TRY;
+    if(typeof u === 'number') {
+      forex = {
+        usd: {price: parseFloat(u.toFixed(2))},
+        eur: {price: parseFloat((u/r.EUR).toFixed(2))},
+        gbp: {price: parseFloat((u/r.GBP).toFixed(2))},
+        jpy: {price: parseFloat((u/r.JPY).toFixed(2))},
+        chf: {price: parseFloat((u/r.CHF).toFixed(2))},
+        cad: {price: parseFloat((u/r.CAD).toFixed(2))},
+        aud: {price: parseFloat((u/r.AUD).toFixed(2))},
+        sar: {price: parseFloat((u/r.SAR).toFixed(2))},
+      };
+    }
+  } catch(e) { /* forex boş kalır, frontend son bilinen değeri korur */ }
 
   let crypto = {};
   if(cg) {
@@ -98,17 +119,19 @@ if(fx?.rates) {
     });
   }
 
+  // API başarısız olursa value:null döner - sahte "50 Nötr" göstermeyiz,
+  // frontend bunu "veri yok" sayıp mevcut/simüle değeri korur.
   const fngData = fear?.data || [];
-  const fearIndex = {
-    value: parseInt(fngData[0]?.value||50),
-    label: fngData[0]?.value_classification||'Nötr',
-    timestamp: fngData[0]?.timestamp,
+  const fearIndex = fngData.length ? {
+    value: parseInt(fngData[0].value),
+    label: fngData[0].value_classification || 'Nötr',
+    timestamp: fngData[0].timestamp,
     history: fngData.slice(0,30).map(d=>({
       value:parseInt(d.value),
       label:d.value_classification,
       timestamp:d.timestamp
     })),
-  };
+  } : { value: null, label: null, timestamp: null, history: [] };
 
   const cryptoRank = (cgTop||[]).map((coin,i)=>({
     rank:coin.market_cap_rank||i+1,
