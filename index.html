@@ -1046,10 +1046,24 @@ function setFear(score,hist){
   });
 }
 // ── FEAR & GREED — API'den gelir, simülasyon KAPALI
-// İlk yüklemede boş göster, API gelince doldur
+// Sahte "50 Nötr" göstermek yerine veri gelene kadar dürüstçe "—" gösterir.
 var _fearReady=false;
-var _fearSim=50; // başlangıç nötr
-setTimeout(function(){if(!_fearReady)setFear(_fearSim,[50,50,50,50]);},800);
+function showFearPending(){
+  var el=document.getElementById('fearScore');if(!el||_fearReady)return;
+  el.textContent='—';el.style.color='';
+  var lbl=document.getElementById('fearLabel');if(lbl){lbl.textContent='Yükleniyor…';lbl.style.color='';}
+  for(var i=0;i<4;i++){
+    var h=document.getElementById('fh'+i),hn=document.getElementById('fhn'+i);
+    if(h){h.textContent='—';h.style.color='';}
+    if(hn){hn.textContent='';}
+  }
+  ['crypto','stock','forex','comm'].forEach(function(id){
+    var b=document.getElementById(id+'Bar'),p=document.getElementById(id+'Pct');
+    if(b)b.style.width='0%';
+    if(p){p.textContent='Veri bekleniyor';p.style.color='';}
+  });
+}
+setTimeout(showFearPending,800);
 
 // ── WORLD ASSET RANKINGS
 // ── RANKS — statik fallback
