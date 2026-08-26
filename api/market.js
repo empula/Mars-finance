@@ -45,8 +45,8 @@ if(fx?.rates) {
   }
 
   const metals = {
-    gold:{price:5265}, silver:{price:94},
-    platinum:{price:2010}, copper:{price:4.38},
+    gold:{price:4670}, silver:{price:69},
+    platinum:{price:1867}, copper:{price:6.75},
   };
 
   const fngData = fear?.data || [];
