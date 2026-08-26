@@ -2,15 +2,28 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
 
-  const safe = async (url) => {
+  const safe = async (url, timeoutMs) => {
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), timeoutMs || 8000);
     try {
-      const r = await fetch(url);
+      const r = await fetch(url, {signal: ctrl.signal});
       return await r.json();
     } catch(e) { return null; }
+    finally { clearTimeout(t); }
+  };
+  // Bir kaynak sırayla dener, ilk geçerli (rates alanı dolu) yanıtı döner.
+  const safeChain = async (urls) => {
+    for (const url of urls) {
+      const d = await safe(url);
+      if (d?.rates) return d;
+    }
+    return null;
   };
 
   const [fx, cg, cgTop, fear, goldR, silverR, platR, copperR, newsR] = await Promise.all([
-    safe('https://api.exchangerate-api.com/v4/latest/USD'),
+    // api.exchangerate-api.com/v4 (anahtarsız) ücretsiz kullanıcılar için
+    // durağan/bayat veri döndürmeye başladı; open.er-api.com resmi halefi.
+    safeChain(['https://open.er-api.com/v6/latest/USD','https://api.exchangerate-api.com/v4/latest/USD']),
     safe('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'),
     safe('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=24h'),
     safe('https://api.alternative.me/fng/?limit=30'),
