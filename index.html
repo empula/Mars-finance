@@ -933,7 +933,7 @@ var ALL={};
 
 // ── PRICE DATA
 var D={};
-var INIT={usd:38.05,eur:41.32,gbp:49.19,jpy:25.11,chf:42.50,cad:27.80,aud:23.90,sar:10.14,btc:68500,eth:2013,sol:131,xrp:2.10,avax:19.5,link:13.1,gold:5265,silver:94,platinum:1042,copper:4.38};
+var INIT={usd:46.75,eur:50.60,gbp:58.30,jpy:29.40,chf:52.30,cad:32.10,aud:29.60,sar:12.47,btc:78100,eth:2452,sol:96,xrp:2.10,avax:19.5,link:13.1,gold:4670,silver:69,platinum:1867,copper:6.75};
 var CHGB={usd:0.18,eur:-0.12,gbp:0.31,jpy:-0.07,chf:0.09,cad:0.22,aud:-0.15,sar:0.01,btc:1.42,eth:-0.87,sol:3.21,xrp:2.14,avax:-1.38,link:0.75,gold:0.44,silver:-0.22,platinum:0.61,copper:-0.33};
 function genH(b){var a=[],v=b*.97;for(var i=0;i<24;i++){v+=b*(Math.random()-.48)*.004;a.push(v);}return a;}
 (function(){for(var k in INIT)D[k]={price:INIT[k]*(1+(Math.random()-.5)*.003),chg:CHGB[k]+(Math.random()-.5)*.2,hist:genH(INIT[k])};})();
@@ -1237,13 +1237,13 @@ var ANALYSTS={
      quote:'"78.000 dolar bandındaki konsolidasyon Stock-to-Flow modelinin öngördüğü birikim fazına denk geliyor. Fed\'in şahin duruşu kısa vadeli baskı yaratsa da kıtlık temelli değerleme 120.000 dolar hedefini destekliyor."',target:'$120,000',date:'2027 Q1'},
     {name:'Willy Woo',role:'On-Chain Analist',firm:'Bağımsız',ava:'📊',sent:'bull',
      acc:88,calls:['2020 boğa: ✓','2022 ayı: ✓','2024 ATH: ✓'],
-     quote:'"On-chain veriler 72.000-75.000 dolar bölgesinde güçlü kurumsal birikim gösteriyor. HODL dalgaları uzun vadeli yatırımcı hakimiyetinde; enflasyondaki yumuşama teyit edilirse yıl sonuna doğru 95.000 dolar test edilebilir."',target:'$95,000',date:'2026 Q4'},
+     quote:'"On-chain veriler 75.000-78.000 dolar bölgesinde güçlü kurumsal birikim gösteriyor. HODL dalgaları uzun vadeli yatırımcı hakimiyetinde; enflasyondaki yumuşama teyit edilirse yıl sonuna doğru 100.000 dolar test edilebilir."',target:'$100,000',date:'2026 Q4'},
     {name:'Michael Saylor',role:'Yönetim Kurulu Başkanı',firm:'MicroStrategy',ava:'👨‍💼',sent:'bull',
      acc:78,calls:['2020 alım ✓','2022 kayıp ✗','2024 kâr ✓'],
      quote:'"Bitcoin, insanlık tarihinin en üstün para biçimidir. Her düzeltme kurumsal yatırımcılar için alım fırsatıdır. MicroStrategy satın almaya devam edecek."',target:'$500,000',date:'2030'},
     {name:'Peter Schiff',role:'Baş Ekonomist',firm:'Euro Pacific Capital',ava:'🧔',sent:'bear',
      acc:22,calls:['2017 düşüş ✗','2020 düşüş ✗','2022 düşüş ✓'],
-     quote:'"Altın 4.100 dolarla tarihi zirvesindeyken Bitcoin hâlâ zirvesinin altında — bu bile hangisinin gerçek değer sakladığını gösteriyor. Fed\'in şahin duruşu spekülatif balonu eninde sonunda patlatacak."',target:'$25,000',date:'2027'},
+     quote:'"Altın 4.600 doların üzerinde tarihi zirvesindeyken Bitcoin hâlâ zirvesinin altında — bu bile hangisinin gerçek değer sakladığını gösteriyor. Fed\'in şahin duruşu spekülatif balonu eninde sonunda patlatacak."',target:'$25,000',date:'2027'},
   ],
   eth:[
     {name:'Benjamin Cowen',role:'Kripto Analist',firm:'ITC Crypto',ava:'📉',sent:'bull',
@@ -1264,13 +1264,13 @@ var ANALYSTS={
   gold:[
     {name:'Jim Rogers',role:'Yatırımcı & Yazar',firm:'Rogers Holdings',ava:'🎩',sent:'bull',
      acc:89,calls:['2008 altın: ✓','2020 altın: ✓','2022 gerileme: ✓'],
-     quote:'"4.000 dolar dediğimde kimse inanmamıştı, bugün 4.100\'ün üzerindeyiz. Merkez bankası alımları sürdükçe ve dolar yapısal olarak zayıfladıkça bu yükseliş bitmedi — sıradaki durak 5.000 dolar."',target:'$5,000',date:'2027'},
+     quote:'"4.000 dolar dediğimde kimse inanmamıştı, bugün 4.600\'ün üzerindeyiz. Merkez bankası alımları sürdükçe ve dolar yapısal olarak zayıfladıkça bu yükseliş bitmedi — sıradaki durak 6.000 dolar."',target:'$6,000',date:'2027'},
     {name:'Ray Dalio',role:'Kurucu',firm:'Bridgewater Associates',ava:'🧠',sent:'bull',
      acc:86,calls:['2008 kriz: ✓','2020 portföy: ✓','2022 enflasyon: ✓'],
-     quote:'"ABD borç yükü ve jeopolitik parçalanma ortamında altın portföylerin vazgeçilmez bileşeni olmayı sürdürüyor. Kısa vadeli düzeltmeler alım fırsatı; her portföyde en az yüzde 10-15 altın olmalı."',target:'$4,800',date:'2027'},
+     quote:'"ABD borç yükü ve jeopolitik parçalanma ortamında altın portföylerin vazgeçilmez bileşeni olmayı sürdürüyor. Kısa vadeli düzeltmeler alım fırsatı; her portföyde en az yüzde 10-15 altın olmalı."',target:'$5,500',date:'2027'},
     {name:'Jeffrey Gundlach',role:'CEO',firm:'DoubleLine Capital',ava:'👔',sent:'bull',
      acc:83,calls:['Faiz tahmini: ✓','Dolar zayıflama: ✓','Tahvil satışı: ✓'],
-     quote:'"Fed\'in şahin söylemi altında kısa vadeli baskı olsa da doların uzun vadeli zayıflama trendi değişmedi. 4.100 dolar bölgesindeki düzeltmeler pozisyon artırma fırsatı; yüzde 15 altın tavsiyemi koruyorum."',target:'$4,500',date:'2027 Q1'},
+     quote:'"Fed\'in şahin söylemi altında kısa vadeli baskı olsa da doların uzun vadeli zayıflama trendi değişmedi. 4.500 dolar bölgesindeki düzeltmeler pozisyon artırma fırsatı; yüzde 15 altın tavsiyemi koruyorum."',target:'$5,200',date:'2027 Q1'},
   ],
   usd:[
     {name:'Ray Dalio',role:'Kurucu',firm:'Bridgewater',ava:'🧠',sent:'bear',
@@ -1291,7 +1291,7 @@ var ANALYSTS={
   silver:[
     {name:'Keith Neumeyer',role:'CEO',firm:'First Majestic Silver',ava:'🥈',sent:'bull',
      acc:79,calls:['Gümüş 2020: ✓','Güneş talebi: ✓','Endüstriyel: ✓'],
-     quote:'"Altın 4.000 doları aşarken gümüş hâlâ tarihsel orana göre ucuz. Güneş paneli ve savunma sanayii talebi arz açığını derinleştiriyor — gümüşte asıl hareket henüz başlamadı, 65 dolar hedefliyorum."',target:'$65',date:'2027'},
+     quote:'"Gümüş 69 dolara ulaştı ama altın/gümüş oranı hâlâ tarihsel ortalamanın üzerinde — yani gümüş görece ucuz kalmaya devam ediyor. Güneş paneli ve savunma sanayii talebi arz açığını derinleştiriyor, asıl hareket henüz bitmedi: 100 dolar hedefliyorum."',target:'$100',date:'2027'},
   ],
   avax:[
     {name:'Emin Gün Sirer',role:'Kurucu',firm:'Ava Labs',ava:'👨‍🔬',sent:'bull',
