@@ -661,8 +661,8 @@ footer{text-align:center;padding:40px 16px 32px;border-top:1px solid var(--m-hai
 </div>
 
 <script>
-document.getElementById('bulletinDateLabel').textContent = new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 const bulletinDate = '2026-07-16';
+document.getElementById('bulletinDateLabel').textContent = new Date(bulletinDate+'T12:00:00').toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 const today = new Date().toISOString().split('T')[0];
 if(bulletinDate !== today) document.getElementById('bulletinNewBadge').style.display='none';
   function toggleBulletin(){
@@ -1213,10 +1213,10 @@ function loadNews(f){
   var list=document.getElementById('newsList');
   if(!list) return;
   list.innerHTML='';
-  var arr=_newsAll.length?_newsAll:NEWS;
+  var arr=_newsAll;
   var filtered=f&&f!=='all'?arr.filter(function(n){return n.cat===f;}):arr;
   var nc=document.getElementById('newsCount');if(nc)nc.textContent=filtered.length+' haber';
-  if(!filtered.length){list.innerHTML='<div class="news-load">Haber bulunamadı.</div>';return;}
+  if(!filtered.length){list.innerHTML='<div class="news-load">'+(arr.length?'Haber bulunamadı.':'Haberler yükleniyor…')+'</div>';return;}
   filtered.forEach(function(n){
     var ico=n.ico||'📰';
     var timeStr=n.ts?timeAgo(n.ts):(n.time?n.time+' önce':'az önce');
@@ -1234,43 +1234,43 @@ var ANALYSTS={
   btc:[
     {name:'PlanB',role:'Quant Analist & Yaratıcı',firm:'S2F Modeli',ava:'📐',sent:'bull',
      acc:91,calls:['BTC 2020: $60K ✓','BTC 2021: $100K ~','BTC 2024: $150K ▲'],
-     quote:'"Stock-to-Flow modeli Bitcoin\'in kıtlık temelli değerini tutarlı şekilde öngörüyor. Halving döngüleri ve kurumsal talep göz önüne alındığında 150.000 dolar hedefi makul görünmektedir."',target:'$150,000',date:'2026 Q4'},
+     quote:'"78.000 dolar bandındaki konsolidasyon Stock-to-Flow modelinin öngördüğü birikim fazına denk geliyor. Fed\'in şahin duruşu kısa vadeli baskı yaratsa da kıtlık temelli değerleme 120.000 dolar hedefini destekliyor."',target:'$120,000',date:'2027 Q1'},
     {name:'Willy Woo',role:'On-Chain Analist',firm:'Bağımsız',ava:'📊',sent:'bull',
      acc:88,calls:['2020 boğa: ✓','2022 ayı: ✓','2024 ATH: ✓'],
-     quote:'"On-chain verileri kurumsal birikimin devam ettiğini ve zincir üstü aktivitenin güçlendiğini gösteriyor. HODL dalgaları uzun vadeli yatırımcı hakimiyetine işaret ediyor."',target:'$120,000',date:'2026 Q3'},
+     quote:'"On-chain veriler 72.000-75.000 dolar bölgesinde güçlü kurumsal birikim gösteriyor. HODL dalgaları uzun vadeli yatırımcı hakimiyetinde; enflasyondaki yumuşama teyit edilirse yıl sonuna doğru 95.000 dolar test edilebilir."',target:'$95,000',date:'2026 Q4'},
     {name:'Michael Saylor',role:'Yönetim Kurulu Başkanı',firm:'MicroStrategy',ava:'👨‍💼',sent:'bull',
      acc:78,calls:['2020 alım ✓','2022 kayıp ✗','2024 kâr ✓'],
      quote:'"Bitcoin, insanlık tarihinin en üstün para biçimidir. Her düzeltme kurumsal yatırımcılar için alım fırsatıdır. MicroStrategy satın almaya devam edecek."',target:'$500,000',date:'2030'},
     {name:'Peter Schiff',role:'Baş Ekonomist',firm:'Euro Pacific Capital',ava:'🧔',sent:'bear',
      acc:22,calls:['2017 düşüş ✗','2020 düşüş ✗','2022 düşüş ✓'],
-     quote:'"Bitcoin\'in gerçek bir içsel değeri yoktur. Spekülatif bir balon olan bu varlığın değer kaybetmesi kaçınılmazdır. Altın her zaman daha güvenlidir."',target:'$10,000',date:'2026'},
+     quote:'"Altın 4.100 dolarla tarihi zirvesindeyken Bitcoin hâlâ zirvesinin altında — bu bile hangisinin gerçek değer sakladığını gösteriyor. Fed\'in şahin duruşu spekülatif balonu eninde sonunda patlatacak."',target:'$25,000',date:'2027'},
   ],
   eth:[
     {name:'Benjamin Cowen',role:'Kripto Analist',firm:'ITC Crypto',ava:'📉',sent:'bull',
      acc:85,calls:['2021 ETH $4K: ✓','2022 düşüş: ✓','2024 yükseliş: ✓'],
-     quote:'"Ethereum\'un makro döngüsü ve tarihsel fiyat kalıpları 2026\'da 4.000-5.000 dolar bandını destekliyor. ETF onayları büyük bir katalizör olabilir."',target:'$5,000',date:'2026 Q3'},
+     quote:'"Ethereum 2.400-2.500 bandında risk/ödül oranı cazip hale geldi. Makro döngü ve tarihsel kalıplar, Fed gevşemeye döndüğünde 3.500 dolar bölgesine dönüşü destekliyor — ama sabır gerektiren bir senaryo bu."',target:'$3,500',date:'2027 Q1'},
     {name:'Vitalik Buterin',role:'Kurucu',firm:'Ethereum Foundation',ava:'👨‍💻',sent:'bull',
      acc:80,calls:['PoS geçişi ✓','Layer-2 büyüme ✓','Ölçekleme ✓'],
-     quote:'"Ethereum\'un Layer-2 ekosistemi ağın değerini katlanarak artırmaktadır. Rollup\'lar ve EIP iyileştirmeleriyle Ethereum küresel finans altyapısı haline geliyor."',target:'$5,000',date:'2026 Q3'},
+     quote:'"Fiyat ne olursa olsun Layer-2 ekosistemi büyümeye devam ediyor; işlem hacmi ve rollup aktivitesi rekor seviyede. Ağın temel değeri fiyatın önünde gidiyor — bu makas uzun vadede kapanır."',target:'$4,000',date:'2027'},
   ],
   sol:[
     {name:'Ansem',role:'Kripto Trader',firm:'Bağımsız',ava:'🐸',sent:'bull',
      acc:87,calls:['SOL 2023 dip: ✓','SOL 2024 yükseliş: ✓','SOL ATH: ✓'],
-     quote:'"Solana ekosistemi kullanıcı sayısı ve işlem hacminde Ethereum\'u geride bırakmaya devam ediyor. Meme coin sezonu ve DeFi büyümesiyle SOL 300+ dolar görünür."',target:'$300',date:'2026 Q4'},
+     quote:'"SOL 95 dolar bölgesinde dip birikimi yapıyor — zincir üstü aktivite ve kullanıcı sayısı fiyatın aksine güçlü. Risk iştahı geri döndüğünde bu makas hızlı kapanır; ilk hedef 180 dolar."',target:'$180',date:'2027 Q1'},
     {name:'Anatoly Yakovenko',role:'Kurucu',firm:'Solana Labs',ava:'👨‍🔬',sent:'bull',
      acc:75,calls:['Ağ büyümesi ✓','Kurumsal ortaklık ✓','Ücret güncellemesi ✓'],
-     quote:'"Solana\'nın ölçeklenebilirliği ve ekosistemi rakipsizdir. Firedancer güncellemesiyle ağ kapasitesi katlanacak ve kurumsal benimseme hızlanacak."',target:'$300',date:'2026 Q4'},
+     quote:'"Firedancer ana ağda olgunlaştıkça Solana\'nın işlem kapasitesi katlanıyor. Kurumsal benimseme fiyat döngülerinden bağımsız ilerliyor; ekosistemin gerçek değeri önümüzdeki döngüde fiyatlanacak."',target:'$200',date:'2027'},
   ],
   gold:[
     {name:'Jim Rogers',role:'Yatırımcı & Yazar',firm:'Rogers Holdings',ava:'🎩',sent:'bull',
      acc:89,calls:['2008 altın: ✓','2020 altın: ✓','2022 gerileme: ✓'],
-     quote:'"Merkez bankaları rekor altın alımına devam ediyor ve dolar zayıflıyor. Jeopolitik belirsizlik ve enflasyon ortamında altın 4.000 dolara yürüyecek."',target:'$4,000',date:'2026'},
+     quote:'"4.000 dolar dediğimde kimse inanmamıştı, bugün 4.100\'ün üzerindeyiz. Merkez bankası alımları sürdükçe ve dolar yapısal olarak zayıfladıkça bu yükseliş bitmedi — sıradaki durak 5.000 dolar."',target:'$5,000',date:'2027'},
     {name:'Ray Dalio',role:'Kurucu',firm:'Bridgewater Associates',ava:'🧠',sent:'bull',
      acc:86,calls:['2008 kriz: ✓','2020 portföy: ✓','2022 enflasyon: ✓'],
-     quote:'"Borç krizi ve jeopolitik belirsizlik ortamında altın portföylerin vazgeçilmez bileşenidir. Her portföyde en az yüzde 10-15 altın olmalıdır."',target:'$3,500',date:'2026'},
+     quote:'"ABD borç yükü ve jeopolitik parçalanma ortamında altın portföylerin vazgeçilmez bileşeni olmayı sürdürüyor. Kısa vadeli düzeltmeler alım fırsatı; her portföyde en az yüzde 10-15 altın olmalı."',target:'$4,800',date:'2027'},
     {name:'Jeffrey Gundlach',role:'CEO',firm:'DoubleLine Capital',ava:'👔',sent:'bull',
      acc:83,calls:['Faiz tahmini: ✓','Dolar zayıflama: ✓','Tahvil satışı: ✓'],
-     quote:'"Dolar\'ın uzun vadeli zayıflaması ve enflasyon beklentileri altını destekliyor. Portföylerin yüzde 15\'inin altın olmasını tavsiye ediyorum."',target:'$3,200',date:'2026 Q2'},
+     quote:'"Fed\'in şahin söylemi altında kısa vadeli baskı olsa da doların uzun vadeli zayıflama trendi değişmedi. 4.100 dolar bölgesindeki düzeltmeler pozisyon artırma fırsatı; yüzde 15 altın tavsiyemi koruyorum."',target:'$4,500',date:'2027 Q1'},
   ],
   usd:[
     {name:'Ray Dalio',role:'Kurucu',firm:'Bridgewater',ava:'🧠',sent:'bear',
@@ -1278,30 +1278,30 @@ var ANALYSTS={
      quote:'"ABD\'nin yüksek borç yükü uzun vadede doların rezerv para statüsüne tehdit oluşturmaktadır. Dolar dışı varlıklara yönelmenin zamanı gelmiş olabilir."',target:'Zayıflama',date:'2026-2027'},
     {name:'Mohamed El-Erian',role:'Baş Ekonomist',firm:'Allianz',ava:'👨‍🏫',sent:'neutral',
      acc:84,calls:['Fed politika: ✓','Enflasyon: ✓','Resesyon: ✓'],
-     quote:'"Fed\'in politika belirsizliği dolar üzerinde baskı oluştursa da küresel rezerv para statüsü kısa vadede korunmaktadır. 2026 kritik bir yıl olacak."',target:'Nötr',date:'2026'},
+     quote:'"Warsh liderliğindeki Fed\'in şahin duruşu doları kısa vadede destekliyor; ancak yüksek borç ve rezerv çeşitlendirmesi orta vadede aşağı yönlü baskıyı koruyor. 2027\'ye giden yol veri bağımlı olacak."',target:'Nötr',date:'2026-2027'},
   ],
   xrp:[
     {name:'Egrag Crypto',role:'Teknik Analist',firm:'Bağımsız',ava:'📈',sent:'bull',
      acc:82,calls:['XRP 2023: ✓','XRP dava: ✓','XRP 2024: ✓'],
-     quote:'"XRP\'nin yasal süreç tamamlandıktan sonra kurumsal kullanımı hızla artacak. Ripple\'ın banka ortaklıkları ve ODL kullanımı piyasa değerini destekleyecek."',target:'$5',date:'2026'},
+     quote:'"XRP teknik olarak uzun vadeli simetrik üçgenin içinde sıkışmaya devam ediyor. Kurumsal ODL hacmi büyürken fiyatın yatay kalması birikime işaret ediyor; kırılım yukarı yönlü olursa 5 dolar hedefi yeniden canlanır."',target:'$5',date:'2027'},
     {name:'Brad Garlinghouse',role:'CEO',firm:'Ripple',ava:'👨‍💼',sent:'bull',
      acc:70,calls:['Dava zaferi: ✓','Ortaklıklar: ✓','CBDC entegr.: ~'],
-     quote:'"XRP Ledger küresel ödemelerin omurgası olmaya hazır. Her geçen gün daha fazla kurum XRP\'yi sınır ötesi ödemeler için tercih ediyor."',target:'$5',date:'2026'},
+     quote:'"XRP Ledger üzerindeki sınır ötesi ödeme hacmi her çeyrek rekor kırıyor. Stablecoin ve CBDC entegrasyonlarıyla ağın kullanım alanı genişliyor — değer eninde sonunda kullanımı takip eder."',target:'$5',date:'2027'},
   ],
   silver:[
     {name:'Keith Neumeyer',role:'CEO',firm:'First Majestic Silver',ava:'🥈',sent:'bull',
      acc:79,calls:['Gümüş 2020: ✓','Güneş talebi: ✓','Endüstriyel: ✓'],
-     quote:'"Gümüş hem endüstriyel hem yatırım talebiyle destekleniyor. Güneş paneli patlaması ve EV endüstrisi gümüş talebini katlayacak. 50 dolar hedefim var."',target:'$50',date:'2026'},
+     quote:'"Altın 4.000 doları aşarken gümüş hâlâ tarihsel orana göre ucuz. Güneş paneli ve savunma sanayii talebi arz açığını derinleştiriyor — gümüşte asıl hareket henüz başlamadı, 65 dolar hedefliyorum."',target:'$65',date:'2027'},
   ],
   avax:[
     {name:'Emin Gün Sirer',role:'Kurucu',firm:'Ava Labs',ava:'👨‍🔬',sent:'bull',
      acc:72,calls:['Subnet büyüme: ✓','DeFi TVL: ✓','Kurumsal: ~'],
-     quote:'"Avalanche\'ın subnet yapısı kurumsal blockchain uygulamalarında devrim yaratıyor. Geleneksel finans ile DeFi\'yi birleştiren köprü Avalanche olacak."',target:'$50',date:'2026'},
+     quote:'"Kurumların tokenizasyon projeleri subnet mimarisi üzerinde hızla çoğalıyor. Geleneksel finans zincire taşındıkça Avalanche bu köprünün altyapısı olmaya devam edecek — ayı piyasası bu tezi değiştirmedi."',target:'$50',date:'2027'},
   ],
   link:[
     {name:'Sergey Nazarov',role:'Kurucu',firm:'Chainlink',ava:'🔗',sent:'bull',
      acc:81,calls:['CCIP büyüme: ✓','DeFi oracle: ✓','Kurum entegr.: ✓'],
-     quote:'"Chainlink, blockchain ekosisteminin gerçek dünya verilerine bağlanmasını sağlayan kritik altyapıdır. CCIP ile zincirler arası likidite devrim yaratacak."',target:'$25',date:'2026'},
+     quote:'"Bankaların zincirler arası mesajlaşma pilotları CCIP üzerinde canlıya geçiyor. Tokenize varlık piyasası büyüdükçe oracle talebi katlanıyor — Chainlink bu altyapının fiyatlanmamış omurgası."',target:'$30',date:'2027'},
   ],
 };
 function getAN(k){return ANALYSTS[k]||[ANALYSTS.btc[0]];}
