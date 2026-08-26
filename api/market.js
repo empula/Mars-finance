@@ -5,10 +5,11 @@ export default async function handler(req, res) {
   try {
     return await buildResponse(res);
   } catch(e) {
-    // Beklenmeyen bir hata tüm endpoint'i çökertip frontend'i tamamen
-    // simülasyona düşürmesin diye ok:true + boş/varsayılan veriyle döneriz.
+    // Beklenmeyen bir hata tüm endpoint'i 500'e düşürmesin diye ok:false
+    // ile döneriz - frontend bunu görünce kendi simülasyonuna geçer (en
+    // azından ekran donuk kalmaz), gerçek veri geldiğinde onu kullanır.
     return res.status(200).json({
-      ok:true, ts:new Date().toISOString(),
+      ok:false, ts:new Date().toISOString(), error: String(e && e.message || e),
       forex:{}, crypto:{},
       metals:{gold:{price:4670},silver:{price:69},platinum:{price:1867},copper:{price:6.75}},
       fearIndex:{value:null,label:null,timestamp:null,history:[]},
@@ -79,17 +80,22 @@ async function buildResponse(res) {
     }
   } catch(e) { /* forex boş kalır, frontend son bilinen değeri korur */ }
 
+  // Her bölüm kendi try/catch'i içinde - biri (ör. rate-limit'e takılıp
+  // dizi yerine hata nesnesi dönen bir kaynak) patlarsa diğerlerinin
+  // topladığı veri çöpe gitmesin.
   let crypto = {};
-  if(cg) {
-    crypto = {
-      btc:{price:cg.bitcoin?.usd, chg:cg.bitcoin?.usd_24h_change, mcap:cg.bitcoin?.usd_market_cap},
-      eth:{price:cg.ethereum?.usd, chg:cg.ethereum?.usd_24h_change, mcap:cg.ethereum?.usd_market_cap},
-      sol:{price:cg.solana?.usd, chg:cg.solana?.usd_24h_change, mcap:cg.solana?.usd_market_cap},
-      xrp:{price:cg.ripple?.usd, chg:cg.ripple?.usd_24h_change, mcap:cg.ripple?.usd_market_cap},
-      avax:{price:cg['avalanche-2']?.usd, chg:cg['avalanche-2']?.usd_24h_change, mcap:cg['avalanche-2']?.usd_market_cap},
-      link:{price:cg.chainlink?.usd, chg:cg.chainlink?.usd_24h_change, mcap:cg.chainlink?.usd_market_cap},
-    };
-  }
+  try {
+    if(cg && typeof cg === 'object') {
+      crypto = {
+        btc:{price:cg.bitcoin?.usd, chg:cg.bitcoin?.usd_24h_change, mcap:cg.bitcoin?.usd_market_cap},
+        eth:{price:cg.ethereum?.usd, chg:cg.ethereum?.usd_24h_change, mcap:cg.ethereum?.usd_market_cap},
+        sol:{price:cg.solana?.usd, chg:cg.solana?.usd_24h_change, mcap:cg.solana?.usd_market_cap},
+        xrp:{price:cg.ripple?.usd, chg:cg.ripple?.usd_24h_change, mcap:cg.ripple?.usd_market_cap},
+        avax:{price:cg['avalanche-2']?.usd, chg:cg['avalanche-2']?.usd_24h_change, mcap:cg['avalanche-2']?.usd_market_cap},
+        link:{price:cg.chainlink?.usd, chg:cg.chainlink?.usd_24h_change, mcap:cg.chainlink?.usd_market_cap},
+      };
+    }
+  } catch(e) { /* crypto boş kalır */ }
 
   // gold-api.com anahtar gerektirmez ama garantili SLA sunmaz; alan adı
   // farklı çıkarsa veya servis çökerse aşağıdaki sabit değerlere düşülür.
@@ -105,27 +111,30 @@ async function buildResponse(res) {
     copper:{price: parsePrice(copperR) || 6.75},
   };
 
-  // Haberler (CryptoCompare - anahtar gerektirmez)
+  // Haberler (CryptoCompare - anahtar gerektirmez). Rate-limit'e takılırsa
+  // Data alanı dizi değil hata nesnesi olabilir - Array.isArray ile korunur.
   let news = [];
-  if(newsR?.Data) {
-    const getCat = (t) => {
-      t = (t||'').toLowerCase();
-      if(/oil|energy|opec|brent|wti|gas|fuel/.test(t)) return 'energy';
-      if(/war|iran|ukraine|russia|china|conflict|sanction|military|nato|israel/.test(t)) return 'geo';
-      if(/fed|inflation|gdp|economy|rate|recession|employment|cpi/.test(t)) return 'eco';
-      if(/stock|nasdaq|s&p|dow|equity|bond|yield|earnings/.test(t)) return 'markets';
-      return 'crypto';
-    };
-    const ICO = {crypto:'₿', markets:'📊', eco:'🏦', geo:'🌍', energy:'⚡'};
-    news = newsR.Data.slice(0,30).filter(a=>a.title && a.url).map(a=>{
-      const cat = getCat(a.title+' '+(a.tags||''));
-      return {
-        cat, ico: ICO[cat], title: a.title,
-        source: a.source_info?.name || a.source || 'Haber',
-        url: a.url, ts: a.published_on,
+  try {
+    if(Array.isArray(newsR?.Data)) {
+      const getCat = (t) => {
+        t = (t||'').toLowerCase();
+        if(/oil|energy|opec|brent|wti|gas|fuel/.test(t)) return 'energy';
+        if(/war|iran|ukraine|russia|china|conflict|sanction|military|nato|israel/.test(t)) return 'geo';
+        if(/fed|inflation|gdp|economy|rate|recession|employment|cpi/.test(t)) return 'eco';
+        if(/stock|nasdaq|s&p|dow|equity|bond|yield|earnings/.test(t)) return 'markets';
+        return 'crypto';
       };
-    });
-  }
+      const ICO = {crypto:'₿', markets:'📊', eco:'🏦', geo:'🌍', energy:'⚡'};
+      news = newsR.Data.slice(0,30).filter(a=>a.title && a.url).map(a=>{
+        const cat = getCat(a.title+' '+(a.tags||''));
+        return {
+          cat, ico: ICO[cat], title: a.title,
+          source: a.source_info?.name || a.source || 'Haber',
+          url: a.url, ts: a.published_on,
+        };
+      });
+    }
+  } catch(e) { /* news boş kalır */ }
 
   // API başarısız olursa value:null döner - sahte "50 Nötr" göstermeyiz,
   // frontend bunu "veri yok" sayıp mevcut/simüle değeri korur.
@@ -141,15 +150,21 @@ async function buildResponse(res) {
     })),
   } : { value: null, label: null, timestamp: null, history: [] };
 
-  const cryptoRank = (cgTop||[]).map((coin,i)=>({
-    rank:coin.market_cap_rank||i+1,
-    id:coin.id,
-    symbol:coin.symbol?.toUpperCase(),
-    name:coin.name,
-    price:coin.current_price,
-    mcap:coin.market_cap,
-    chg24:coin.price_change_percentage_24h,
-  }));
+  // CoinGecko rate-limit'e takılırsa dizi yerine hata nesnesi dönebilir.
+  let cryptoRank = [];
+  try {
+    if(Array.isArray(cgTop)) {
+      cryptoRank = cgTop.map((coin,i)=>({
+        rank:coin.market_cap_rank||i+1,
+        id:coin.id,
+        symbol:coin.symbol?.toUpperCase(),
+        name:coin.name,
+        price:coin.current_price,
+        mcap:coin.market_cap,
+        chg24:coin.price_change_percentage_24h,
+      }));
+    }
+  } catch(e) { /* cryptoRank boş kalır */ }
 
   return res.status(200).json({
     ok:true,
@@ -157,10 +172,11 @@ async function buildResponse(res) {
     forex, crypto, metals, fearIndex, cryptoRank, news,
     // Hangi dış kaynağın yanıt verdiğini gösterir - tanı amaçlı, arayüzde kullanılmaz.
     _sources: {
-      forex: !!fx?.rates, crypto: !!cg, cryptoRank: !!cgTop, fear: fngData.length>0,
+      forex: Object.keys(forex).length>0, crypto: Object.keys(crypto).length>0,
+      cryptoRank: cryptoRank.length>0, fear: fngData.length>0,
       gold: parsePrice(goldR)!=null, silver: parsePrice(silverR)!=null,
       platinum: parsePrice(platR)!=null, copper: parsePrice(copperR)!=null,
-      news: !!newsR?.Data,
+      news: news.length>0,
     },
   });
 }
