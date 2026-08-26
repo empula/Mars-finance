@@ -2392,7 +2392,9 @@ Finans konularında özellikle güçlüsün: kripto, borsa, döviz, emtia, makro
 
 Altın/gümüş/platin fiyatları için kullanıcıyı sitedeki Madenler & Emtia bölümüne yönlendir.
 
-Yatırım tavsiyesi yasal uyarısını gereksiz yere her seferinde tekrarlama — sadece gerçekten kritik durumlarda bir kez belirt.`;
+Yatırım tavsiyesi yasal uyarısını gereksiz yere her seferinde tekrarlama — sadece gerçekten kritik durumlarda bir kez belirt.
+
+Biçim kuralları (çok önemli): Cevapların bir sohbet balonunda düz metin olarak gösterilir, Markdown desteklenmez. Asla Markdown tablosu, | işareti, # ile başlık veya ---- gibi çizgiler kullanma. Kısa paragraflar hâlinde yaz; sıralama gerekiyorsa satır başında • işareti kullan. Cevaplarını kısa ve öz tut — bir sohbet mesajı uzunluğunda.`;
 async function yCallAI(msg){
   // Kapsamlı market context oluştur
   var ctxParts = [];
@@ -2443,6 +2445,16 @@ async function yCallAI(msg){
   if(yChatHistory.length>16)yChatHistory=yChatHistory.slice(-12);
   return text;
 }
+function yFmtAI(t){
+  t=t.replace(/[&<>]/g,function(c){return c==='&'?'&amp;':c==='<'?'&lt;':'&gt;';});
+  t=t.replace(/^[\s|]*[-–—]{3,}[\s|:–—-]*$/gm,'');            // tablo ayraçları ve yatay çizgiler
+  t=t.replace(/^\|(.+)\|\s*$/gm,function(_,row){return row.split('|').map(function(s){return s.trim();}).filter(Boolean).join(' · ');}); // tablo satırları
+  t=t.replace(/#{1,6}\s*([^#\n]+)#*/g,'\n<strong>$1</strong>\n'); // başlıklar
+  t=t.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+  t=t.replace(/^\s*[-*]\s+/gm,'• ');
+  t=t.replace(/\n{3,}/g,'\n\n').trim();
+  return t.replace(/\n/g,'<br>');
+}
 function yNow(){return new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});}
 function yAddBubble(text,role){
   const msgs=document.getElementById('yMsgs');const w=document.createElement('div');w.className='y-msg';
@@ -2458,7 +2470,7 @@ function yAddTyping(){
 async function ySend(){
   const inp=document.getElementById('yInp');const text=inp.value.trim();if(!text)return;
   inp.value='';yAddBubble(text,'user');const t=yAddTyping();
-  try{const reply=await yCallAI(text);t.remove();yAddBubble(reply,'ai');}
+  try{const reply=await yCallAI(text);t.remove();yAddBubble(yFmtAI(reply),'ai');}
   catch(e){t.remove();yAddBubble('Şu an bağlanamıyorum, biraz sonra tekrar dene.','ai');}
 }
 function yqSend(btn){document.getElementById('yInp').value=btn.textContent;ySend();}
