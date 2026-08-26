@@ -25,7 +25,15 @@ async function buildResponse(res) {
       const ctrl = new AbortController();
       const t = setTimeout(()=>ctrl.abort(), timeoutMs || 8000);
       try {
-        const r = await fetch(url, {signal: ctrl.signal});
+        // Bazı ücretsiz API'ler User-Agent'sız/generic sunucu isteklerini
+        // bot sanıp 403 ile reddediyor - tarayıcı benzeri bir UA gönderiyoruz.
+        const r = await fetch(url, {
+          signal: ctrl.signal,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'Accept': 'application/json',
+          },
+        });
         return await r.json();
       } finally { clearTimeout(t); }
     } catch(e) { return null; }
@@ -146,6 +154,13 @@ async function buildResponse(res) {
   return res.status(200).json({
     ok:true,
     ts:new Date().toISOString(),
-    forex, crypto, metals, fearIndex, cryptoRank, news
+    forex, crypto, metals, fearIndex, cryptoRank, news,
+    // Hangi dış kaynağın yanıt verdiğini gösterir - tanı amaçlı, arayüzde kullanılmaz.
+    _sources: {
+      forex: !!fx?.rates, crypto: !!cg, cryptoRank: !!cgTop, fear: fngData.length>0,
+      gold: parsePrice(goldR)!=null, silver: parsePrice(silverR)!=null,
+      platinum: parsePrice(platR)!=null, copper: parsePrice(copperR)!=null,
+      news: !!newsR?.Data,
+    },
   });
 }
