@@ -9,11 +9,16 @@ export default async function handler(req, res) {
     } catch(e) { return null; }
   };
 
-  const [fx, cg, cgTop, fear] = await Promise.all([
+  const [fx, cg, cgTop, fear, goldR, silverR, platR, copperR, newsR] = await Promise.all([
     safe('https://api.exchangerate-api.com/v4/latest/USD'),
     safe('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,avalanche-2,ripple,chainlink&vs_currencies=usd&include_24hr_change=true&include_market_cap=true'),
     safe('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=24h'),
     safe('https://api.alternative.me/fng/?limit=30'),
+    safe('https://api.gold-api.com/price/XAU'),
+    safe('https://api.gold-api.com/price/XAG'),
+    safe('https://api.gold-api.com/price/XPT'),
+    safe('https://api.gold-api.com/price/XCU'),
+    safe('https://min-api.cryptocompare.com/data/v2/news/?lang=EN&limit=30&sortOrder=latest'),
   ]);
 
  let forex = {};
@@ -44,10 +49,41 @@ if(fx?.rates) {
     };
   }
 
-  const metals = {
-    gold:{price:4670}, silver:{price:69},
-    platinum:{price:1867}, copper:{price:6.75},
+  // gold-api.com anahtar gerektirmez ama garantili SLA sunmaz; alan adı
+  // farklı çıkarsa veya servis çökerse aşağıdaki sabit değerlere düşülür.
+  const parsePrice = (obj) => {
+    if(!obj) return null;
+    const v = obj.price ?? obj.rate ?? obj.value ?? obj.ask ?? obj.bid;
+    return typeof v === 'number' && isFinite(v) && v > 0 ? v : null;
   };
+  const metals = {
+    gold:{price: parsePrice(goldR) || 4670},
+    silver:{price: parsePrice(silverR) || 69},
+    platinum:{price: parsePrice(platR) || 1867},
+    copper:{price: parsePrice(copperR) || 6.75},
+  };
+
+  // Haberler (CryptoCompare - anahtar gerektirmez)
+  let news = [];
+  if(newsR?.Data) {
+    const getCat = (t) => {
+      t = (t||'').toLowerCase();
+      if(/oil|energy|opec|brent|wti|gas|fuel/.test(t)) return 'energy';
+      if(/war|iran|ukraine|russia|china|conflict|sanction|military|nato|israel/.test(t)) return 'geo';
+      if(/fed|inflation|gdp|economy|rate|recession|employment|cpi/.test(t)) return 'eco';
+      if(/stock|nasdaq|s&p|dow|equity|bond|yield|earnings/.test(t)) return 'markets';
+      return 'crypto';
+    };
+    const ICO = {crypto:'₿', markets:'📊', eco:'🏦', geo:'🌍', energy:'⚡'};
+    news = newsR.Data.slice(0,30).filter(a=>a.title && a.url).map(a=>{
+      const cat = getCat(a.title+' '+(a.tags||''));
+      return {
+        cat, ico: ICO[cat], title: a.title,
+        source: a.source_info?.name || a.source || 'Haber',
+        url: a.url, ts: a.published_on,
+      };
+    });
+  }
 
   const fngData = fear?.data || [];
   const fearIndex = {
@@ -74,6 +110,6 @@ if(fx?.rates) {
   return res.status(200).json({
     ok:true,
     ts:new Date().toISOString(),
-    forex, crypto, metals, fearIndex, cryptoRank, news:[]
+    forex, crypto, metals, fearIndex, cryptoRank, news
   });
 }
